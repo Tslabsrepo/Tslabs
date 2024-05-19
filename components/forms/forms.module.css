@@ -1,0 +1,77 @@
+.FormField{
+    border: 1px solid #CBD5E1;
+    padding: 25px 26px;
+}
+
+.appHeader{
+    color: #334155;
+    line-height: 24px;
+    font-weight: none;
+}
+.appImageContainers{
+    border: 2px dashed #1D4ED8;
+    border-radius:6px;
+    height: 420px;
+    display: flex;
+    flex-direction: column;
+    justify-content:center;
+    align-items:center;
+}
+
+.appDragnDrop{
+    color:#334155;
+    font-size:20px;
+    line-height:28px;
+    letter-spacing:0.5%;
+    margin-bottom:5px;
+}
+
+.appSupportedFiles{
+    color: #64748B;
+    font-size: 18px;
+    line-height: 28px;
+    font-weight: 600;
+}
+
+.formFooter{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15%;
+    font-size: 15px;
+}
+
+.projectDetailsHeader{
+    color: #334155;
+    font-size: 18px;
+    font-weight: 600;
+    margin: 40px 0 20px 0;
+    line-height: 24px;
+}
+
+.categoryHeader{
+    color: #334155;
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: 50px;
+}
+
+.categorysubHeader{
+    color: #334155;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.eachCategoryContainer{
+    padding-top: 2%;
+}
+
+
+.eachCategory{
+    background-color: #F1F5F9;
+    color:#334155;
+    font-size: 16px;
+    border-radius:6px;
+    padding: 10px 20px;
+    margin: 0 2% 2% 0;
+}

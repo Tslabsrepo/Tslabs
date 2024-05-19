@@ -1,0 +1,23 @@
+.mainFormContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.mainFormContainer>div{
+    padding-top:8%;
+    width: 65%;
+}
+
+.mainFormContainer>div h1{
+    color: #0F172A;
+    font-size: 48px;
+    font-weight: 800;
+    letter-spacing: -0.012em;
+    line-height: 62px;
+}
+
+.mainFormContainer>div>div{
+    padding: 8% 5%;
+}
+
