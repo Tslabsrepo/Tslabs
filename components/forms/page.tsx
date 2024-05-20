@@ -7,6 +7,8 @@ import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, Form
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import formStyles from "./forms.module.css";
+import Image from "next/image";
+import Link from 'next/link';
 
 
 const categoryData = [
@@ -33,9 +35,10 @@ const formSchema = z.object({
         message: "Project Description must be atleast 10 characters",
     }),
     
-    projectLogo: z.instanceof(File).refine(file => file.size <= 5000000, "File size should be less than 5MB"), // Optional: File size validation
+    // projectLogo: z.instanceof(File).refine(file => file.size <= 5000000, "File size should be less than 5MB"), // Optional: File size validation
     
     projectScreenshots: z.string(),
+    projectLogo: z.string(),
 
     projectWebsite: z.string().url({
          message: "Invalid URL format" 
@@ -47,7 +50,9 @@ const formSchema = z.object({
             message: "Project Repo must be a GitHub URL",
     }),
 
-    projectCategory: z.string(),
+    projectCategory: z.array(z.string()).nonempty({
+        message: "At least one category must be selected"
+    }),
 
     projectVersion: z.string().nonempty({
          message: "Required"
@@ -73,6 +78,9 @@ const AllFormFields = () => {
         defaultValues: {
             projectTitle: "",
             projectDescription: "",
+            projectLogo: "",
+            projectScreenshots: "",
+            projectCategory: [],
             projectWebsite: "",
             projectRepo: "",
             projectVersion: "",
@@ -81,8 +89,35 @@ const AllFormFields = () => {
         },
     });
 
-    const onSubmit = () => {
+    const handleCategory = (category : string) =>{
+        
+        if (!form.getValues("projectCategory").includes(category)){
+            // var btnContainer = document.getElementsByClassName("eachCategory");
+            if(form.getValues("projectCategory").length >= 5){
+                console.log("Max is 5. You cannot add anymore")
+            }else{
+                form.setValue("projectCategory", [...form.getValues("projectCategory"), category]);
+                console.log(form.getValues("projectCategory"));
+                console.log(form.getValues("projectCategory").length);
+                return form.getValues("projectCategory");
+            }
+            
+        }else{
+            const categoryIndex = form.getValues("projectCategory").indexOf(category);
+            const currentCategory = [...form.getValues("projectCategory")];
 
+            currentCategory.splice(categoryIndex, 1);
+
+            form.setValue("projectCategory", currentCategory);
+            console.log("This exists: ",category);
+            console.log("currentCategory: ",currentCategory);
+        }
+        
+        
+    };
+
+    const onSubmit = (values: z.infer<typeof formSchema>) => {
+        console.log({values});
     }
     return(
         <Form {...form}>
@@ -124,8 +159,9 @@ const AllFormFields = () => {
                         <FormLabel className={formStyles.appHeader}>Applications Logo</FormLabel>   
                         <FormControl>
                             <div className={formStyles.appImageContainers} >
+                                <Image src={'/cloudy.png'} alt={'cloud Image'} width={'40'} height={'40'} className='pb-2'/>
                                 <div className={formStyles.appDragnDrop}><b>
-                                    Drag and Drop or <span className='color-[#1D4ED8]'>Choose files</span> to upload</b>
+                                    Drag and Drop or <span className='text-[#1D4ED8]'>Choose files</span> to upload</b>
                                 </div>
                                 <div className={formStyles.appSupportedFiles}>
                                     Supported formats: JPG, PNG,MP4, SVG
@@ -145,8 +181,9 @@ const AllFormFields = () => {
                         <FormLabel className={formStyles.appHeader}>Applications Screenshots</FormLabel>   
                         <FormControl>
                             <div className={formStyles.appImageContainers} >
+                                <Image src={'/cloudy.png'} alt={'cloud Image'} width={'40'} height={'40'} className='pb-2'/>
                                 <div className={formStyles.appDragnDrop}><b>
-                                    Drag and Drop or <span className='color-[#1D4ED8]'>Choose files</span> to upload</b>
+                                    Drag and Drop or <span className='text-[#1D4ED8]'>Choose files</span> to upload</b>
                                 </div>
                                 <div className={formStyles.appSupportedFiles}>
                                     Supported formats: JPG, PNG,MP4, SVG
@@ -200,8 +237,8 @@ const AllFormFields = () => {
                                 
                                 <div className={`${formStyles.eachCategoryContainer} flex flex-wrap justify-between`}>
                                     {
-                                        categoryData.map((category) =>(
-                                            <div className={formStyles.eachCategory}>
+                                        categoryData.map((category, index) =>(
+                                            <div key={index} className={`${formStyles.eachCategory} ${form.getValues("projectCategory").includes(category) ? formStyles.selectedCategory : formStyles.unselectedCategory}`} onClick={() => handleCategory(category)}>
                                                 {category}
                                             </div>
                                         ))
@@ -266,11 +303,14 @@ const AllFormFields = () => {
                 {/* Project Category */}
                 
                 <div className={formStyles.formFooter}>
-                    <div>Help Center</div>
-                    <div style={{display:'flex', alignItems:'center'}}>
+                    <div className='text-base text-[#334155] items-center justify-center relative'>
+                        <Image src={'/helpIcon.png'} alt={'cloud Image'} width={'17'} height={'10'} className='pb-2 absolute top-1'/>
+                        <Link href={'/'}><div className='ml-5'> Help Center </div></Link>
+                    </div>
+                    <div className='flex items-center'>
                         {/* <div style={{borderRadius:'6px',padding:'8px 15px', marginRight:'15px', fontWeight:'400', color:'#0F172A'}}>Cancel</div> */}
                         {/* <div style={{backgroundColor:'#0F172A',color:'white', borderRadius:'6px',padding:'8px 15px',fontWeight:'400'}}>Submit</div> */}
-                        <Button variant="ghost" style={{color:'#0F172A', marginRight:'15px'}}>Cancel</Button>
+                        <Link href={'/'}><Button variant="ghost" style={{color:'#0F172A', marginRight:'15px'}}>Cancel</Button></Link>
                         <Button type='submit' style={{color:'white', backgroundColor:'#0F172A',}}>Submit</Button>
                     </div>
                 </div>

@@ -9,6 +9,7 @@
     font-weight: none;
 }
 .appImageContainers{
+    background-color: #EFF6FF;
     border: 2px dashed #1D4ED8;
     border-radius:6px;
     height: 420px;
@@ -33,13 +34,6 @@
     font-weight: 600;
 }
 
-.formFooter{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 15%;
-    font-size: 15px;
-}
 
 .projectDetailsHeader{
     color: #334155;
@@ -74,4 +68,28 @@
     border-radius:6px;
     padding: 10px 20px;
     margin: 0 2% 2% 0;
+    transition: .5s ease;
 }
+
+.eachCategory:hover{
+    cursor: pointer;
+    /* background-color: #dfebf7; */
+    /* box-shadow: 5px 5px 5px #ddd; */
+}
+
+.selectedCategory{
+    background-color: #0F172A;
+    color: #F1F5F9;
+    box-shadow: 5px 5px 5px #ddd;
+    transition: .5s ease;
+}
+
+
+.formFooter{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 10%;
+    font-size: 15px;
+}
+
