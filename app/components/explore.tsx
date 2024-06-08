@@ -58,7 +58,9 @@ export default function Explore() {
                     </div>
                 </div>
 
-                <ProjectsList projects={projects} />
+                {projects.length > 0 == true && (
+                    <ProjectsList projects={projects} />
+                )}
             </div>
         </div>
 
