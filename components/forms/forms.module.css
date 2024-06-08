@@ -93,3 +93,35 @@
     font-size: 15px;
 }
 
+.notselectedCategory{
+    color: #CBD5E1;
+    background-color: #F1F5F9;
+}
+
+@media (max-width: 640px) {
+    .formFooter{
+        display: flex;
+        flex-direction: column-reverse;
+        align-items: end;
+        padding-top: 0;
+    }
+
+    .appImageContainers{
+        padding: 6%;
+        text-align: center;
+        /* background-color: #EFF6FF;
+        border: 2px dashed #1D4ED8;
+        border-radius:6px;
+        height: 420px;
+        display: flex;
+        flex-direction: column;
+        justify-content:center;
+        align-items:center; */
+    }
+
+    .footerHelp{
+        margin-top: 5%;
+    }
+
+    
+  }
