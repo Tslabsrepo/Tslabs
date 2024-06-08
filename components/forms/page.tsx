@@ -1,5 +1,5 @@
 'use client';
-import react from 'react';
+import {useState, useCallback, useEffect} from 'react';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -7,7 +7,9 @@ import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, Form
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import formStyles from "./forms.module.css";
-
+import Image from "next/image";
+import Link from 'next/link';
+import { useDropzone } from 'react-dropzone';
 
 const categoryData = [
     "Artificial Intelligence",
@@ -33,9 +35,10 @@ const formSchema = z.object({
         message: "Project Description must be atleast 10 characters",
     }),
     
-    projectLogo: z.instanceof(File).refine(file => file.size <= 5000000, "File size should be less than 5MB"), // Optional: File size validation
+    // projectLogo: z.instanceof(File).refine(file => file.size <= 5000000, "File size should be less than 5MB"), // Optional: File size validation
     
     projectScreenshots: z.string(),
+    projectLogo: z.string(),
 
     projectWebsite: z.string().url({
          message: "Invalid URL format" 
@@ -47,7 +50,9 @@ const formSchema = z.object({
             message: "Project Repo must be a GitHub URL",
     }),
 
-    projectCategory: z.string(),
+    projectCategory: z.array(z.string()).nonempty({
+        message: "At least one category must be selected"
+    }),
 
     projectVersion: z.string().nonempty({
          message: "Required"
@@ -68,11 +73,18 @@ const formSchema = z.object({
 
 
 const AllFormFields = () => {
+    const [imageSrc, setImageSource] = useState('/check.png');
+    const [fileSelected, setFileSelected] = useState<File[]>([]);
+    const [screenshotFile, setScreenshotFile] = useState([]);
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             projectTitle: "",
             projectDescription: "",
+            projectLogo: "",
+            projectScreenshots: "",
+            projectCategory: [],
             projectWebsite: "",
             projectRepo: "",
             projectVersion: "",
@@ -81,8 +93,137 @@ const AllFormFields = () => {
         },
     });
 
-    const onSubmit = () => {
+    const handleCategory = (category: string) =>{
+        
+        if (!form.getValues("projectCategory").includes(category)){
+            if(form.getValues("projectCategory").length >= 5){
+                console.log("Max is 5. You cannot add anymore")
+            }else{
+                form.setValue("projectCategory", [...form.getValues("projectCategory"), category]);
+                // console.log(form.getValues("projectCategory"));
+                return form.getValues("projectCategory");
+            }
+            
+        }else{
+            const categoryIndex = form.getValues("projectCategory").indexOf(category);
+            const currentCategory = [...form.getValues("projectCategory")];
+            
+            currentCategory.splice(categoryIndex, 1);
 
+            form.setValue("projectCategory", currentCategory as any);
+
+         
+        }
+        
+        
+    };
+
+    // Dropzone component
+    const handleDrop = (acceptedFiles : any) => {
+        console.log(acceptedFiles);
+        
+    }
+
+    const handleScreenshotDrop = (acceptedFiles : any) => {
+        console.log(acceptedFiles);
+        const file = acceptedFiles[0];
+        if (file) {
+            // form.setValue("projectScreenshots", file.name);
+            // setFileSelected(true);
+            // Handle file upload logic here, e.g., save the file or preview it
+            // console.log("File selected:", file);
+            return file;
+        }
+    }
+
+    const onDrop = useCallback((acceptedFiles: any) => {
+        if (acceptedFiles?.length) {
+            setScreenshotFile((previousFiles) => [
+              ...previousFiles,
+              ...acceptedFiles.map((file:any) =>
+                Object.assign(file, { preview: URL.createObjectURL(file) })
+              )
+            ])
+
+            
+          }
+    }, [])
+    
+    const { getRootProps : getLogoRootProps, getInputProps: getLogoInputProps, open: openLogo, acceptedFiles: acceptedLogoFile } = useDropzone({
+        validator: handleDrop,
+        accept: {
+            'image/jpeg': ['.jpeg', '.jpg'],
+            'image/png': ['.png'],
+            'image/svg+xml': ['.svg'],
+            // 'video/mp4': ['.mp4']
+        },
+        onDrop: acceptedLogoFile => {
+            setFileSelected(acceptedLogoFile.map(file => Object.assign(file, {
+                preview: URL.createObjectURL(file)})))
+        },
+        noClick: true,
+        noKeyboard: true,
+        
+    });
+
+    const { getRootProps : getScreenshotRootProps, getInputProps: getScreenshotInputProps, open: openScreenshots, acceptedFiles } = useDropzone({
+        onDrop,
+        validator: handleScreenshotDrop,
+        accept: {
+            'image/jpeg': ['.jpeg', '.jpg'],
+            'image/png': ['.png'],
+            'image/svg+xml': ['.svg'],
+            // 'video/mp4': ['.mp4']
+        },
+        
+        noClick: true,
+        noKeyboard: true
+    });
+
+    
+
+    const deleteFile = (name:any) => {
+        console.log(name);
+        setScreenshotFile(screenshotFile => screenshotFile.filter(file => file.name != name));
+    }
+
+   
+    
+
+    const onSubmit = async (values: z.infer<typeof formSchema>) => {
+        console.log({values});
+        try {
+            const response = await fetch('https://ts-labs-admin-0ff0c6162225.herokuapp.com/api/projects', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer 54a47acc8e90a8f1914938fdacd3da31231d08d1a9829083ed0314cbfbae7394d2e3f1bf380364a855b018626e0752c2e1b1d28874405ae9cab4c4632e65c1373ca416877ac9ed559e9683c1784d4c0f774b561f51978b8f55137886cb48eb7b82aba41c511332553684202e72468ef87508d5f2282afe74686efbe141d31b01'
+                },
+                body: JSON.stringify({
+                    data: {
+                        projectTitle: values.projectTitle,
+                        projectDescription: values.projectDescription,
+                        projectURL: values.projectWebsite,
+                        projectRepo: values.projectRepo,
+                        // projectScreenshots: values.projectScreenshots,
+                        // projectLogo: values.projectLogo,
+                        // projectCategory: values.projectCategory,
+                        // developersInfo: values.developersInfo,
+                        // fileSize: values.fileSize,
+                    }
+                }),
+            });
+            
+            if (response.ok) {
+                
+                console.log('Form data submitted successfully');
+            } else {
+                
+                console.error('Failed to submit form data');
+            }
+        } catch (error) {
+            console.error('Error submitting form data:', error);
+        }
     }
     return(
         <Form {...form}>
@@ -95,7 +236,7 @@ const AllFormFields = () => {
                     <FormItem>
                                             
                         <FormControl>
-                            <Input placeholder="Project Title:" {...field} className={formStyles.FormField} style={{}}/>
+                            <Input placeholder="Project Title:" {...field} className={formStyles.FormField}/>
                         </FormControl>
                             <FormMessage />
                     </FormItem>
@@ -115,27 +256,67 @@ const AllFormFields = () => {
                     </FormItem>
                     )}
                 />
-                
+
                 <FormField
                     control={form.control}
                     name="projectLogo"
-                    render={() => (
-                    <FormItem>
-                        <FormLabel className={formStyles.appHeader}>Applications Logo</FormLabel>   
-                        <FormControl>
-                            <div className={formStyles.appImageContainers} >
-                                <div className={formStyles.appDragnDrop}><b>
-                                    Drag and Drop or <span className='color-[#1D4ED8]'>Choose files</span> to upload</b>
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel className={formStyles.appHeader}>Applications Logo</FormLabel>
+                            <FormControl>
+                                <div {...getLogoRootProps({
+                                    className: formStyles.appImageContainers
+                                })} >
+                                    <input {...getLogoInputProps()} />
+                                    <Image src={'/cloudy.png'} alt={'cloud Image'} width={40} height={40} className='pb-2' />
+                                    <div className={formStyles.appDragnDrop}><b>
+                                        {fileSelected ? "Drag and Drop to Change Document": "Drag and Drop"} or <span className='text-[#1D4ED8]' style={{ cursor: 'pointer' }} onClick={openLogo}>Choose files</span> to upload</b>
+                                    </div>
+                                    <div className={formStyles.appSupportedFiles}>
+                                        Supported formats: JPG, PNG, MP4, SVG
+                                    </div>
+
+                                    
                                 </div>
-                                <div className={formStyles.appSupportedFiles}>
-                                    Supported formats: JPG, PNG,MP4, SVG
-                                </div>
-                            </div>
-                        </FormControl>
-                        <FormMessage />
-                    </FormItem>
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
                     )}
                 />
+                {/* LOGO IMAGE PREVIEW */}
+                <div >
+                    {
+                        fileSelected.map((file) => (
+                            <div style={{border:'1px solid #CBD5E1',borderRadius:'6px', padding:'10px 15px', display:'flex', justifyContent:'space-between', marginTop:'5px', transition:'.5s ease'}}>
+                                {/* <Image src={'/'} /> */}
+                                <div style={{display:'flex', width:'100%'}}>
+                                    <div  style={{display:'flex', marginRight:'20px', width:'auto'}}>
+                                        <div style={{width: '50px', height:'50px', border:'1px solid black', borderRadius:'6px'}}>
+                                            <Image src={file.preview} width={100} height={100} alt={'image'} 
+                                            onLoad={() => (URL.revokeObjectURL(file.preview))} 
+                                            
+                                            style={{width: '100%', height: '100%', objectFit: 'cover', borderRadius:'6px'}} />
+                                        </div>
+                                        <div style={{display:'flex', flexDirection:'column', justifyContent:'space-between', marginLeft:'5px'}}>
+                                            <div style={{fontSize:'16px', fontWeight:'500', lineHeight:'24px'}}> {file.name}</div>
+                                            <div style={{ fontSize: '14px'}}> 5 MB</div>
+                                        </div>
+                                        
+                                    </div>
+                                    <div style={{width:'100%', position:'relative'}}>
+                                        <div style={{backgroundColor: '#1E3A8A', height:'8px',borderRadius:'5px', position:'absolute', bottom:'5px', width:'70%'}}></div>
+                                    </div>
+                                </div>
+
+                                <div style={{width:'auto', display:'flex', flexDirection:'column', justifyContent:'space-between', alignItems:'end', paddingTop:'3px'}}>
+                                    {/* <div style={{fontSize:'14px', fontWeight:'500', lineHeight:'24px'}}> logo.png</div> */}
+                                    <Image src={'/check.png'} height={'20'} width={'20'} alt={'check img'}/>
+                                    <div style={{ fontSize: '14px'}}> 100%</div>
+                                </div>
+                            </div>                    
+                        ))
+                    }
+                </div>
 
                 <FormField
                     control={form.control}
@@ -144,20 +325,66 @@ const AllFormFields = () => {
                     <FormItem>
                         <FormLabel className={formStyles.appHeader}>Applications Screenshots</FormLabel>   
                         <FormControl>
-                            <div className={formStyles.appImageContainers} >
-                                <div className={formStyles.appDragnDrop}><b>
-                                    Drag and Drop or <span className='color-[#1D4ED8]'>Choose files</span> to upload</b>
+                        <FormControl>
+                                <div {...getScreenshotRootProps()} className={formStyles.appImageContainers}>
+                                    <input {...getScreenshotInputProps()} />
+                                    <Image src={'/cloudy.png'} alt={'cloud Image'} width={40} height={40} className='pb-2' />
+                                    <div className={formStyles.appDragnDrop}><b>
+                                        {fileSelected ? "Drag and Drop to Change Document": "Drag and Drop"} or <span className='text-[#1D4ED8]' style={{ cursor: 'pointer' }} onClick={openScreenshots}>Choose files</span> to upload</b>
+                                    </div>
+                                    <div className={formStyles.appSupportedFiles}>
+                                        Supported formats: JPG, PNG, MP4, SVG
+                                    </div>
+                                    {/* <p>{screenshotfiles}</p> */}
+                                    {/* { fileSelected ? (<p className='mt-5 border border-slate-800'> file appears here ...</p>) : ()} */}
+                                    {/* {fileSelected && (<p className='mt-5 border border-[#1D4ED8] text-[#1D4ED8] px-3 py-2 rounded font-bold hover:cursor-default'> {files}</p>)} */}
+                                    
+                                   
                                 </div>
-                                <div className={formStyles.appSupportedFiles}>
-                                    Supported formats: JPG, PNG,MP4, SVG
-                                </div>
-                            </div>
+                                
+                            </FormControl>
                         </FormControl>
                         <FormMessage />
                     </FormItem>
                     )}
                 />
 
+                {/* add to show when there are images availble to show */}
+                <div >
+                    {
+                        
+                        screenshotFile.map((file) => (
+                            <div style={{border:'1px solid #CBD5E1',borderRadius:'6px', padding:'10px 15px', display:'flex', justifyContent:'space-between', marginTop:'5px', transition:'.5s ease'}}>
+                                {/* <Image src={'/'} /> */}
+                                <div style={{display:'flex', width:'100%'}}>
+                                    <div  style={{display:'flex', marginRight:'20px', width:'auto'}}>
+                                        <div style={{width: '50px', height:'50px', border:'1px solid black', borderRadius:'6px'}}>
+                                            <Image src={file.preview} width={100} height={100} alt={'image'} 
+                                            onLoad={() => (URL.revokeObjectURL(file.preview))} 
+                                            
+                                            style={{width: '100%', height: '100%', objectFit: 'cover', borderRadius:'6px'}} />
+                                        </div>
+                                        <div style={{display:'flex', flexDirection:'column', justifyContent:'space-between', marginLeft:'5px'}}>
+                                            <div style={{fontSize:'16px', fontWeight:'500', lineHeight:'24px'}}> {file.name}</div>
+                                            <div style={{ fontSize: '14px'}}> 5 MB</div>
+                                        </div>
+                                        
+                                    </div>
+                                    <div style={{width:'100%', position:'relative'}}>
+                                        <div style={{backgroundColor: '#1E3A8A', height:'8px',borderRadius:'5px', position:'absolute', bottom:'5px', width:'70%'}}></div>
+                                    </div>
+                                </div>
+
+                                <div style={{width:'auto', display:'flex', flexDirection:'column', justifyContent:'space-between', alignItems:'end', paddingTop:'3px'}}>
+                                    {/* <div style={{fontSize:'14px', fontWeight:'500', lineHeight:'24px'}}> logo.png</div> */}
+                                    <Image src={imageSrc} height={'20'} width={'20'} alt={'check img'} onClick={() => deleteFile(file.name)} onLoad={() => {setTimeout(() => { setImageSource('/cloudy.png')}, 3000)}}/>
+                                    <div style={{ fontSize: '14px' }}> 100%</div>
+                                </div>
+                            </div>                    
+                        ))
+                    }
+                </div>
+                
                 <FormField
                     control={form.control}
                     name="projectWebsite"
@@ -200,12 +427,20 @@ const AllFormFields = () => {
                                 
                                 <div className={`${formStyles.eachCategoryContainer} flex flex-wrap justify-between`}>
                                     {
-                                        categoryData.map((category) =>(
-                                            <div className={formStyles.eachCategory}>
-                                                {category}
-                                            </div>
-                                        ))
+                                        
+                                        categoryData.map((category) => {
+                                            // const maxSelected = ;
+                                            const isSelected = form.getValues("projectCategory").includes(category);
+                                            const maxSelected = form.getValues("projectCategory").length >= 5;
+                                            return (
+                                                <div key={category} className={`${formStyles.eachCategory} ${isSelected ? formStyles.selectedCategory : formStyles.unselectedCategory} ${maxSelected && !isSelected ? formStyles.notselectedCategory : ''}`} 
+                                                onClick={() => handleCategory(category)}>
+                                                    {category}
+                                                </div>
+                                            )
+                                        })
                                     }
+                                      
                                 </div>
                             </>
                             
@@ -266,11 +501,14 @@ const AllFormFields = () => {
                 {/* Project Category */}
                 
                 <div className={formStyles.formFooter}>
-                    <div>Help Center</div>
-                    <div style={{display:'flex', alignItems:'center'}}>
+                    <div className={` ${formStyles.footerHelp} text-base text-[#334155] items-center justify-center relative`}>
+                        <Image src={'/helpIcon.png'} alt={'cloud Image'} width={'17'} height={'10'} className='pb-2 absolute top-1'/>
+                        <Link href={'/'}><div className='ml-5'> Help Center </div></Link>
+                    </div>
+                    <div className='flex items-center'>
                         {/* <div style={{borderRadius:'6px',padding:'8px 15px', marginRight:'15px', fontWeight:'400', color:'#0F172A'}}>Cancel</div> */}
                         {/* <div style={{backgroundColor:'#0F172A',color:'white', borderRadius:'6px',padding:'8px 15px',fontWeight:'400'}}>Submit</div> */}
-                        <Button variant="ghost" style={{color:'#0F172A', marginRight:'15px'}}>Cancel</Button>
+                        <Link href={'/'}><Button variant="ghost" style={{color:'#0F172A', marginRight:'15px'}}>Cancel</Button></Link>
                         <Button type='submit' style={{color:'white', backgroundColor:'#0F172A',}}>Submit</Button>
                     </div>
                 </div>
