@@ -7,6 +7,7 @@
 .mainFormContainer>div{
     padding-top:8%;
     width: 65%;
+    /* text-align: center; */
 }
 
 .mainFormContainer>div h1{
@@ -21,3 +22,36 @@
     padding: 8% 5%;
 }
 
+.socialFooter{
+    display: none;
+}
+
+@media (max-width: 600px) {
+    .mainFormContainer>div{
+        /* padding-top:8%; */
+        width: 95%;
+        /* text-align: center; */
+    }
+
+    .socialFooter{
+        display: block;
+        margin-top: 15%;
+    }
+    .socialicons{
+        display: flex;
+        justify-content: space-between;
+        padding: 0 30%;
+    }
+
+    .socialLinks{
+        display: flex;
+        justify-content: space-between;
+        padding: 0 6%;
+        margin-top: 4%;
+    }
+
+    .socialRights{
+        margin-top: 3%;
+        text-align: center;
+    }
+  }
