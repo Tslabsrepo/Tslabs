@@ -113,19 +113,21 @@ export default function Hero() {
                 <div className="mx-auto max-w-6xl py-32 sm:py-48 lg:py-56">
                     <TitleBadge text="Welcome to Transition School Labs" />
                     <div className="text-center">
-                        <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
+                        {/* <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl"> */}
+                        <h1 className=" font-bold tracking-tight text-gray-900 sm:text-6xl" style={{fontSize: '48px', margin:'0 5%', textAlign:'center'}}>
                             Discover and Drive Tomorrow’s Technology,
                             Today!
                         </h1>
-                        <p className="mt-6 text-lg md:max-w-4xl mx-auto leading-8 text-gray-600">
+                        {/* <p className="mt-6 text-lg md:max-w-4xl mx-auto leading-8 text-gray-600" style={{padding: '0 5%', border: '1px solid red'}}> */}
+                        <p className="mt-6 md:max-w-4xl mx-auto leading-8 text-[#0F172A]" style={{padding: '0 5%', fontSize:'20px', lineHeight:'32px', textAlign:'center'}}>
                             Explore a showcase of pioneering projects by TS Labs students, or contribute your own creation to our vibrant showcase of tech breakthroughs and collaborative innovation
                         </p>
                         <div className="mt-10 flex items-center justify-center gap-x-6">
 
-                            <Button>
+                            <Button style={{fontSize:'16px'}}>
                                 Explore Projects
                             </Button>
-                            <Button>
+                            <Button style={{background:'inherit',border:'1px solid #0F172A', color:'#0F172A',fontSize:'16px'}}>
                                 Contribute your projects
                             </Button>
                         </div>

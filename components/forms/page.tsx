@@ -302,7 +302,7 @@ const AllFormFields = () => {
                                             <Image src={file.preview} width={100} height={100} alt={'image'}
                                                 onLoad={() => (URL.revokeObjectURL(file.preview))}
 
-                                                style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '6px' }} />
+                                                style={{border: '1px solid black', padding:'0'}} />
                                         </div>
                                         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', marginLeft: '5px' }}>
                                             <div style={{ fontSize: '16px', fontWeight: '500', lineHeight: '24px' }}> {file.name}</div>
