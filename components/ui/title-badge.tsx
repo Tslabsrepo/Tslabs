@@ -1,4 +1,4 @@
-export default ({ text }) => {
+export default function TitleBadge({ text }: any) {
     return (
         <div className=" sm:mb-8 flex sm:justify-center ">
             <div className="relative flex rounded-full px-3 py-1 text-sm leading-6 border border-slate-200">

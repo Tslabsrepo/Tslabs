@@ -1,8 +1,6 @@
 
 import TitleBadge from "@/components/ui/title-badge";
 import Image from "next/image";
-// import joinSVG from '../assets/join.svg';
-// import joinSVG from '@/../assets/join.svg';
 
 export default function JoinUs() {
 
@@ -23,8 +21,8 @@ export default function JoinUs() {
                         </h2>
 
                         <div className="pr-20 mt-3" style={{ fontSize: '17px', lineHeight: '25px', fontWeight: '400', color: 'rgba(255, 255, 255, 1)' }}>
-                            If you're working on something exciting that taps into new tech possibilities or perfecting a tool that could transform how we interact with technology,
-                            we're all ears! Your project deserves a spotlight where it can shine and inspire—right here at TS Labs.
+                            If you&apos;re working on something exciting that taps into new tech possibilities or perfecting a tool that could transform how we interact with technology,
+                            we&apos;re all ears! Your project deserves a spotlight where it can shine and inspire—right here at TS Labs.
                         </div>
 
                         <div className="px-3 py-2 mt-9 hover:bg-white hover:text-[#0F172A] hover:cursor-pointer" style={{ border: '1px solid white', borderRadius: '6px', transition: '.3s ease' }}>
