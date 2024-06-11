@@ -2,8 +2,7 @@
 import TitleBadge from "@/components/ui/title-badge";
 
 import * as React from "react"
-import { useRef } from "react";
-import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
   CarouselContent,
