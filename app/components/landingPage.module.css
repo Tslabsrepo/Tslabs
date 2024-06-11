@@ -1,0 +1,13 @@
+.navdetails{
+    width: 85%;
+}
+
+
+
+
+@media (max-width: 1020px) {
+    .navdetails{
+        display: none;
+        width: 0;
+    }
+}

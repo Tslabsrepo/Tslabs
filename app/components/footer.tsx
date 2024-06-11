@@ -2,34 +2,44 @@ import ProjectsList from "@/components/projects/projects-list";
 import iProject from "@/components/projects/project.interface";
 import TitleBadge from "@/components/ui/title-badge";
 import exploreStyle from "./explore.module.css";
-
-
+import Image from "next/image";
+import Link from "next/link";
 
 export default function Footer() {
 
     return (
-        <div className="container mx-auto" style={{ border: '1px solid red' }}>
-            <div className="relative isolate px-6 py-20 lg:px-8">
-                <div className="mx-auto max-w-6xl text-gray-900">
+        <div className="container mx-auto">
+            <div className="relative isolate px-6 py-5 lg:px-8">
+                <div className="py-3" style={{ display:'flex', justifyContent:'space-between'}}>
+                    <div>
+                        <Image src={'/logo.png'} width={100} height={30} alt={'logo'} />
+                    </div>
+                    <div style={{display:'flex',justifyContent:'space-between',fontWeight:'400', lineHeight:'24px', fontSize:'16px', color:'#0F172A', width:'30%'}}>
+                        <div>Term of privacy</div>
+                        <div>Privacy policy</div>
+                        <div>Contact us</div>
+                    </div>
+                    <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', width:'10%'}}>
+                        <div>
+                            <Image src={'/facebook.png'} width={20} height={20} alt={'logo'} />
+                        </div>
+                        <div>
+                            <Image src={'/instagram.png'} width={'20'} height={'20'} alt={'logo'} />
+                        </div>
 
-                    <TitleBadge text="Explore Projects" />
+                        <div>
+                            <Image src={'/twitter.png'} width={'20'} height={'20'} alt={'logo'} />
+                        </div>
 
-                    <div className="text-center">
-                        <h2 className="text-2xl font-bold tracking-tight  md:text-3xl ">
-                            Explore Top Projects on our Platform
-                        </h2>
+                        <div>
+                            <Image src={'/linkedin.png'} width={'20'} height={'20'} alt={'logo'} />
+                        </div>
+                        
                     </div>
                 </div>
+                
+                <div className="text-center py-3">© 2024 Transition School, Inc. All rights reserved.</div>
 
-
-
-                {/* View All Project Button */}
-
-                <div className="mx-9 mt-4 " style={{ display: 'flex', justifyContent: 'center' }}>
-                    <div className=" hover:bg-gray-100 hover:cursor-pointer " style={{ border: '1px solid #0F172A', fontSize: '16px', color: '#0F172A', padding: '5px 16px', borderRadius: '6px' }}>
-                        View all
-                    </div>
-                </div>
             </div>
         </div>
     )

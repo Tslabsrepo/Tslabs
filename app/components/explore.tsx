@@ -2,7 +2,7 @@ import ProjectsList from "@/components/projects/projects-list";
 import iProject from "@/components/projects/project.interface";
 import TitleBadge from "@/components/ui/title-badge";
 import exploreStyle from "./explore.module.css";
-
+import Link from "next/link";
 
 const projects: Array<iProject> = [
     {
@@ -62,9 +62,9 @@ export default function Explore() {
                 {/* View All Project Button */}
 
                 <div className="mx-9 mt-4 " style={{ display: 'flex', justifyContent: 'center' }}>
-                    <div className=" hover:bg-gray-100 hover:cursor-pointer " style={{ border: '1px solid #0F172A', fontSize: '16px', color: '#0F172A', padding: '5px 16px', borderRadius: '6px' }}>
+                    <Link href={'/contributor-form'}><div className=" hover:bg-gray-100 hover:cursor-pointer " style={{ border: '1px solid #0F172A', fontSize: '16px', color: '#0F172A', padding: '5px 16px', borderRadius: '6px' }}>
                         View all
-                    </div>
+                    </div></Link>
                 </div>
             </div>
         </div>
