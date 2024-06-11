@@ -10,6 +10,7 @@ import formStyles from "./forms.module.css";
 import Image from "next/image";
 import Link from 'next/link';
 import { useDropzone } from 'react-dropzone';
+import uploadService from '@/lib/services/uploads';
 
 const categoryData = [
     "Artificial Intelligence",
@@ -126,15 +127,40 @@ const AllFormFields = () => {
     }
 
     const handleScreenshotDrop = (acceptedFiles: any) => {
-        console.log(acceptedFiles);
+        // console.log(acceptedFiles);
         const file = acceptedFiles[0];
+
+
+        handleUpload(acceptedFiles).then((response: any) => {
+            console.log({ response })
+            if (response) {
+                form.setValue("projectScreenshots", response[0].url);
+            }
+        }).catch((e) => {
+            console.log('an error occured with upload', { e })
+        });
+
+
         if (file) {
             // form.setValue("projectScreenshots", file.name);
             // setFileSelected(true);
             // Handle file upload logic here, e.g., save the file or preview it
             // console.log("File selected:", file);
+
+
             return file;
         }
+    }
+
+
+    const handleUpload = async (file: any) => {
+        const response = await uploadService.store(file);
+
+        if (!response) {
+            return false;
+        }
+        return response[0];
+
     }
 
     const onDrop = useCallback((acceptedFiles: any) => {
@@ -193,7 +219,6 @@ const AllFormFields = () => {
 
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        console.log({ values });
         try {
             const response = await fetch('https://ts-labs-admin-0ff0c6162225.herokuapp.com/api/projects', {
                 method: 'POST',
@@ -302,7 +327,7 @@ const AllFormFields = () => {
                                             <Image src={file.preview} width={100} height={100} alt={'image'}
                                                 onLoad={() => (URL.revokeObjectURL(file.preview))}
 
-                                                style={{border: '1px solid black', padding:'0'}} />
+                                                style={{ border: '1px solid black', padding: '0' }} />
                                         </div>
                                         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', marginLeft: '5px' }}>
                                             <div style={{ fontSize: '16px', fontWeight: '500', lineHeight: '24px' }}> {file.name}</div>
