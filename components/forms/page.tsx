@@ -513,8 +513,6 @@ const AllFormFields = () => {
                         <Link href={'/'}><div className='ml-5'> Help Center </div></Link>
                     </div>
                     <div className='flex items-center'>
-                        {/* <div style={{borderRadius:'6px',padding:'8px 15px', marginRight:'15px', fontWeight:'400', color:'#0F172A'}}>Cancel</div> */}
-                        {/* <div style={{backgroundColor:'#0F172A',color:'white', borderRadius:'6px',padding:'8px 15px',fontWeight:'400'}}>Submit</div> */}
                         <Link href={'/'}><Button variant="ghost" style={{ color: '#0F172A', marginRight: '15px' }}>Cancel</Button></Link>
                         <Button type='submit' style={{ color: 'white', backgroundColor: '#0F172A', }}>Submit</Button>
                     </div>
