@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default function Footer() {
-    
+
     return (
         <div className="container mx-auto">
             <div className="relative isolate px-6 py-5 lg:px-8">

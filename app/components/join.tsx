@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 
 export default function JoinUs() {
-    
+
     return (
         <div className="container mx-auto" >
             <div className="relative isolate px-6 py-20 lg:px-8 mb-10">
@@ -16,14 +16,14 @@ export default function JoinUs() {
 
                             <TitleBadge text=" Contribute" />
 
-                           
+
                         </div>
-                        <h2 className="pr-7" style={{letterSpacing:'0.75%', lineHeight:'36px', fontSize:'32px', color:'white', fontWeight:'600'}}>
+                        <h2 className="pr-7" style={{ letterSpacing: '0.75%', lineHeight: '36px', fontSize: '32px', color: 'white', fontWeight: '600' }}>
                             Join the TS Labs Creator Community
                         </h2>
 
-                        <div className="pr-20 mt-3" style={{fontSize:'17px', lineHeight:'25px', fontWeight:'400', color:'rgba(255, 255, 255, 1)'}}>
-                            If you're working on something exciting that taps into new tech possibilities or perfecting a tool that could transform how we interact with technology, 
+                        <div className="pr-20 mt-3" style={{ fontSize: '17px', lineHeight: '25px', fontWeight: '400', color: 'rgba(255, 255, 255, 1)' }}>
+                            If you're working on something exciting that taps into new tech possibilities or perfecting a tool that could transform how we interact with technology,
                             we're all ears! Your project deserves a spotlight where it can shine and inspire—right here at TS Labs.
                         </div>
 
@@ -37,7 +37,7 @@ export default function JoinUs() {
                     <div className="flex-1" >
                         <Image src={'/join.svg'} width={100} height={100} alt={'contribute'} style={{ width: '100%', height: '100%', objectFit: 'cover'}} />
                     </div>
-                    
+
                 </div>
             </div>
         </div>
