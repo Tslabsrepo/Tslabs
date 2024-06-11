@@ -4,7 +4,7 @@ const apiKey = "76791007567712142fd395851246388b7810d43f20b1e23df6dbc58ff1302562
 
 class UploadService {
 
-    store = async (file) => {
+    store = async (file: File) => {
 
         const formdata = new FormData();
         formdata.append("files", file);

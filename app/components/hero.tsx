@@ -108,7 +108,7 @@ export default function Hero() {
                     // className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
                     aria-hidden="true"
                 >
-                    <Image src={'/grid.svg'} width={100} height={100} className='min-w-full object-cover min-h-full' />
+                    <Image src={'/grid.svg'} width={100} height={100} className='min-w-full object-cover min-h-full' alt="*" />
                 </div>
                 <div className="mx-auto max-w-6xl py-32 sm:py-48 lg:py-56">
                     <TitleBadge text="Welcome to Transition School Labs" />

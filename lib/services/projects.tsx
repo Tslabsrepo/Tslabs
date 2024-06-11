@@ -3,7 +3,7 @@ const baseUrl = "'https://ts-labs-admin-0ff0c6162225.herokuapp.com/api/";
 
 class ProjectService {
 
-    store = async (data) => {
+    store = async (data: any) => {
 
         await fetch(baseUrl + 'projects', {
             method: 'POST',

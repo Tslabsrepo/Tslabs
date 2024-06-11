@@ -154,7 +154,7 @@ const AllFormFields = () => {
 
 
     const handleUpload = async (file: any) => {
-        const response = await uploadService.store(file);
+        const response: any = await uploadService.store(file);
 
         if (!response) {
             return false;
@@ -165,19 +165,25 @@ const AllFormFields = () => {
 
     const onDrop = useCallback((acceptedFiles: any) => {
         if (acceptedFiles?.length) {
-            setScreenshotFile((previousFiles) => [
-                ...previousFiles,
+            // setScreenshotFile((previousFiles: any) => [
+            //     ...previousFiles,
+            //     ...acceptedFiles.map((file: any) =>
+            //         Object.assign(file, { preview: URL.createObjectURL(file) })
+            //     )
+            // ])
+            const file: any = [
+                ...screenshotFile,
                 ...acceptedFiles.map((file: any) =>
                     Object.assign(file, { preview: URL.createObjectURL(file) })
                 )
-            ])
+            ];
 
-
+            setScreenshotFile(file);
         }
     }, [])
 
     const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps, open: openLogo, acceptedFiles: acceptedLogoFile } = useDropzone({
-        validator: handleDrop,
+        // validator<any>: handleDrop,
         accept: {
             'image/jpeg': ['.jpeg', '.jpg'],
             'image/png': ['.png'],
@@ -212,7 +218,7 @@ const AllFormFields = () => {
 
     const deleteFile = (name: any) => {
         console.log(name);
-        setScreenshotFile(screenshotFile => screenshotFile.filter(file => file.name != name));
+        setScreenshotFile(screenshotFile => screenshotFile.filter((file: any) => file.name != name));
     }
 
 
@@ -318,14 +324,14 @@ const AllFormFields = () => {
                 {/* LOGO IMAGE PREVIEW */}
                 <div >
                     {
-                        fileSelected.map((file, index) => (
+                        fileSelected.map((file: any, index) => (
                             <div key={index} style={{ border: '1px solid #CBD5E1', borderRadius: '6px', padding: '10px 15px', display: 'flex', justifyContent: 'space-between', marginTop: '5px', transition: '.5s ease' }}>
                                 {/* <Image src={'/'} /> */}
                                 <div style={{ display: 'flex', width: '100%' }}>
                                     <div style={{ display: 'flex', marginRight: '20px', width: 'auto' }}>
                                         <div style={{ width: '50px', height: '50px', border: '1px solid black', borderRadius: '6px' }}>
-                                            <Image src={file.preview} width={100} height={100} alt={'image'}
-                                                onLoad={() => (URL.revokeObjectURL(file.preview))}
+                                            <Image src={file?.preview} width={100} height={100} alt={'image'}
+                                                onLoad={() => (URL.revokeObjectURL(file?.preview))}
 
                                                 style={{ border: '1px solid black', padding: '0' }} />
                                         </div>
@@ -385,14 +391,14 @@ const AllFormFields = () => {
                 <div >
                     {
 
-                        screenshotFile.map((file, index) => (
+                        screenshotFile.map((file: any, index) => (
                             <div key={index} style={{ border: '1px solid #CBD5E1', borderRadius: '6px', padding: '10px 15px', display: 'flex', justifyContent: 'space-between', marginTop: '5px', transition: '.5s ease' }}>
                                 {/* <Image src={'/'} /> */}
                                 <div style={{ display: 'flex', width: '100%' }}>
                                     <div style={{ display: 'flex', marginRight: '20px', width: 'auto' }}>
                                         <div style={{ width: '50px', height: '50px', border: '1px solid black', borderRadius: '6px' }}>
-                                            <Image src={file.preview} width={100} height={100} alt={'image'}
-                                                onLoad={() => (URL.revokeObjectURL(file.preview))}
+                                            <Image src={file?.preview} width={100} height={100} alt={'image'}
+                                                onLoad={() => (URL.revokeObjectURL(file?.preview))}
 
                                                 style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '6px' }} />
                                         </div>
