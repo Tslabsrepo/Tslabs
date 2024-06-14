@@ -12,6 +12,9 @@ import Link from 'next/link';
 import { useDropzone } from 'react-dropzone';
 import uploadService from '@/lib/services/uploads';
 
+
+
+
 const categoryData = [
     "Artificial Intelligence",
     "FinTech",
@@ -35,8 +38,6 @@ const formSchema = z.object({
     projectDescription: z.string().min(10, {
         message: "Project Description must be atleast 10 characters",
     }),
-
-    // projectLogo: z.instanceof(File).refine(file => file.size <= 5000000, "File size should be less than 5MB"), // Optional: File size validation
 
     projectScreenshots: z.string(),
     projectLogo: z.string(),
@@ -67,10 +68,7 @@ const formSchema = z.object({
     fileSize: z.string().nonempty({
         message: "Required"
     }),
-    // projectImage: z
-    // .instanceof(File)
-    //   .refine(file => file.size <= 5000000, "File size should be less than 5MB"), // Optional: File size validation
-
+  
 });
 
 

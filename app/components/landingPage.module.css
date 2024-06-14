@@ -1,13 +1,230 @@
+/* Hero Section */
+.contribBtn{
+    background: inherit;
+    border: 1px solid #0F172A;
+    color: #0F172A;
+    font-size: 16px;
+
+}
+
 .navdetails{
     width: 85%;
 }
 
 
+.titleBadge{
+    box-shadow: 0px 4px 6px red;
+    /* box-shadow: 0px 4px 6px rgba(197, 206, 199, 0.1); */
+}
 
+/* Explore Section */
+.categorySelect{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    
+    /* overflow:hidden; */
+    margin: 2% 10%;
+    padding: 0 20px;
+}
+
+.categorySelect div{
+    font-size:15px;
+    border-radius:6px;
+    padding:5px 15px;
+    color:#0F172A;
+    border: 1px solid red;
+}
+
+.bigScreen{
+    display: flex;
+}
+
+.smallScreens{
+    display: none;
+}
+
+.glossyImg{
+    width:140px;
+    position:absolute;
+    top:85%;
+    right:9%;
+    z-index: -1;
+}
+
+/* join container */
+.jonContainer{
+    border-radius:40px;
+    display:flex;
+    padding: 0 6%;
+}
+.join1{
+    display:flex;
+    flex-direction:column; 
+    align-items:start;
+    justify-content:center;
+    padding: 0 32px;
+    width: 50%;
+}
+
+.join1 h2{
+    letter-spacing: 0.75%;
+    line-height: 36px;
+    font-size: 32px;
+    color: white;
+    font-weight: 600;
+    padding-right: 28px;
+}
+
+.joinParagraph{
+    padding-right: 10%;
+    margin-top: 12px;
+}
+
+.join2{
+    width: 50%;
+}
+
+/* footer */
+.topfooter{
+     display:flex;
+     justify-content:space-between;
+}
+
+.footerlinks{
+    display:flex;
+    justify-content:space-between;
+    font-weight:400;
+    line-height:24px;
+    font-size:16px;
+    color:#0F172A;
+    width:35%;
+}
+
+.footerSocialLinks{
+    width:10%;
+}
 
 @media (max-width: 1020px) {
     .navdetails{
         display: none;
         width: 0;
+    }
+
+    
+}
+
+@media (max-width: 900px){
+    
+
+   
+    .categorySelect{
+        margin: 0;
+        margin-top:3%;
+        padding: 0;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 600px) {
+    .exploreBtn,
+    .contribBtn{
+        width: 73%;
+        padding: 8px 0;
+    }
+    .contribBtn{
+        margin-top: 20px;
+    }
+
+    /* Explore section */
+    .categorySelect{
+        margin: 0;
+        width:850px;
+        padding: 0 !important;
+        justify-content: space-between;
+    }
+
+    .bigScreen{
+        display: none;
+    }
+
+    .smallScreens{
+        display: block;
+    }
+
+    .projectcards{
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .projectcards .eachCard{
+        /* width: 170px; */
+    }
+
+    /* carousel section */
+    .glossyImg{
+        width:50px;
+        top:108%;
+        right:3%;
+    }
+
+    /* join */
+    .jonContainer{
+        flex-direction: column;
+        align-items: center;
+        padding: 10%;
+    }
+    .join1{
+        align-items: center;
+        text-align: center;
+        padding: 0 10%;
+        width: 100%;
+    }
+
+    .joinParagraph{
+        padding-right: 0;
+        line-height: 28px;
+        font-size: 17px;
+
+        padding: 0 1%;
+        margin-top: 10%;
+    }
+    
+
+    .join1 h2{
+        
+        padding-right: 0;
+        margin-top: 10%;
+        text-align: center;
+    }
+
+    .join2{
+        width: 100%;
+        margin-top: 15%;
+    }
+    /* Footer*/
+    .topfooter{
+        /* display:flex;
+        justify-content:space-between; */
+        flex-direction: column-reverse;
+        justify-content: center;
+        align-items: center;
+   }
+    .footerImgContainer{
+        display: none;
+    }
+    .footerlinks{
+        width: 90%;
+    }
+
+    .footerSocialLinks{
+        width: 45%;
+        margin-bottom: 7%;
+    }
+
+    .footerSocialLinks div Image{
+        width:70%;
+        /* height: 30%; */
     }
 }
