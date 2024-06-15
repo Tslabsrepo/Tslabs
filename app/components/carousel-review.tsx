@@ -76,8 +76,8 @@ export default function CarouselReviews() {
                     ]}>
 
                     <CarouselContent >
-                        {reviews.map((review: any) => (
-                            <CarouselItem className="md:basis-1/2 lg:basis-1/3 " style={{ borderRadius: '12px', background: '#ffffff03' }}>
+                        {reviews.map((review: any, index: number) => (
+                            <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3 " style={{ borderRadius: '12px', background: '#ffffff03' }}>
                                 <Card className="pt-6 pb-2 hover:cursor-pointer " style={{ background: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(5px)' }}>
                                     <CardContent style={{ background: '#ffffff03' }}>
                                         <div style={{ display: 'flex', alignItems: 'center' }}>

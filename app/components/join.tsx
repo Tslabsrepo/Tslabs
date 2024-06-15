@@ -24,8 +24,8 @@ export default function JoinUs() {
                         </h2>
 
                         <div className={` ${heroStyles.joinParagraph} text-base leading-6 font-normal`} >
-                            If you're working on something exciting that taps into new tech possibilities or perfecting a tool that could transform how we interact with technology,
-                            we're all ears! Your project deserves a spotlight where it can shine and inspire—right here at TS Labs.
+                            If you are working on something exciting that taps into new tech possibilities or perfecting a tool that could transform how we interact with technology,
+                            we are all ears! Your project deserves a spotlight where it can shine and inspire—right here at TS Labs.
                         </div>
 
                         <Link href={'/contributor-form'}>

@@ -102,15 +102,15 @@ export default function Explore() {
 
 
                 <div className={`${heroStyles.categorySelect} ${heroStyles.bigScreen} `}>
-                    {categories.map((category) => (
-                        <div className="" onClick={() => handlecategoryData(category)} style={{ border: categoryData === category ? '1px solid #0F172A' : 'none ', }}>{category}</div>
+                    {categories.map((category, index) => (
+                        <div key={index} className="" onClick={() => handlecategoryData(category)} style={{ border: categoryData === category ? '1px solid #0F172A' : 'none ', }}>{category}</div>
                     ))}
 
                 </div>
                 <ScrollArea className={` ${heroStyles.smallScreens} h-[100%] w-[100%] py-4`}>
                     <div className={`${heroStyles.categorySelect} `}>
-                        {categories.map((category) => (
-                            <div className="" onClick={() => handlecategoryData(category)} style={{ border: categoryData === category ? '1px solid #0F172A' : 'none ', }}>{category}</div>
+                        {categories.map((category, index) => (
+                            <div key={index} className="" onClick={() => handlecategoryData(category)} style={{ border: categoryData === category ? '1px solid #0F172A' : 'none ', }}>{category}</div>
                         ))}
 
                     </div>
