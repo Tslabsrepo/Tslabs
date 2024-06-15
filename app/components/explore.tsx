@@ -2,7 +2,6 @@
 import ProjectsList from "@/components/projects/projects-list";
 import iProject from "@/components/projects/project.interface";
 import TitleBadge from "@/components/ui/title-badge";
-import exploreStyle from "./explore.module.css";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import heroStyles from './landingPage.module.css';
@@ -86,7 +85,7 @@ export default function Explore() {
 
     //     getProjectData();
     // }, [])
-    const limitedProjects = projects.slice(0, 8);
+    const limitedProjects: Array<iProject> = projects.slice(0, 8);
     return (
         <div className="container mx-auto">
             <div className="relative isolate px-6 py-20 lg:px-8">
