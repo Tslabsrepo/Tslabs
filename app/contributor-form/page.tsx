@@ -1,12 +1,15 @@
-'use client';
-// import react from "React";
+
 import AllFormFields from '@/components/forms/page';
 import formStyles from './forms.module.css';
 import Image from 'next/image';
 import NavigationMenu from '../components/navbar';
 import Link from 'next/link';
+import { Metadata } from 'next';
 
-
+// Page Title
+export const metadata: Metadata = {
+    title: 'Contributor Page',
+  };
 
 const UsersPage = () => {   
 
@@ -15,7 +18,7 @@ const UsersPage = () => {
         <>
              {/* Navbar (To be removed) */}
             <NavigationMenu />
-            {/* <div style={{border:'1px solid black', height:'70px',backgroundColor:'#0F172A'}}> </div> */}
+           
 
             {/* Form Section */}
 

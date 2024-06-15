@@ -1,7 +1,7 @@
-export default function TitleBadge({ text }: any) {
+export default ({ text }) => {
     return (
-        <div className=" sm:mb-8 flex sm:justify-center ">
-            <div className="relative flex rounded-full px-3 py-1 text-sm leading-6 border border-slate-200">
+        <div className={` flex justify-center`} >
+            <div className="relative flex rounded-full px-3 py-1 sm:mb-20 text-sm leading-6 border border-slate-200">
                 <svg width="35" height="26" className='border-slate-200' viewBox="0 0 35 26" fill="none" xmlns="http://www.w3.org/2000/svg" >
                     <rect x="1" y="0.5" width="33" height="25" rx="12.5" />
                     <rect x="1" y="0.5" width="33" height="25" rx="12.5" stroke="#E2E8F0" />

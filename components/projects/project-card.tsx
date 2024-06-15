@@ -12,7 +12,7 @@ import Image from "next/image"
 
 export default function ProjectCard({ project }: { project: iProject }) {
     return (
-        <Card className="p-4 pb-8">
+        <Card className="p-4 pb-8" >
             <CardHeader style={{ padding: '0' }}>
                 <div style={{ marginBottom: '10px', width: '100%', height: '210px' }}>
                     <Image src={'/testImg.png'} width={100} height={100} alt={'project view'} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '4px 4px 0 0' }} />

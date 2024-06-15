@@ -1,3 +1,4 @@
+"use client";
 import { useState } from 'react'
 import { Dialog, DialogPanel } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
@@ -47,9 +48,14 @@ export default function NavigationMenu() {
                         <div className="hidden lg:flex lg:flex-1 lg:justify-end ">
                             <div className='mr-10' style={{display:'flex', alignItems:'center', border:'1px solid #E2E8F0', borderRadius:'6px', fontSize:'15px', padding:'0 12px',width:'200px'}}>
                                 <div style={{width:'20px'}}>
-                                    <Image src={'/searchIcon.svg'} width={100} height={100} alt={'search'} style={{width:'100%'}} />
+                                    <Image src={'/searchIcon.svg'} width={20} height={100} alt={'search'} style={{width:'100%'}} />
                                 </div>
-                                <div className='ml-3 text-[#334155]'> Search Projects...</div>
+                                <div>
+                                <form className='ml-2 text-[#334155]' style={{width:'95%'}}>
+                                    <input type='text' placeholder='Search Projects...' className='bg-inherit focus:outline-none placeholder:text-[#334155]' style={{width:'100%'}} />
+                                </form>
+                                </div>
+                                {/* <div className='ml-3 text-[#334155]'> Search Projects...</div> */}
                             </div>
                            
                             <div className='mr-2 font-normal hover:cursor-pointer' style={{ color:'#0F172A', padding:'7px 16px', borderRadius:'6px'}}>

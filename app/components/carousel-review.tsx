@@ -14,6 +14,7 @@ import Image from "next/image";
 import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from "embla-carousel-autoplay";
 import Link from "next/link";
+import heroStyles from "./landingPage.module.css";
 
 const reviews: any = [
     {
@@ -63,7 +64,7 @@ export default function CarouselReviews() {
                 </div>
 
 
-                <Carousel className="mx-5 mt-9"
+                <Carousel className="mx-5 mt-9" style={{ position: 'relative' }}
                     opts={{
                         align: "start",
                         loop: true,
@@ -75,10 +76,10 @@ export default function CarouselReviews() {
                     ]}>
 
                     <CarouselContent >
-                        {reviews.map((review: any, index: any) => (
-                            <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3 " style={{ borderRadius: '12px' }}>
-                                <Card className="pt-6 pb-2 hover:cursor-pointer ">
-                                    <CardContent>
+                        {reviews.map((review: any) => (
+                            <CarouselItem className="md:basis-1/2 lg:basis-1/3 " style={{ borderRadius: '12px', background: '#ffffff03' }}>
+                                <Card className="pt-6 pb-2 hover:cursor-pointer " style={{ background: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(5px)' }}>
+                                    <CardContent style={{ background: '#ffffff03' }}>
                                         <div style={{ display: 'flex', alignItems: 'center' }}>
                                             <div style={{ width: '60px', height: '60px', marginRight: '15px' }}>
                                                 <Image src={'/testImg.png'} width={100} height={100} alt={'project view'} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }} />
@@ -94,12 +95,17 @@ export default function CarouselReviews() {
                                         </div>
                                     </CardContent>
                                 </Card>
+
                             </CarouselItem>
+
                         ))}
 
                     </CarouselContent>
                     {/* <CarouselPrevious />
                     <CarouselNext /> */}
+                    <div className={heroStyles.glossyImg} style={{}}>
+                        <Image src={'/glossyring.svg'} width={100} height={100} alt={'project view'} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    </div>
                 </Carousel>
 
                 <div className="mx-9 mt-9 " style={{ display: 'flex', justifyContent: 'center' }}>
