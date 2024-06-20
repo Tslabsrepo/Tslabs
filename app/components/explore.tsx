@@ -62,29 +62,29 @@ export default function Explore() {
         setcategoryData(category);
 
     }
-    // useEffect(() => {
-    //     const getProjectData = async () => {
-    //         try{
-    //             const response = await fetch('https://ts-labs-admin-0ff0c6162225.herokuapp.com/api/projects',{
-    //                 method: 'GET',
-    //                 headers: {
-    //                     // 'Content-Type': 'application/json',
-    //                     'Authorization': 'Bearer 31d3957bc8f1b2ffb30a152d44cc04d45bf4d7ab6ec58dc32815887118f8632a879c8de097a0a1784a0977099e33bdc76acba6adf945defac5046202137f92e44863ba1a90cd6fe494224ce2b6f5ea35bc722d2b62e6e9858a5f8443522ac86772c886e93c6a91c71b8a3af6a9e9d0920042ca8adf5d9b0c3cf67792cd0cdc8a'
-    //                 }
-    //             });
+    useEffect(() => {
+        const getProjectData = async () => {
+            try{
+                const response = await fetch('https://ts-labs-admin-0ff0c6162225.herokuapp.com/api/projects',{
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${process.env.PROJECT_API_KEY}`
+                    }
+                });
 
-    //             if(!response.ok){
-    //                 console.log("Error occured");
-    //             }
-    //             const data = await response.json();
-    //             console.log(data);
-    //         }catch(error:any){
-    //             console.log(error.message);
-    //         }
-    //     };
+                if(!response.ok){
+                    console.log("Error occured");
+                }
+                const data = await response.json();
+                console.log(data);
+            }catch(error:any){
+                console.log(error.message);
+            }
+        };
 
-    //     getProjectData();
-    // }, [])
+        getProjectData();
+    }, [])
     const limitedProjects: Array<iProject> = projects.slice(0, 8);
     return (
         <div className="container mx-auto">
@@ -118,13 +118,13 @@ export default function Explore() {
                 </ScrollArea>
 
                 {limitedProjects.length > 0 == true && (
-                    <ProjectsList projects={limitedProjects} />
+                    <ProjectsList projects={limitedProjects} columns={4}/>
                 )}
 
                 {/* View All Project Button */}
 
                 <div className="mx-9 mt-4 " style={{ display: 'flex', justifyContent: 'center' }}>
-                    <Link href={'/contributor-form'}><div className=" hover:bg-gray-100 hover:cursor-pointer " style={{ border: '1px solid #0F172A', fontSize: '16px', color: '#0F172A', padding: '5px 16px', borderRadius: '6px' }}>
+                    <Link href={'/projects'}><div className=" hover:bg-gray-100 hover:cursor-pointer " style={{ border: '1px solid #0F172A', fontSize: '16px', color: '#0F172A', padding: '5px 16px', borderRadius: '6px' }}>
                         View all
                     </div></Link>
                 </div>

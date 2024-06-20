@@ -1,0 +1,72 @@
+.projectContainer{
+    display: flex;
+    justify-content: space-between;
+    padding: 3px;
+}
+
+.filterSection{
+    width:20%;
+}
+
+.projectSection{
+    width:75%;
+}
+
+.searchTab{
+    display: flex;
+    align-items: center;
+    border: 1px solid #E2E8F0;
+    border-radius: 6px;
+    font-size: 15px;
+    padding: 0 12px;
+    width: 100%;
+}
+
+.searchTab .formContainer{
+    width: 100%;
+}
+
+
+@media (min-width: 640px) {
+    .sortprojectsm,
+    .filterAccordionsm{
+        display: none;
+    }
+
+}
+@media (max-width: 640px) {
+    .projectContainer{
+        display: block;
+        
+    }
+
+    .filterSection{
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        align-items: start;
+    }
+
+    .filterSection>div{
+        width: 45%;
+    }
+    
+    .sortprojectmd{
+        display: none;
+    }
+
+    .filterAccordionmd{
+        display: none;
+    }
+
+   .projectSection{
+        width: 100%;
+   }
+
+   .searchTab{
+    padding:12px;
+    margin-top: 15px;
+    width: 50%;
+   }
+
+}

@@ -9,7 +9,7 @@ import LandingStyles from "./landingPage.module.css";
 export default function NavigationMenu() {
 
     const navigation = [
-        { name: 'Product', href: '/' },
+        { name: 'Projects', href: '/' },
         { name: 'About Us', href: '/' },
         { name: 'Contribute', href: '/' },
         // { name: 'Company', href: '#' },

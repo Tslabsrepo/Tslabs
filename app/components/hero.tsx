@@ -41,14 +41,17 @@ export default function Hero() {
                         <p className="mt-6 md:max-w-4xl mx-auto leading-8 text-[#0F172A]" style={{ padding: '0 5%', fontSize: '20px', lineHeight: '32px', textAlign: 'center' }}>
                             Explore a showcase of pioneering projects by TS Labs students, or contribute your own creation to our vibrant showcase of tech breakthroughs and collaborative innovation
                         </p>
-                        <div className="mt-10 flex items-center justify-center flex-col sm:flex-row gap-x-6">
-                            <Link href={'/'}>
+                        <div className={`${heroStyles.heroBtnContainer} mt-10 `} >
+                            <Link href={'/'}  className={heroStyles.linkComponent}>
                                 <Button className={heroStyles.exploreBtn}>
                                     Explore Projects
+
+                                
                                 </Button>
                             </Link>
-                            <Link href={'/'}>
+                            <Link href={'/'}  className={heroStyles.linkComponent}>
                                 <Button className={`${heroStyles.contribBtn} hover:text-white `}>
+                                    
                                     Contribute your projects
                                 </Button>
                             </Link>

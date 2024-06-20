@@ -14,10 +14,10 @@ export default function ProjectCard({ project }: { project: iProject }) {
     return (
         <Card className="p-4 pb-8" >
             <CardHeader style={{ padding: '0' }}>
-                <div style={{ marginBottom: '10px', width: '100%', height: '210px' }}>
+                <div style={{ marginBottom: '10px', width: '100%'}}>
                     <Image src={'/testImg.png'} width={100} height={100} alt={'project view'} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '4px 4px 0 0' }} />
                 </div>
-                <CardTitle className="py-2" style={{ fontSize: '18px', color: '#334155' }}>VirtualArt Gallery</CardTitle>
+                <CardTitle className="py-2" style={{ fontSize: '18px', color: '#334155' }}> {project.title}</CardTitle>
                 <CardDescription className="pb-2" style={{ fontSize: '16px', color: '#334155', lineHeight: '24px', fontWeight: '400' }}>AR/VR experience for exploring digital art galleries.</CardDescription>
             </CardHeader>
             <CardContent style={{ padding: '0', color: '#94A3B8', fontSize: '16px', fontWeight: '400', display: 'flex' }}>

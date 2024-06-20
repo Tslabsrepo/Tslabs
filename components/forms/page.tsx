@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button";
 import formStyles from "./forms.module.css";
 import Image from "next/image";
@@ -14,21 +15,6 @@ import uploadService from '@/lib/services/uploads';
 
 
 
-
-const categoryData = [
-    "Artificial Intelligence",
-    "FinTech",
-    "Mobile app",
-    "Web app",
-    "E-commerce",
-    "Blockchain",
-    "AR/VR",
-    "IoT",
-    "UI/UX",
-    "Health Technology",
-    "Media",
-    "Cloud Computing",
-];
 
 const formSchema = z.object({
     projectTitle: z.string().min(10, {
@@ -65,9 +51,25 @@ const formSchema = z.object({
         message: "Project website is required"
     }),
 
-    fileSize: z.string().nonempty({
-        message: "Required"
-    }),
+    // fileSize: z.string().nonempty({
+    //     message: "Required"
+    // }),
+
+    fileSize: z.string().min(1,{
+            message: "File size is required",
+        })
+        .refine(
+            (val) => /^[0-9]+(MB|mb|Gb|gb|TB|tb)$/.test(val),
+            {
+                message: "File size must be a number followed by MB, GB, or TB example: 3MB or 3mb",
+            }
+        )
+        .refine(
+            (val) => !/\s/.test(val),
+            {
+                message: "File size must not contain spaces.",
+            }
+        ),
   
 });
 
@@ -77,6 +79,21 @@ const AllFormFields = () => {
     const [fileSelected, setFileSelected] = useState<File[]>([]);
     const [screenshotFile, setScreenshotFile] = useState([]);
 
+    const categoryData = [
+        "Artificial Intelligence",
+        "FinTech",
+        "Mobile app",
+        "Web app",
+        "E-commerce",
+        "Blockchain",
+        "AR/VR",
+        "IoT",
+        "UI/UX",
+        "Health Technology",
+        "Media",
+        "Cloud Computing",
+    ];
+    
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -286,7 +303,7 @@ const AllFormFields = () => {
                         <FormItem>
 
                             <FormControl>
-                                <Input placeholder="Project Overview/Description:" {...field} className={formStyles.FormField} />
+                                <Textarea placeholder="Project Overview/Description:" {...field} className={formStyles.FormField} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>

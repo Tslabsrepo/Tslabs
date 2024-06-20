@@ -28,12 +28,18 @@
 }
 
 @media (max-width: 600px) {
+    
     .mainFormContainer>div{
         /* padding-top:8%; */
         width: 95%;
         /* text-align: center; */
     }
 
+    .mainFormContainer>div h1{
+        margin-top: 15%;
+        font-size: 35px;
+        
+    }
     .socialFooter{
         display: block;
         margin-top: 15%;
@@ -55,4 +61,6 @@
         margin-top: 3%;
         text-align: center;
     }
+
+
   }
