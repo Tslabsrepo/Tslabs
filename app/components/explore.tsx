@@ -9,34 +9,18 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 
 
 const projects: Array<iProject> = [
-    {
-        title: 'Sample'
-    },
-    {
-        title: 'Sample'
-    },
-    {
-        title: 'Sample'
-    },
-    {
-        title: 'Sample'
-    },
-    {
-        title: 'Sample'
-    },
-    {
-        title: 'Sample'
-    },
-    {
-        title: 'Sample'
-    },
-    {
-        title: 'Sample'
-    },
-    {
-        title: 'Sample'
-    },
-]
+    { title: 'Sample 1', category: 'Artificial Intelligence' },
+    { title: 'Sample 2', category: 'FinTech' },
+    { title: 'Sample 3', category: 'Mobile app' },
+    { title: 'Sample 4', category: 'Mobile app' },
+    { title: 'Sample 5', category: 'Category A' },
+    { title: 'Sample 6', category: 'Category B' },
+    { title: 'Sample 7', category: 'Category C' },
+    { title: 'Sample 8', category: 'Category A' },
+    { title: 'Sample 9', category: 'Category B' },
+    { title: 'Sample 10', category: 'Category C' },
+    { title: 'Sample 11', category: 'Category A' },
+];
 
 const categories = [
     "All",
