@@ -198,7 +198,7 @@ export default function ProjectDisplay() {
                             </div>
                         </div>
                         {filteredProjects.length === 0 ? (
-                            <div className='mt-4 text-center text-gray-600'> No result Found for "{searchTerm}".<br /> Please, try another value</div>
+                            <div className='mt-4 text-center text-gray-600'> No result Found for <strong>{searchTerm}</strong>.<br /> Please, try another value</div>
                         ) : (
                             <div>
                                 <div>
