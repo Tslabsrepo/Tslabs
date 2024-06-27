@@ -4,6 +4,11 @@ import { ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { ButtonProps, buttonVariants } from "@/components/ui/button"
 
+
+interface PaginationNextPrevProps extends React.ComponentProps<typeof PaginationLink> {
+  disabled?: boolean;
+}
+
 const Pagination = ({ className, ...props }: React.ComponentProps<"nav">) => (
   <nav
     role="navigation"
@@ -34,6 +39,8 @@ const PaginationItem = React.forwardRef<
 ))
 PaginationItem.displayName = "PaginationItem"
 
+
+
 type PaginationLinkProps = {
   isActive?: boolean
 } & Pick<ButtonProps, "size"> &
@@ -59,10 +66,13 @@ const PaginationLink = ({
 )
 PaginationLink.displayName = "PaginationLink"
 
+
+
 const PaginationPrevious = ({
   className,
+  disabled,
   ...props
-}: React.ComponentProps<typeof PaginationLink>) => (
+}: PaginationNextPrevProps) => (
   <PaginationLink
     aria-label="Go to previous page"
     size="default"
@@ -77,8 +87,9 @@ PaginationPrevious.displayName = "PaginationPrevious"
 
 const PaginationNext = ({
   className,
+  disabled,
   ...props
-}: React.ComponentProps<typeof PaginationLink>) => (
+}: PaginationNextPrevProps) => (
   <PaginationLink
     aria-label="Go to next page"
     size="default"

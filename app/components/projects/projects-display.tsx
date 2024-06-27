@@ -211,7 +211,7 @@ export default function ProjectDisplay() {
                                         </PaginationItem>
                                         {[...Array(totalPages)].map((_, index) => (
                                             <PaginationItem key={index}>
-                                                <PaginationLink href="#" onClick={(e) => { e.preventDefault(); handlePageChange(index + 1); }} active={currentPage === index + 1}>
+                                                <PaginationLink href="#" onClick={(e) => { e.preventDefault(); handlePageChange(index + 1); }} isActive={currentPage === index + 1}>
                                                     {index + 1}
                                                 </PaginationLink>
                                             </PaginationItem>
