@@ -112,7 +112,7 @@ export default function ProjectDisplay() {
                                                     style={{ border: '1px solid #CBD5E1', color: '#1E293B', cursor: 'pointer' }}
                                                     onClick={() => handleCategoryChange(category)}
                                                 >
-                                                    <Checkbox id={`category-${index}`} checked={selectedCategories.includes(category)} onChange={() => {}} />
+                                                    <Checkbox id={`category-${index}`} checked={selectedCategories.includes(category)} onChange={() => { }} />
                                                     <div className="grid gap-1.5 leading-none">
                                                         <label
                                                             htmlFor={`category-${index}`}
@@ -147,7 +147,7 @@ export default function ProjectDisplay() {
                                                                 style={{ border: '1px solid #CBD5E1', color: '#1E293B', cursor: 'pointer' }}
                                                                 onClick={() => handleCategoryChange(category)}
                                                             >
-                                                                <Checkbox id={`category-${index}`} checked={selectedCategories.includes(category)} onChange={() => {}} />
+                                                                <Checkbox id={`category-${index}`} checked={selectedCategories.includes(category)} onChange={() => { }} />
                                                                 <div className="grid gap-1.5 leading-none">
                                                                     <label
                                                                         htmlFor={`category-${index}`}
@@ -198,33 +198,33 @@ export default function ProjectDisplay() {
                             </div>
                         </div>
                         {filteredProjects.length === 0 ? (
-                                <div className='mt-4 text-center text-gray-600'> No result Found for '{searchTerm}'.<br/> Please, try another value</div>
-                            ) : (
+                            <div className='mt-4 text-center text-gray-600'> No result Found for "{searchTerm}".<br /> Please, try another value</div>
+                        ) : (
+                            <div>
                                 <div>
-                                    <div>
-                                        <ProjectsList projects={getCurrentPageProjects()} columns={3} />
-                                    </div>
-                                    <Pagination>
-                                        <PaginationContent>
-                                            <PaginationItem>
-                                                <PaginationPrevious href="#" onClick={(e) => { e.preventDefault(); handlePageChange(currentPage - 1); }} disabled={currentPage === 1} />
-                                            </PaginationItem>
-                                            {[...Array(totalPages)].map((_, index) => (
-                                                <PaginationItem key={index}>
-                                                    <PaginationLink href="#" onClick={(e) => { e.preventDefault(); handlePageChange(index + 1); }} active={currentPage === index + 1}>
-                                                        {index + 1}
-                                                    </PaginationLink>
-                                                </PaginationItem>
-                                            ))}
-                                            <PaginationItem>
-                                                <PaginationNext href="#" onClick={(e) => { e.preventDefault(); handlePageChange(currentPage + 1); }} disabled={currentPage === totalPages} />
-                                            </PaginationItem>
-                                        </PaginationContent>
-                                    </Pagination>
+                                    <ProjectsList projects={getCurrentPageProjects()} columns={3} />
                                 </div>
-                            )
+                                <Pagination>
+                                    <PaginationContent>
+                                        <PaginationItem>
+                                            <PaginationPrevious href="#" onClick={(e) => { e.preventDefault(); handlePageChange(currentPage - 1); }} disabled={currentPage === 1} />
+                                        </PaginationItem>
+                                        {[...Array(totalPages)].map((_, index) => (
+                                            <PaginationItem key={index}>
+                                                <PaginationLink href="#" onClick={(e) => { e.preventDefault(); handlePageChange(index + 1); }} active={currentPage === index + 1}>
+                                                    {index + 1}
+                                                </PaginationLink>
+                                            </PaginationItem>
+                                        ))}
+                                        <PaginationItem>
+                                            <PaginationNext href="#" onClick={(e) => { e.preventDefault(); handlePageChange(currentPage + 1); }} disabled={currentPage === totalPages} />
+                                        </PaginationItem>
+                                    </PaginationContent>
+                                </Pagination>
+                            </div>
+                        )
                         }
-                        
+
                     </div>
                 </div>
             </div>
