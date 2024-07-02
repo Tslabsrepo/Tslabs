@@ -4,7 +4,7 @@ import Description from './description';
 import DetailStyle from './details.module.css';
 
 
-export default function Details() {
+export default function Details({ project }) {
 
     const tabData = [
         'description',
@@ -41,7 +41,7 @@ export default function Details() {
             {/* Display section */}
             <div className='my-10'>
                 {activeContainer === 'description' && (
-                    <Description />
+                    <Description description={project.attributes.projectDescription} />
                 )}
 
                 {activeContainer === 'reviews' && (

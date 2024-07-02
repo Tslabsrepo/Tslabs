@@ -13,26 +13,26 @@ import heroStyles from '../landingPage.module.css';
 
 
 
-export default function Hero() {
+export default function Hero({ project }) {
 
     return (
         <div className="bg-white" >
             {/* Navigation Menu */}
             <div className="relative isolate px-6 lg:px-8">
-                
+
                 <div className={`${DetailStyles.headingContainer} mx-auto max-w-7xl mx-7 sm:py-48 lg:pt-20 lg:pb-10`} >
                     <div className={DetailStyles.headingImgDescrptn}>
                         <div className={DetailStyles.headingMainImg}>
-                            <Image src={'/test.png'} height={100} width={100} style={{width:'100%', height:'100%', borderRadius:'12px'}} alt={'cover'} />
+                            <Image src={'/test.png'} height={100} width={100} style={{ width: '100%', height: '100%', borderRadius: '12px' }} alt={'cover'} />
                         </div>
 
                         <div className={DetailStyles.headingMainText}>
-                            <div className={DetailStyles.headingTitle}> VisuArt Gallery </div>
-                            <p className={DetailStyles.headingProjectDescrptn}>AR/VR experience for exploring digital art galleries.</p>
+                            <div className={DetailStyles.headingTitle}>{project.attributes.projectTitle} </div>
+                            <p className={DetailStyles.headingProjectDescrptn}>{project.attributes.projectDescription}</p>
                             <div className={DetailStyles.headingProjectDevs}> By: TS Labs</div>
                         </div>
                     </div>
-                    
+
                     <div className={DetailStyles.projectCategoriesBtn} >
                         <div className={DetailStyles.projectCategories}>
                             <div className='bg-[#FEF3C7]' >AR/VR</div>
@@ -48,9 +48,9 @@ export default function Hero() {
                         </div>
                     </div>
                 </div>
-               
+
             </div>
-            
+
         </div>
     )
 }

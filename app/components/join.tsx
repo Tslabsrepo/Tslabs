@@ -28,7 +28,7 @@ export default function JoinUs() {
                             we are all ears! Your project deserves a spotlight where it can shine and inspire—right here at TS Labs.
                         </div>
 
-                        <Link href={'/contributor-form'}>
+                        <Link href={'/contribute'}>
                             <div className="px-3 py-2 mt-9 hover:bg-white hover:text-[#0F172A] hover:cursor-pointer" style={{ border: '1px solid white', borderRadius: '6px', transition: '.3s ease' }}>
                                 Contribute your projects
                             </div>

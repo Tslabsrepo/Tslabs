@@ -12,6 +12,7 @@ import Image from "next/image";
 import Link from 'next/link';
 import { useDropzone } from 'react-dropzone';
 import uploadService from '@/lib/services/uploads';
+import projectService from '@/lib/services/projects';
 
 
 
@@ -55,9 +56,9 @@ const formSchema = z.object({
     //     message: "Required"
     // }),
 
-    fileSize: z.string().min(1,{
-            message: "File size is required",
-        })
+    fileSize: z.string().min(1, {
+        message: "File size is required",
+    })
         .refine(
             (val) => /^[0-9]+(MB|mb|Gb|gb|TB|tb)$/.test(val),
             {
@@ -70,7 +71,7 @@ const formSchema = z.object({
                 message: "File size must not contain spaces.",
             }
         ),
-  
+
 });
 
 
@@ -93,7 +94,7 @@ const AllFormFields = () => {
         "Media",
         "Cloud Computing",
     ];
-    
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -241,26 +242,19 @@ const AllFormFields = () => {
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
-            const response = await fetch('https://ts-labs-admin-0ff0c6162225.herokuapp.com/api/projects', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer 31d3957bc8f1b2ffb30a152d44cc04d45bf4d7ab6ec58dc32815887118f8632a879c8de097a0a1784a0977099e33bdc76acba6adf945defac5046202137f92e44863ba1a90cd6fe494224ce2b6f5ea35bc722d2b62e6e9858a5f8443522ac86772c886e93c6a91c71b8a3af6a9e9d0920042ca8adf5d9b0c3cf67792cd0cdc8a'
-                },
-                body: JSON.stringify({
-                    data: {
-                        projectTitle: values.projectTitle,
-                        projectDescription: values.projectDescription,
-                        projectURL: values.projectWebsite,
-                        projectRepo: values.projectRepo,
-                        // projectScreenshots: values.projectScreenshots,
-                        // projectLogo: values.projectLogo,
-                        // projectCategory: values.projectCategory,
-                        // developersInfo: values.developersInfo,
-                        // fileSize: values.fileSize,
-                    }
-                }),
-            });
+            const data = {
+                projectTitle: values.projectTitle,
+                projectDescription: values.projectDescription,
+                projectURL: values.projectWebsite,
+                projectRepo: values.projectRepo,
+                // projectScreenshots: values.projectScreenshots,
+                // projectLogo: values.projectLogo,
+                // projectCategory: values.projectCategory,
+                // developersInfo: values.developersInfo,
+                // fileSize: values.fileSize,
+            }
+
+            const response = await projectService.store(data);
 
             if (response.ok) {
                 alert('Form data submitted successfully');

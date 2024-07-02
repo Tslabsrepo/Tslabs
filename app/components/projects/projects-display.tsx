@@ -16,30 +16,53 @@ import { Categories } from "@/components/projects/categories"; // Assuming it's 
 import ProjectsList from "@/components/projects/projects-list";
 import iProject from "@/components/projects/project.interface";
 import heroStyles from "./projectstyle.module.css"
+import projectService from '@/lib/services/projects';
 
 export default function ProjectDisplay() {
-    const projects: Array<iProject> = [
-        { title: 'Sample 1', category: 'Artificial Intelligence' },
-        { title: 'Sample 2', category: 'FinTech' },
-        { title: 'Sample 3', category: 'Mobile app' },
-        { title: 'Sample 4', category: 'Mobile app' },
-        { title: 'Sample 5', category: 'Category A' },
-        { title: 'Sample 6', category: 'Category B' },
-        { title: 'Sample 7', category: 'Category C' },
-        { title: 'Sample 8', category: 'Category A' },
-        { title: 'Sample 9', category: 'Category B' },
-        { title: 'Sample 10', category: 'Category C' },
-        { title: 'Sample 11', category: 'Category A' },
-    ];
+    // const projects: Array<iProject> = [
+    //     { title: 'Sample 1', category: 'Artificial Intelligence' },
+    //     { title: 'Sample 2', category: 'FinTech' },
+    //     { title: 'Sample 3', category: 'Mobile app' },
+    //     { title: 'Sample 4', category: 'Mobile app' },
+    //     { title: 'Sample 5', category: 'Category A' },
+    //     { title: 'Sample 6', category: 'Category B' },
+    //     { title: 'Sample 7', category: 'Category C' },
+    //     { title: 'Sample 8', category: 'Category A' },
+    //     { title: 'Sample 9', category: 'Category B' },
+    //     { title: 'Sample 10', category: 'Category C' },
+    //     { title: 'Sample 11', category: 'Category A' },
+    // ];
 
     const itemsPerPage = 6;
     const [currentPage, setCurrentPage] = useState(1);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
     const [toggleCategories, setToggleCategories] = useState(true);
+    const [projects, setProjects] = useState<iProject[]>([]);
+
     useEffect(() => {
+        getProjects();
+
         setCurrentPage(1); // Reset page whenever search term or selected categories change
     }, [searchTerm, selectedCategories]);
+
+    const getProjects = async () => {
+        try {
+            const response = await projectService.getAll();
+
+            if (!response.ok) {
+                console.log("Error occured");
+            }
+            const data = await response.json();
+
+            if (data.data) {
+                setProjects(data.data);
+            }
+
+        } catch (error: any) {
+            console.log(error.message);
+        }
+    };
 
     const handlePageChange = (page: number) => {
         if (page < 1) {
