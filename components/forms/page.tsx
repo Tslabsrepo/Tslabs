@@ -439,7 +439,7 @@ const AllFormFields = () => {
                         <FormItem>
 
                             <FormControl>
-                                <Input placeholder="Link to Project Website:" {...field} className={formStyles.FormField} />
+                                <Input placeholder="Link to Project Website: https://google.com " {...field} className={formStyles.FormField} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -453,7 +453,7 @@ const AllFormFields = () => {
                         <FormItem>
 
                             <FormControl>
-                                <Input placeholder="Link to Project Repo:" {...field} className={formStyles.FormField} />
+                                <Input placeholder="Link to Project Repo: https://github.com/tslabs " {...field} className={formStyles.FormField} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
