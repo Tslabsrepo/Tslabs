@@ -42,14 +42,14 @@ export default function Hero() {
                             Explore a showcase of pioneering projects by TS Labs students, or contribute your own creation to our vibrant showcase of tech breakthroughs and collaborative innovation
                         </p>
                         <div className={`${heroStyles.heroBtnContainer} mt-10 `} >
-                            <Link href={'/'}  className={heroStyles.linkComponent}>
+                            <Link href={'/projects'}  className={heroStyles.linkComponent}>
                                 <Button className={heroStyles.exploreBtn}>
                                     Explore Projects
 
                                 
                                 </Button>
                             </Link>
-                            <Link href={'/'}  className={heroStyles.linkComponent}>
+                            <Link href={'/contribute'}  className={heroStyles.linkComponent}>
                                 <Button className={`${heroStyles.contribBtn} hover:text-white `}>
                                     
                                     Contribute your projects
