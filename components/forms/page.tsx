@@ -13,6 +13,7 @@ import Link from 'next/link';
 import { useDropzone } from 'react-dropzone';
 import uploadService from '@/lib/services/uploads';
 import projectService from '@/lib/services/projects';
+import { useRouter } from 'next/navigation'
 
 
 
@@ -76,6 +77,7 @@ const formSchema = z.object({
 
 
 const AllFormFields = () => {
+    const router = useRouter();
     const [imageSrc, setImageSource] = useState('/check.png');
     const [fileSelected, setFileSelected] = useState<File[]>([]);
     const [screenshotFile, setScreenshotFile] = useState([]);
@@ -145,10 +147,10 @@ const AllFormFields = () => {
     const handleScreenshotDrop = (acceptedFiles: any) => {
         // console.log(acceptedFiles);
         const file = acceptedFiles[0];
-
+        console.log(acceptedFiles)
 
         handleUpload(acceptedFiles).then((response: any) => {
-            console.log({ response })
+            
             if (response) {
                 form.setValue("projectScreenshots", response[0].url);
             }
@@ -256,16 +258,16 @@ const AllFormFields = () => {
 
             const response = await projectService.store(data);
 
-            if (response.ok) {
-                alert('Form data submitted successfully');
+            if (!response.ok) {
+                
+                alert('Form data not submitted');
+                
 
-                console.log('Form data submitted successfully');
-            } else {
-
-                alert('Failed to submit form data');
-
-                console.error('Failed to submit form data');
+                // console.log('Form data submitted successfully');
             }
+
+            router.replace('/');
+            alert('Form data submitted successfully')
         } catch (error) {
             alert('Error submitting form data. Please check console');
 
@@ -424,7 +426,7 @@ const AllFormFields = () => {
 
                                 <div style={{ width: 'auto', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'end', paddingTop: '3px' }}>
                                     {/* <div style={{fontSize:'14px', fontWeight:'500', lineHeight:'24px'}}> logo.png</div> */}
-                                    <Image src={imageSrc} height={'20'} width={'20'} alt={'check img'} onClick={() => deleteFile(file.name)} onLoad={() => { setTimeout(() => { setImageSource('/cloudy.png') }, 3000) }} />
+                                    <Image src={'/check.png'} height={'20'} width={'20'} alt={'check img'} onClick={() => deleteFile(file.name)} onLoad={() => { setTimeout(() => { setImageSource('/cloudy.png') }, 3000) }} />
                                     <div style={{ fontSize: '14px' }}> 100%</div>
                                 </div>
                             </div>
