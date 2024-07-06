@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import heroStyles from './landingPage.module.css';
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 import projectService from "@/lib/services/projects";
+import categoriesService from "@/lib/services/categories";
 
 
 // const projects: Array<iProject> = [
@@ -23,31 +24,32 @@ import projectService from "@/lib/services/projects";
 //     { title: 'Sample 11', category: 'Category A' },
 // ];
 
-const categories = [
-    "All",
-    "Web Apps",
-    "Mobile Apps",
-    "IoT",
-    "Blockchain",
-    "AR/VR",
-    "FinTech",
-    "Artificial Intelligence",
-    // "E-commerce",
-    // "UI/UX",
-    // "Health Technology",
-    // "Media",
-    // "Cloud Computing",
-];
+// const categories = [
+//     "All",
+//     "Web Apps",
+//     "Mobile Apps",
+//     "IoT",
+//     "Blockchain",
+//     "AR/VR",
+//     "FinTech",
+//     "Artificial Intelligence",
+//     // "E-commerce",
+//     // "UI/UX",
+//     // "Health Technology",
+//     // "Media",
+//     // "Cloud Computing",
+// ];
 
 export default function Explore() {
     // const [projects, setProjects] = useState<Array<iProject>>([]);
     const [categoryData, setcategoryData] = useState<string>("All");
     const [projects, setProjects] = useState<iProject[]>([]);
+    const [categories, setCategories] = useState(["All"]);
 
     const handlecategoryData = (category: string) => {
         setcategoryData(category);
-
     }
+
     useEffect(() => {
         const getProjectData = async () => {
             try {
@@ -70,6 +72,28 @@ export default function Explore() {
         getProjectData();
     }, [])
 
+
+    useEffect(() => {
+        getCategories();
+    }, [])
+
+    const getCategories = async () => {
+        let _categories: any = await categoriesService.getAll();
+
+        console.log({ _categories })
+        if (_categories) {
+            let __cat = categories;
+
+            _categories.map((item: any) => {
+                __cat.push(item.attributes.categoryName);
+            })
+
+            setCategories(__cat);
+
+            // _categories = _categories.
+        }
+    }
+
     const limitedProjects: Array<iProject> = projects.slice(0, 8);
 
     return (
@@ -88,7 +112,7 @@ export default function Explore() {
 
 
                 <div className={`${heroStyles.categorySelect} ${heroStyles.bigScreen} `}>
-                    {categories.map((category, index) => (
+                    {categories?.map((category, index) => (
                         <div key={index} className="" onClick={() => handlecategoryData(category)} style={{ border: categoryData === category ? '1px solid #0F172A' : 'none ', }}>{category}</div>
                     ))}
 

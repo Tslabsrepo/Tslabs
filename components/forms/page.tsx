@@ -14,6 +14,7 @@ import { useDropzone } from 'react-dropzone';
 import uploadService from '@/lib/services/uploads';
 import projectService from '@/lib/services/projects';
 import { useRouter } from 'next/navigation'
+import categoriesService from '@/lib/services/categories';
 
 
 
@@ -41,7 +42,7 @@ const formSchema = z.object({
             message: "Project Repo must be a GitHub URL",
         }),
 
-    projectCategory: z.array(z.string()).nonempty({
+    project_categories: z.array(z.number()).nonempty({
         message: "At least one category must be selected"
     }),
 
@@ -82,20 +83,46 @@ const AllFormFields = () => {
     const [fileSelected, setFileSelected] = useState<File[]>([]);
     const [screenshotFile, setScreenshotFile] = useState([]);
 
-    const categoryData = [
-        "Artificial Intelligence",
-        "FinTech",
-        "Mobile app",
-        "Web app",
-        "E-commerce",
-        "Blockchain",
-        "AR/VR",
-        "IoT",
-        "UI/UX",
-        "Health Technology",
-        "Media",
-        "Cloud Computing",
-    ];
+    const [categoryData, setCategoryData] = useState([]);
+
+    // const categoryData = [
+    //     "Artificial Intelligence",
+    //     "FinTech",
+    //     "Mobile app",
+    //     "Web app",
+    //     "E-commerce",
+    //     "Blockchain",
+    //     "AR/VR",
+    //     "IoT",
+    //     "UI/UX",
+    //     "Health Technology",
+    //     "Media",
+    //     "Cloud Computing",
+    // ];
+
+
+
+    useEffect(() => {
+        getCategories();
+    }, [])
+
+    const getCategories = async () => {
+        let _categories: any = await categoriesService.getAll();
+
+        if (_categories) {
+            let __cat: any = [];
+
+            _categories.map((item: any) => {
+                const { categoryName } = item.attributes
+                __cat.push({ id: item.id, categoryName });
+            })
+
+            setCategoryData(__cat);
+
+            // _categories = _categories.
+        }
+    }
+
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -104,7 +131,7 @@ const AllFormFields = () => {
             projectDescription: "",
             projectLogo: "",
             projectScreenshots: "",
-            projectCategory: [],
+            project_categories: [],
             projectWebsite: "",
             projectRepo: "",
             projectVersion: "",
@@ -114,27 +141,28 @@ const AllFormFields = () => {
     });
 
     const handleCategory = (category: string) => {
+        console.log({ category, d: form.getValues("project_categories") })
 
-        if (!form.getValues("projectCategory").includes(category)) {
-            if (form.getValues("projectCategory").length >= 5) {
+        if (!form.getValues("project_categories").includes(category)) {
+
+            if (form.getValues("project_categories").length >= 5) {
                 console.log("Max is 5. You cannot add anymore")
             } else {
-                form.setValue("projectCategory", [...form.getValues("projectCategory"), category]);
-                // console.log(form.getValues("projectCategory"));
-                return form.getValues("projectCategory");
+                form.setValue("project_categories", [...form.getValues("project_categories"), category]);
+                // console.log(form.getValues("project_categories"));
+                return form.getValues("project_categories");
             }
 
         } else {
-            const categoryIndex = form.getValues("projectCategory").indexOf(category);
-            const currentCategory = [...form.getValues("projectCategory")];
+            const categoryIndex = form.getValues("project_categories").indexOf(category);
+            const currentCategory = [...form.getValues("project_categories")];
 
             currentCategory.splice(categoryIndex, 1);
 
-            form.setValue("projectCategory", currentCategory as any);
+            form.setValue("project_categories", currentCategory as any);
 
 
         }
-
 
     };
 
@@ -147,10 +175,10 @@ const AllFormFields = () => {
     const handleScreenshotDrop = (acceptedFiles: any) => {
         // console.log(acceptedFiles);
         const file = acceptedFiles[0];
-        console.log(acceptedFiles)
+        // console.log(acceptedFiles)
 
         handleUpload(acceptedFiles).then((response: any) => {
-            
+
             if (response) {
                 form.setValue("projectScreenshots", response[0].url);
             }
@@ -251,7 +279,7 @@ const AllFormFields = () => {
                 projectRepo: values.projectRepo,
                 // projectScreenshots: values.projectScreenshots,
                 // projectLogo: values.projectLogo,
-                // projectCategory: values.projectCategory,
+                // project_categories: values.project_categories,
                 // developersInfo: values.developersInfo,
                 // fileSize: values.fileSize,
             }
@@ -259,9 +287,9 @@ const AllFormFields = () => {
             const response = await projectService.store(data);
 
             if (!response.ok) {
-                
+
                 alert('Form data not submitted');
-                
+
 
                 // console.log('Form data submitted successfully');
             }
@@ -465,7 +493,7 @@ const AllFormFields = () => {
 
                 <FormField
                     control={form.control}
-                    name="projectCategory"
+                    name="project_categories"
                     render={() => (
                         <FormItem>
 
@@ -476,15 +504,15 @@ const AllFormFields = () => {
 
                                     <div className={`${formStyles.eachCategoryContainer} flex flex-wrap justify-between`}>
                                         {
-
                                             categoryData.map((category) => {
                                                 // const maxSelected = ;
-                                                const isSelected = form.getValues("projectCategory").includes(category);
-                                                const maxSelected = form.getValues("projectCategory").length >= 5;
+                                                const isSelected = form.getValues("project_categories").includes(category.id);
+                                                const maxSelected = form.getValues("project_categories").length >= 5;
+                                                // console.log({ isSelected, maxSelected });
                                                 return (
-                                                    <div key={category} className={`${formStyles.eachCategory} ${isSelected ? formStyles.selectedCategory : formStyles.unselectedCategory} ${maxSelected && !isSelected ? formStyles.notselectedCategory : ''}`}
-                                                        onClick={() => handleCategory(category)}>
-                                                        {category}
+                                                    <div key={category.id} className={`${formStyles.eachCategory} ${isSelected ? formStyles.selectedCategory : formStyles.unselectedCategory} ${maxSelected && !isSelected ? formStyles.notselectedCategory : ''}`}
+                                                        onClick={() => handleCategory(category.id)}>
+                                                        {category?.categoryName}
                                                     </div>
                                                 )
                                             })

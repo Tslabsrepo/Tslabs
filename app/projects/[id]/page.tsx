@@ -43,6 +43,8 @@ export default function Home({
     }
   };
 
+
+  if (!project) return;
   return (
     <main>
       <Navbar />

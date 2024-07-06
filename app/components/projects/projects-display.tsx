@@ -12,11 +12,12 @@ import {
 } from "@/components/ui/pagination";
 import SortProjects from '@/components/projects/sortproject';
 import { Checkbox } from "@/components/ui/checkbox";
-import { Categories } from "@/components/projects/categories"; // Assuming it's an array of strings
+// import { Categories } from "@/components/projects/categories"; // Assuming it's an array of strings
 import ProjectsList from "@/components/projects/projects-list";
 import iProject from "@/components/projects/project.interface";
 import heroStyles from "./projectstyle.module.css"
 import projectService from '@/lib/services/projects';
+import categoriesService from '@/lib/services/categories';
 
 export default function ProjectDisplay() {
     // const projects: Array<iProject> = [
@@ -39,12 +40,35 @@ export default function ProjectDisplay() {
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
     const [toggleCategories, setToggleCategories] = useState(true);
     const [projects, setProjects] = useState<iProject[]>([]);
+    const [categories, setCategories] = useState([]);
 
     useEffect(() => {
         getProjects();
 
         setCurrentPage(1); // Reset page whenever search term or selected categories change
     }, [searchTerm, selectedCategories]);
+
+
+    useEffect(() => {
+        getCategories();
+    }, [])
+
+    const getCategories = async () => {
+        let _categories: any = await categoriesService.getAll();
+
+        if (_categories) {
+            let __cat: any = [];
+
+            _categories.map((item: any) => {
+                __cat.push(item.attributes.categoryName);
+            })
+
+            setCategories(__cat);
+
+            // _categories = _categories.
+        }
+    }
+
 
     const getProjects = async () => {
         try {
@@ -128,7 +152,7 @@ export default function ProjectDisplay() {
                                     <AccordionItem value="item-1">
                                         <AccordionTrigger>Categories</AccordionTrigger>
                                         <AccordionContent>
-                                            {Categories.map((category, index) => (
+                                            {categories?.map((category, index) => (
                                                 <div
                                                     key={index}
                                                     className={`flex space-x-2 rounded-md py-3 px-2 mb-2 ${selectedCategories.includes(category) ? 'bg-gray-200' : ''}`}
@@ -163,7 +187,7 @@ export default function ProjectDisplay() {
                                                 <AccordionItem value="item-1">
                                                     <AccordionTrigger>Categories</AccordionTrigger>
                                                     <AccordionContent>
-                                                        {Categories.map((category, index) => (
+                                                        {categories?.map((category, index) => (
                                                             <div
                                                                 key={index}
                                                                 className={`flex space-x-2 rounded-md py-3 px-2 mb-2 ${selectedCategories.includes(category) ? 'bg-gray-200' : ''}`}
