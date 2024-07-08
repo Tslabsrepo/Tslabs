@@ -43,6 +43,10 @@
     border: 1px solid red;
 }
 
+.categorySelect div:hover{
+    cursor: pointer;
+}
+
 .bigScreen{
     display: flex;
 }
