@@ -229,23 +229,43 @@ const AllFormFields = () => {
     }, [])
 
     const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps, open: openLogo, acceptedFiles: acceptedLogoFile } = useDropzone({
-        // validator<any>: handleDrop,
         accept: {
             'image/jpeg': ['.jpeg', '.jpg'],
             'image/png': ['.png'],
             'image/svg+xml': ['.svg'],
-            // 'video/mp4': ['.mp4']
         },
-        onDrop: acceptedLogoFile => {
-            setFileSelected(acceptedLogoFile.map(file => Object.assign(file, {
-                preview: URL.createObjectURL(file)
-            })))
+        onDrop: acceptedFiles => {
+            if (acceptedFiles.length) {
+                const file = acceptedFiles[0];
+                const fileWithPreview = Object.assign(file, {
+                    preview: URL.createObjectURL(file)
+                });
+                setFileSelected([fileWithPreview]);
+            }
         },
         noClick: true,
         noKeyboard: true,
-
     });
+    // const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps, open: openLogo, acceptedFiles: acceptedLogoFile } = useDropzone({
+    //     // validator<any>: handleDrop,
+    //     accept: {
+    //         'image/jpeg': ['.jpeg', '.jpg'],
+    //         'image/png': ['.png'],
+    //         'image/svg+xml': ['.svg'],
+    //         // 'video/mp4': ['.mp4']
+    //     },
+    //     onDrop: acceptedLogoFile => {
+    //         setFileSelected(acceptedLogoFile.map(file => Object.assign(file, {
+    //             preview: URL.createObjectURL(file)
+    //         })))
+    //         console.log(acceptedLogoFile[0])
+    //     },
+        
+    //     noClick: true,
+    //     noKeyboard: true,
 
+    // });
+    
     const { getRootProps: getScreenshotRootProps, getInputProps: getScreenshotInputProps, open: openScreenshots, acceptedFiles } = useDropzone({
         onDrop,
         validator: handleScreenshotDrop,
@@ -362,8 +382,7 @@ const AllFormFields = () => {
                 />
                 {/* LOGO IMAGE PREVIEW */}
                 <div >
-                    {
-                        fileSelected.map((file: any, index) => (
+                    {fileSelected.map((file: any, index) => (
                             <div key={index} style={{ border: '1px solid #CBD5E1', borderRadius: '6px', padding: '10px 15px', display: 'flex', justifyContent: 'space-between', marginTop: '5px', transition: '.5s ease' }}>
                                 {/* <Image src={'/'} /> */}
                                 <div style={{ display: 'flex', width: '100%' }}>
@@ -372,7 +391,7 @@ const AllFormFields = () => {
                                             <Image src={file?.preview} width={100} height={100} alt={'image'}
                                                 onLoad={() => (URL.revokeObjectURL(file?.preview))}
 
-                                                style={{ border: '1px solid black', padding: '0' }} />
+                                                style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '6px' }} />
                                         </div>
                                         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', marginLeft: '5px' }}>
                                             <div style={{ fontSize: '16px', fontWeight: '500', lineHeight: '24px' }}> {file.name}</div>
@@ -391,8 +410,7 @@ const AllFormFields = () => {
                                     <div style={{ fontSize: '14px' }}> 100%</div>
                                 </div>
                             </div>
-                        ))
-                    }
+                        ))}
                 </div>
 
                 <FormField
@@ -454,7 +472,7 @@ const AllFormFields = () => {
 
                                 <div style={{ width: 'auto', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'end', paddingTop: '3px' }}>
                                     {/* <div style={{fontSize:'14px', fontWeight:'500', lineHeight:'24px'}}> logo.png</div> */}
-                                    <Image src={'/check.png'} height={'20'} width={'20'} alt={'check img'} onClick={() => deleteFile(file.name)} onLoad={() => { setTimeout(() => { setImageSource('/cloudy.png') }, 3000) }} />
+                                    <Image src={'/check.png'} height={'20'} width={'20'} alt={'check img'} onClick={() => deleteFile(file.name)} onLoad={(event) => { console.log(event.target)}} />
                                     <div style={{ fontSize: '14px' }}> 100%</div>
                                 </div>
                             </div>
