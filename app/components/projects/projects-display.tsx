@@ -20,20 +20,6 @@ import projectService from '@/lib/services/projects';
 import categoriesService from '@/lib/services/categories';
 
 export default function ProjectDisplay() {
-    // const projects: Array<iProject> = [
-    //     { title: 'Sample 1', category: 'Artificial Intelligence' },
-    //     { title: 'Sample 2', category: 'FinTech' },
-    //     { title: 'Sample 3', category: 'Mobile app' },
-    //     { title: 'Sample 4', category: 'Mobile app' },
-    //     { title: 'Sample 5', category: 'Category A' },
-    //     { title: 'Sample 6', category: 'Category B' },
-    //     { title: 'Sample 7', category: 'Category C' },
-    //     { title: 'Sample 8', category: 'Category A' },
-    //     { title: 'Sample 9', category: 'Category B' },
-    //     { title: 'Sample 10', category: 'Category C' },
-    //     { title: 'Sample 11', category: 'Category A' },
-    // ];
-
     const itemsPerPage = 6;
     const [currentPage, setCurrentPage] = useState(1);
     const [searchTerm, setSearchTerm] = useState('');
@@ -44,10 +30,8 @@ export default function ProjectDisplay() {
 
     useEffect(() => {
         getProjects();
-
         setCurrentPage(1); // Reset page whenever search term or selected categories change
     }, [searchTerm, selectedCategories]);
-
 
     useEffect(() => {
         getCategories();
@@ -58,25 +42,22 @@ export default function ProjectDisplay() {
 
         if (_categories) {
             let __cat: any = [];
-
             _categories.map((item: any) => {
                 __cat.push(item.attributes.categoryName);
             })
-
             setCategories(__cat);
-
-            // _categories = _categories.
         }
     }
-
 
     const getProjects = async () => {
         try {
             const response = await projectService.getAll();
 
             if (!response.ok) {
-                console.log("Error occured");
+                console.log("Error occurred");
+                return;
             }
+
             const data = await response.json();
 
             if (data.data) {
@@ -115,40 +96,34 @@ export default function ProjectDisplay() {
         if (selectedCategories.length > 0 && !selectedCategories.includes(project.category)) {
             return false;
         }
-        if (searchTerm && !(project.title.toLowerCase().includes(searchTerm.toLowerCase()) || project.category.toLowerCase().includes(searchTerm.toLowerCase()))) {
+        if (searchTerm && !(project.attributes.projectTitle.toLowerCase().includes(searchTerm.toLowerCase()) || project.category.toLowerCase().includes(searchTerm.toLowerCase()))) {
             return false;
         }
         return true;
     };
 
     const filteredProjects = projects.filter(filterProjects);
-    const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
+
+    // Sort the filtered projects by creation date in descending order
+    const sortedFilteredProjects = filteredProjects.sort((a: iProject, b: iProject) => new Date(b.attributes.createdAt).getTime() - new Date(a.attributes.createdAt).getTime());
+
+    const totalPages = Math.ceil(sortedFilteredProjects.length / itemsPerPage);
 
     const getCurrentPageProjects = () => {
         const startIndex = (currentPage - 1) * itemsPerPage;
         const endIndex = startIndex + itemsPerPage;
-        return filteredProjects.slice(startIndex, endIndex);
+        return sortedFilteredProjects.slice(startIndex, endIndex);
     };
 
-    // const showCategories = () => {
-    //     const screenWidth = window.innerWidth;
-
-    //     if(screenWidth <= 640){
-    //         const accordionsm = document.getElementById()
-    //         setToggleCategories(!toggleCategories);
-    //         console.log(toggleCategories)
-    //     }else{
-    //     console.log(screenWidth,"big")}
-    // }
     return (
         <div className="container mx-auto">
             <div className="relative isolate px-1 pb-20 lg:px-8">
                 <div className={` ${heroStyles.projectContainer}`}>
                     <div className={heroStyles.filterSection}>
-                        <div >
+                        <div>
                             <div className={heroStyles.filterAccordionmd}>
-                                <div className="h-10" style={{ display: 'flex', justifyContent: 'start', alignItems: 'center' }} >Filter Templates</div>
-                                <Accordion type="single" collapsible className='mt-3 '>
+                                <div className="h-10" style={{ display: 'flex', justifyContent: 'start', alignItems: 'center' }}>Filter Templates</div>
+                                <Accordion type="single" collapsible className='mt-3'>
                                     <AccordionItem value="item-1">
                                         <AccordionTrigger>Categories</AccordionTrigger>
                                         <AccordionContent>
@@ -176,13 +151,10 @@ export default function ProjectDisplay() {
                                 </Accordion>
                             </div>
                             <div className={heroStyles.filterAccordionsm}>
-                                {/* <div className="h-10" style={{ display: 'flex', justifyContent: 'start', alignItems: 'center' }} onClick={showCategories}>Filter Templates</div> */}
                                 <Accordion type="single" collapsible className='py-2'>
                                     <AccordionItem value="item-1">
                                         <AccordionTrigger>Filter Templates</AccordionTrigger>
                                         <AccordionContent>
-
-                                            {/* category accordion */}
                                             <Accordion type="single" collapsible className='py-4'>
                                                 <AccordionItem value="item-1">
                                                     <AccordionTrigger>Categories</AccordionTrigger>
@@ -209,7 +181,6 @@ export default function ProjectDisplay() {
                                                     </AccordionContent>
                                                 </AccordionItem>
                                             </Accordion>
-
                                         </AccordionContent>
                                     </AccordionItem>
                                 </Accordion>
@@ -225,8 +196,8 @@ export default function ProjectDisplay() {
                                 <div style={{ width: '20px' }}>
                                     <Image src={'/searchIcon.svg'} width={20} height={100} alt={'search'} style={{ width: '100%' }} />
                                 </div>
-                                <div className={`ml-2 text-[#334155] ${heroStyles.formContainer} `}>
-                                    <form >
+                                <div className={`ml-2 text-[#334155] ${heroStyles.formContainer}`}>
+                                    <form>
                                         <input
                                             type='text'
                                             placeholder='Search Projects...'
@@ -244,7 +215,7 @@ export default function ProjectDisplay() {
                                 <SortProjects />
                             </div>
                         </div>
-                        {filteredProjects.length === 0 ? (
+                        {sortedFilteredProjects.length === 0 ? (
                             <div className='mt-4 text-center text-gray-600'> No result Found for <strong>{searchTerm}</strong>.<br /> Please, try another value</div>
                         ) : (
                             <div>
@@ -269,9 +240,7 @@ export default function ProjectDisplay() {
                                     </PaginationContent>
                                 </Pagination>
                             </div>
-                        )
-                        }
-
+                        )}
                     </div>
                 </div>
             </div>

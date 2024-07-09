@@ -109,7 +109,7 @@ export default function CarouselReviews() {
                 </Carousel>
 
                 <div className="mx-9 mt-9 " style={{ display: 'flex', justifyContent: 'center' }}>
-                    <Link href={'https://forms.gle/fVL2AHYb1dnYyAhGA'}><div className="bg-[#0F172A] text-white hover:cursor-pointer hover:bg-white hover:text-[#0F172A] hover:font-semibold" style={{ border: '1px solid #0F172A', fontSize: '16px', letterSpacing: '0.5px', padding: '5px 16px', borderRadius: '6px', transition: '.5s ease' }}>
+                    <Link href={'https://forms.gle/fVL2AHYb1dnYyAhGA'} target={'_blank'}><div className="bg-[#0F172A] text-white hover:cursor-pointer hover:bg-white hover:text-[#0F172A] hover:font-semibold" style={{ border: '1px solid #0F172A', fontSize: '16px', letterSpacing: '0.5px', padding: '5px 16px', borderRadius: '6px', transition: '.5s ease' }}>
                         Leave a review
                     </div></Link>
                 </div>
