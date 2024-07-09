@@ -14,7 +14,7 @@ import heroStyles from '../landingPage.module.css';
 
 
 export default function Hero({ project }) {
-
+    // console.log(project.attributes.projectRepo)
     return (
         <div className="bg-white" >
             {/* Navigation Menu */}
@@ -43,8 +43,8 @@ export default function Hero({ project }) {
                         </div>
 
                         <div className={DetailStyles.projectheadingBtn}>
-                            <div className={DetailStyles.projectRepo} > View Repository</div>
-                            <div className={DetailStyles.projectWebsite}> View Website</div>
+                            <Link href={project.attributes.projectRepo}><div className={DetailStyles.projectRepo} > View Repository</div></Link>
+                            <Link href={project.attributes.projectRepo}><div className={DetailStyles.projectWebsite}> View Website</div></Link>
                         </div>
                     </div>
                 </div>
