@@ -2,18 +2,21 @@ import { apiKey, baseUrl } from "./defaults";
 
 class UploadService {
 
-    store = async (file: File) => {
+    store = async (file: any) => {
 
         const formdata = new FormData();
         formdata.append("files", file);
 
-        return await fetch(baseUrl + 'upload', {
+        let response = await fetch(baseUrl + 'upload', {
             method: 'POST',
             headers: {
                 'Authorization': 'Bearer ' + apiKey
             },
             body: formdata,
         })
+
+        console.log({ response, formdata })
+        return response;
     }
 }
 

@@ -176,10 +176,11 @@ const AllFormFields = () => {
     const handleLogoDrop = (acceptedFiles: any) => {
         // console.log(acceptedFiles);
         const file = acceptedFiles[0];
-        // console.log(acceptedFiles)
+        console.log(acceptedFiles)
 
         handleUpload(acceptedFiles).then((response: any) => {
 
+            console.log({ response });
             if (response) {
                 form.setValue("projectLogo", response.url);
             }
@@ -236,6 +237,7 @@ const AllFormFields = () => {
         if (!response) {
             return false;
         }
+
         return response;
 
     }
@@ -337,6 +339,9 @@ const AllFormFields = () => {
                 projectVersion: values.projectVersion
             }
 
+            console.log(data);
+
+            return;
             const response = await projectService.store(data);
 
             if (!response.ok) {
