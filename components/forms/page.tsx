@@ -15,6 +15,7 @@ import uploadService from '@/lib/services/uploads';
 import projectService from '@/lib/services/projects';
 import { useRouter } from 'next/navigation'
 import categoriesService from '@/lib/services/categories';
+import Editor from '@/app/contribute/partials/Editor';
 
 
 
@@ -379,7 +380,8 @@ const AllFormFields = () => {
                         <FormItem>
 
                             <FormControl>
-                                <Textarea placeholder="Project Overview/Description:" {...field} className={formStyles.FormField} />
+                                <Editor placeholder="Project Overview/Description:" {...field} />
+                                {/* <Textarea/  placeholder="Project Overview/Description:" {...field} className={formStyles.FormField} > */}
                             </FormControl>
                             <FormMessage />
                         </FormItem>
