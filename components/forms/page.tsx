@@ -380,7 +380,7 @@ const AllFormFields = () => {
                         <FormItem>
 
                             <FormControl>
-                                {/* <Editor placeholder="Project Overview/Description:" {...field} /> */}
+                                <Editor placeholder="Project Overview/Description:" {...field} />
                                 {/* <Textarea/  placeholder="Project Overview/Description:" {...field} className={formStyles.FormField} > */}
                             </FormControl>
                             <FormMessage />
