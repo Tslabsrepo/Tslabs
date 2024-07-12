@@ -7,7 +7,7 @@ class UploadService {
         const formdata = new FormData();
         formdata.append("files", file);
 
-        await fetch(baseUrl + 'upload', {
+        return await fetch(baseUrl + 'upload', {
             method: 'POST',
             headers: {
                 'Authorization': 'Bearer ' + apiKey

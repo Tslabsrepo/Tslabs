@@ -28,7 +28,7 @@ const formSchema = z.object({
         message: "Project Description must be atleast 10 characters",
     }),
 
-    projectScreenshots: z.string(),
+    projectScreenshots: z.array(z.string()),
     projectLogo: z.string(),
 
     projectWebsite: z.string().url({
@@ -130,7 +130,7 @@ const AllFormFields = () => {
             projectTitle: "",
             projectDescription: "",
             projectLogo: "",
-            projectScreenshots: "",
+            projectScreenshots: [],
             project_categories: [],
             projectWebsite: "",
             projectRepo: "",
@@ -141,7 +141,7 @@ const AllFormFields = () => {
     });
 
     const handleCategory = (category: string) => {
-        console.log({ category, d: form.getValues("project_categories") })
+        // console.log({ category, d: form.getValues("project_categories") })
 
         if (!form.getValues("project_categories").includes(category)) {
 
@@ -172,6 +172,33 @@ const AllFormFields = () => {
 
     }
 
+    const handleLogoDrop = (acceptedFiles: any) => {
+        // console.log(acceptedFiles);
+        const file = acceptedFiles[0];
+        // console.log(acceptedFiles)
+
+        handleUpload(acceptedFiles).then((response: any) => {
+
+            if (response) {
+                form.setValue("projectLogo", response.url);
+            }
+        }).catch((e) => {
+            console.log('an error occured with upload', { e })
+        });
+
+
+        if (file) {
+            // form.setValue("projectScreenshots", file.name);
+            // setFileSelected(true);
+            // Handle file upload logic here, e.g., save the file or preview it
+            // console.log("File selected:", file);
+
+
+            return file;
+        }
+    }
+
+
     const handleScreenshotDrop = (acceptedFiles: any) => {
         // console.log(acceptedFiles);
         const file = acceptedFiles[0];
@@ -180,7 +207,10 @@ const AllFormFields = () => {
         handleUpload(acceptedFiles).then((response: any) => {
 
             if (response) {
-                form.setValue("projectScreenshots", response[0].url);
+                let projectScreenshots = form.getValues("projectScreenshots");
+
+
+                form.setValue("projectScreenshots", [response.url, ...projectScreenshots]);
             }
         }).catch((e) => {
             console.log('an error occured with upload', { e })
@@ -205,7 +235,7 @@ const AllFormFields = () => {
         if (!response) {
             return false;
         }
-        return response[0];
+        return response;
 
     }
 
@@ -243,6 +273,7 @@ const AllFormFields = () => {
                 setFileSelected([fileWithPreview]);
             }
         },
+        validator: handleLogoDrop,
         noClick: true,
         noKeyboard: true,
     });
@@ -260,12 +291,12 @@ const AllFormFields = () => {
     //         })))
     //         console.log(acceptedLogoFile[0])
     //     },
-        
+
     //     noClick: true,
     //     noKeyboard: true,
 
     // });
-    
+
     const { getRootProps: getScreenshotRootProps, getInputProps: getScreenshotInputProps, open: openScreenshots, acceptedFiles } = useDropzone({
         onDrop,
         validator: handleScreenshotDrop,
@@ -283,7 +314,7 @@ const AllFormFields = () => {
 
 
     const deleteFile = (name: any) => {
-        console.log(name);
+        // console.log(name);
         setScreenshotFile(screenshotFile => screenshotFile.filter((file: any) => file.name != name));
     }
 
@@ -297,11 +328,12 @@ const AllFormFields = () => {
                 projectDescription: values.projectDescription,
                 projectURL: values.projectWebsite,
                 projectRepo: values.projectRepo,
-                // projectScreenshots: values.projectScreenshots,
-                // projectLogo: values.projectLogo,
-                // project_categories: values.project_categories,
-                // developersInfo: values.developersInfo,
-                // fileSize: values.fileSize,
+                projectScreenshots: values.projectScreenshots,
+                projectLogo: values.projectLogo,
+                project_categories: values.project_categories,
+                developersInfo: values.developersInfo,
+                fileSize: values.fileSize,
+                projectVersion: values.projectVersion
             }
 
             const response = await projectService.store(data);
@@ -383,34 +415,34 @@ const AllFormFields = () => {
                 {/* LOGO IMAGE PREVIEW */}
                 <div >
                     {fileSelected.map((file: any, index) => (
-                            <div key={index} style={{ border: '1px solid #CBD5E1', borderRadius: '6px', padding: '10px 15px', display: 'flex', justifyContent: 'space-between', marginTop: '5px', transition: '.5s ease' }}>
-                                {/* <Image src={'/'} /> */}
-                                <div style={{ display: 'flex', width: '100%' }}>
-                                    <div style={{ display: 'flex', marginRight: '20px', width: 'auto' }}>
-                                        <div style={{ width: '50px', height: '50px', border: '1px solid black', borderRadius: '6px' }}>
-                                            <Image src={file?.preview} width={100} height={100} alt={'image'}
-                                                onLoad={() => (URL.revokeObjectURL(file?.preview))}
+                        <div key={index} style={{ border: '1px solid #CBD5E1', borderRadius: '6px', padding: '10px 15px', display: 'flex', justifyContent: 'space-between', marginTop: '5px', transition: '.5s ease' }}>
+                            {/* <Image src={'/'} /> */}
+                            <div style={{ display: 'flex', width: '100%' }}>
+                                <div style={{ display: 'flex', marginRight: '20px', width: 'auto' }}>
+                                    <div style={{ width: '50px', height: '50px', border: '1px solid black', borderRadius: '6px' }}>
+                                        <Image src={file?.preview} width={100} height={100} alt={'image'}
+                                            onLoad={() => (URL.revokeObjectURL(file?.preview))}
 
-                                                style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '6px' }} />
-                                        </div>
-                                        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', marginLeft: '5px' }}>
-                                            <div style={{ fontSize: '16px', fontWeight: '500', lineHeight: '24px' }}> {file.name}</div>
-                                            <div style={{ fontSize: '14px' }}> 5 MB</div>
-                                        </div>
+                                            style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '6px' }} />
+                                    </div>
+                                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', marginLeft: '5px' }}>
+                                        <div style={{ fontSize: '16px', fontWeight: '500', lineHeight: '24px' }}> {file.name}</div>
+                                        <div style={{ fontSize: '14px' }}> 5 MB</div>
+                                    </div>
 
-                                    </div>
-                                    <div style={{ width: '100%', position: 'relative' }}>
-                                        <div style={{ backgroundColor: '#1E3A8A', height: '8px', borderRadius: '5px', position: 'absolute', bottom: '5px', width: '70%' }}></div>
-                                    </div>
                                 </div>
-
-                                <div style={{ width: 'auto', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'end', paddingTop: '3px' }}>
-                                    {/* <div style={{fontSize:'14px', fontWeight:'500', lineHeight:'24px'}}> logo.png</div> */}
-                                    <Image src={'/check.png'} height={'20'} width={'20'} alt={'check img'} />
-                                    <div style={{ fontSize: '14px' }}> 100%</div>
+                                <div style={{ width: '100%', position: 'relative' }}>
+                                    <div style={{ backgroundColor: '#1E3A8A', height: '8px', borderRadius: '5px', position: 'absolute', bottom: '5px', width: '70%' }}></div>
                                 </div>
                             </div>
-                        ))}
+
+                            <div style={{ width: 'auto', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'end', paddingTop: '3px' }}>
+                                {/* <div style={{fontSize:'14px', fontWeight:'500', lineHeight:'24px'}}> logo.png</div> */}
+                                <Image src={'/check.png'} height={'20'} width={'20'} alt={'check img'} />
+                                <div style={{ fontSize: '14px' }}> 100%</div>
+                            </div>
+                        </div>
+                    ))}
                 </div>
 
                 <FormField
@@ -472,7 +504,7 @@ const AllFormFields = () => {
 
                                 <div style={{ width: 'auto', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'end', paddingTop: '3px' }}>
                                     {/* <div style={{fontSize:'14px', fontWeight:'500', lineHeight:'24px'}}> logo.png</div> */}
-                                    <Image src={'/check.png'} height={'20'} width={'20'} alt={'check img'} onClick={() => deleteFile(file.name)} onLoad={(event) => { console.log(event.target)}} />
+                                    <Image src={'/check.png'} height={'20'} width={'20'} alt={'check img'} onClick={() => deleteFile(file.name)} onLoad={(event) => { console.log(event.target) }} />
                                     <div style={{ fontSize: '14px' }}> 100%</div>
                                 </div>
                             </div>
