@@ -341,7 +341,6 @@ const AllFormFields = () => {
 
             console.log(data);
 
-            return;
             const response = await projectService.store(data);
 
             if (!response.ok) {
