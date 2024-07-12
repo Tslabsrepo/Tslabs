@@ -41,7 +41,7 @@ export default function Details({ project }) {
             {/* Display section */}
             <div className='my-10'>
                 {activeContainer === 'description' && (
-                    <Description description={project.attributes.projectDescription} />
+                    <Description project={project.attributes} />
                 )}
 
                 {activeContainer === 'reviews' && (

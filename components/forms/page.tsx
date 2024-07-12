@@ -327,7 +327,7 @@ const AllFormFields = () => {
             const data = {
                 projectTitle: values.projectTitle,
                 projectDescription: values.projectDescription,
-                projectURL: values.projectWebsite,
+                projectUrl: values.projectWebsite,
                 projectRepo: values.projectRepo,
                 projectImages: values.projectScreenshots,
                 projectLogo: values.projectLogo,
