@@ -4,21 +4,19 @@ import formStyles from './forms.module.css';
 import Image from 'next/image';
 import NavigationMenu from '../components/navbar';
 import Link from 'next/link';
-import { Metadata } from 'next';
+// import { Metadata } from 'next';
 
 // Page Title
-export const metadata: Metadata = {
-    title: 'Contributor Page',
-  };
 
-const UsersPage = () => {   
 
-    return(
-        
+const UsersPage = () => {
+
+    return (
+
         <>
-             {/* Navbar (To be removed) */}
+            {/* Navbar (To be removed) */}
             <NavigationMenu />
-           
+
 
             {/* Form Section */}
 
@@ -27,10 +25,10 @@ const UsersPage = () => {
                     <h1 > Add Project</h1>
 
                     <div>
-                        
+
                         {/* All Form Fields */}
 
-                        <AllFormFields/>
+                        <AllFormFields />
                         <div className={formStyles.socialFooter}>
                             <div className={formStyles.socialicons}>
                                 <Link href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
@@ -54,7 +52,7 @@ const UsersPage = () => {
                             </div>
 
                             <div className={formStyles.socialRights}>
-                            © 2024 Transition School, Inc. All rights reserved.
+                                © 2024 Transition School, Inc. All rights reserved.
                             </div>
                         </div>
                     </div>
