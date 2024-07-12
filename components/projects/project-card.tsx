@@ -18,7 +18,11 @@ export default function ProjectCard({ project }: { project: iProject }) {
             <Card className="p-4 pb-8" >
                 <CardHeader style={{ padding: '0' }}>
                     <div style={{ marginBottom: '10px', width: '100%' }}>
-                        <Image src={project?.attributes?.projectLogo} width={100} height={100} alt={'project view'} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '4px 4px 0 0' }} />
+                        {project?.attributes?.projectLogo ?
+                            <Image src={project?.attributes?.projectLogo} width={100} height={100} alt={'project view'} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '4px 4px 0 0' }} />
+                            :
+                            null
+                        }
                     </div>
                     <CardTitle className="py-2" style={{ fontSize: '18px', color: '#334155', wordWrap: "break-word" }}> {project?.attributes?.projectTitle}</CardTitle>
                     {/* <CardDescription className="pb-2" style={{ fontSize: '16px', color: '#334155', lineHeight: '24px', fontWeight: '400' }}>Artificial Intelligence</CardDescription> */}
