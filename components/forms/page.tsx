@@ -329,7 +329,7 @@ const AllFormFields = () => {
                 projectDescription: values.projectDescription,
                 projectURL: values.projectWebsite,
                 projectRepo: values.projectRepo,
-                projectScreenshots: values.projectScreenshots,
+                projectImages: values.projectScreenshots,
                 projectLogo: values.projectLogo,
                 project_categories: values.project_categories,
                 developersInfo: values.developersInfo,
