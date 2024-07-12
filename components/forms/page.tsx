@@ -182,7 +182,7 @@ const AllFormFields = () => {
 
             console.log({ response });
             if (response) {
-                form.setValue("projectLogo", response.url);
+                form.setValue("projectLogo", response[0]?.url);
             }
         }).catch((e) => {
             console.log('an error occured with upload', { e })
@@ -212,7 +212,7 @@ const AllFormFields = () => {
                 let projectScreenshots = form.getValues("projectScreenshots");
 
 
-                form.setValue("projectScreenshots", [response.url, ...projectScreenshots]);
+                form.setValue("projectScreenshots", [response[0]?.url, ...projectScreenshots]);
             }
         }).catch((e) => {
             console.log('an error occured with upload', { e })

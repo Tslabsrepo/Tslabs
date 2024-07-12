@@ -13,10 +13,11 @@ class UploadService {
                 'Authorization': 'Bearer ' + apiKey
             },
             body: formdata,
-        })
+        });
 
-        console.log({ response, formdata })
-        return response;
+        let response_body = await response.json();
+
+        return response_body;
     }
 }
 
