@@ -10,6 +10,7 @@ import TitleBadge from '@/components/ui/title-badge';
 import Link from 'next/link';
 import NavigationMenu from '../navbar';
 import heroStyles from '../landingPage.module.css';
+import { getUploadImage } from '@/lib/helpers';
 
 
 
@@ -26,7 +27,7 @@ export default function Hero({ project }) {
                 <div className={`${DetailStyles.headingContainer} mx-auto max-w-7xl mx-7 sm:py-48 lg:pt-20 lg:pb-10`} >
                     <div className={DetailStyles.headingImgDescrptn}>
                         <div className={DetailStyles.headingMainImg}>
-                            <Image src={project.projectLogo} height={100} width={100} style={{ width: '100%', height: '100%', borderRadius: '12px' }} alt={'cover'} />
+                            <Image src={getUploadImage(project.projectLogo)} height={100} width={100} style={{ width: '100%', height: '100%', borderRadius: '12px' }} alt={'cover'} />
                         </div>
 
                         <div className={DetailStyles.headingMainText}>

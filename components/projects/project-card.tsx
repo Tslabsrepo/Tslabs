@@ -9,6 +9,7 @@ import {
 import iProject from "./project.interface"
 import Image from "next/image"
 import Link from "next/link"
+import { getUploadImage } from "@/lib/helpers"
 
 
 export default function ProjectCard({ project }: { project: iProject }) {
@@ -19,7 +20,7 @@ export default function ProjectCard({ project }: { project: iProject }) {
                 <CardHeader style={{ padding: '0' }}>
                     <div style={{ marginBottom: '10px', width: '100%' }}>
                         {project?.attributes?.projectLogo ?
-                            <Image src={project?.attributes?.projectLogo} width={100} height={100} alt={'project view'} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '4px 4px 0 0' }} />
+                            <Image src={getUploadImage(project?.attributes?.projectLogo)} width={100} height={100} alt={'project view'} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '4px 4px 0 0' }} />
                             :
                             null
                         }
