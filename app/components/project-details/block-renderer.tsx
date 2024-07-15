@@ -1,6 +1,4 @@
 "use client";
-import Image from "next/image";
-
 import {
     BlocksRenderer,
     type BlocksContent,
@@ -12,22 +10,5 @@ export default function BlockRendererClient({
     readonly content: BlocksContent;
 }) {
     if (!content) return null;
-    return (
-        <BlocksRenderer
-            content={content}
-            blocks={{
-                image: ({ image }) => {
-                    console.log(image);
-                    return (
-                        <Image
-                            src={image.url}
-                            width={image.width}
-                            height={image.height}
-                            alt={image.alternativeText || ""}
-                        />
-                    );
-                },
-            }}
-        />
-    );
+    return <BlocksRenderer content={content} />;
 }
