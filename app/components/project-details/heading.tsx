@@ -1,15 +1,7 @@
 'use client'
-import { useState } from 'react'
-import { Dialog, DialogPanel } from '@headlessui/react'
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
-// import gridSVG from '../assets/grid.svg';
-import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import DetailStyles from "./details.module.css"
-import TitleBadge from '@/components/ui/title-badge';
 import Link from 'next/link';
-import NavigationMenu from '../navbar';
-import heroStyles from '../landingPage.module.css';
 import { getUploadImage } from '@/lib/helpers';
 
 

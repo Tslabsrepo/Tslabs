@@ -8,8 +8,10 @@ export default function Description({ project }) {
 
     const { projectDescription, projectImages } = project
 
+    const featured_image = getUploadImage(projectImages[0]);
 
-    console.log({ projectImages, init: getUploadImage(projectImages[0]) });
+    console.log({ featured_image })
+
     return (
         <div className={`bg-white ${DetailStyle.descriptionContainer}`}>
             <h2>project description </h2>
@@ -21,7 +23,7 @@ export default function Description({ project }) {
                 {projectImages?.length > 0 && (
                     <div className={DetailStyle.imageContainer}>
                         <div style={{ height: '540px' }}>
-                            <Image src={getUploadImage(projectImages[0])} width={100} height={100} style={{ width: '100%', height: '100%', borderRadius: '12px', objectFit: 'cover' }} alt={'selected Image'} />
+                            <Image src={featured_image} width={100} height={100} style={{ width: '100%', height: '100%', borderRadius: '12px', objectFit: 'cover' }} alt={'selected Image'} />
                         </div>
 
                         <div className={DetailStyle.projectImageList}>
