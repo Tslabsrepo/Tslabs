@@ -23,7 +23,7 @@ export default function Description({ project }) {
                 {projectImages?.length > 0 && (
                     <div className={DetailStyle.imageContainer}>
                         <div style={{ height: '540px' }}>
-                            <Image src={getUploadImage(featured_image)} height={100} width={100} alt={''} unoptimized />
+                            {/* <Image src={getUploadImage(featured_image)} height={100} width={100} alt={''} unoptimized /> */}
 
                             <Image src={featured_image} width={100} height={100} style={{ width: '100%', height: '100%', borderRadius: '12px', objectFit: 'cover' }} alt={'selected Image'} />
                         </div>
