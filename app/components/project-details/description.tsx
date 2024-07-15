@@ -9,7 +9,7 @@ export default function Description({ project }) {
     const { projectDescription, projectImages } = project
 
 
-    console.log({ projectImages });
+    console.log({ projectImages, init: getUploadImage(projectImages[0]) });
     return (
         <div className={`bg-white ${DetailStyle.descriptionContainer}`}>
             <h2>project description </h2>
@@ -25,11 +25,14 @@ export default function Description({ project }) {
                         </div>
 
                         <div className={DetailStyle.projectImageList}>
-                            {projectImages.slice(1).map((image: string, index: number) => (
-                                <div key={index} style={{ height: '95px', width: '22%' }}>
-                                    <Image src={getUploadImage(image)} width={100} height={100} style={{ width: '100%', height: '100%', borderRadius: '12px', objectFit: 'cover' }} alt={'selected Image'} />
-                                </div>
-                            ))}
+                            {projectImages.slice(1).map((image: string, index: number) => {
+                                console.log({ image: getUploadImage(image) })
+                                return (
+                                    <div key={index} style={{ height: '95px', width: '22%' }}>
+                                        <Image src={getUploadImage(image)} width={100} height={100} style={{ width: '100%', height: '100%', borderRadius: '12px', objectFit: 'cover' }} alt={'selected Image'} />
+                                    </div>
+                                )
+                            })}
                             {/* 
                             <div style={{ height: '95px', width: '22%' }}>
                                 <Image src={'/testImg.png'} width={100} height={100} style={{ width: '100%', height: '100%', borderRadius: '12px', objectFit: 'cover' }} alt={'selected Image'} />
