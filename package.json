@@ -19,6 +19,7 @@
     "@radix-ui/react-scroll-area": "^1.0.5",
     "@radix-ui/react-select": "^2.0.0",
     "@radix-ui/react-slot": "^1.0.2",
+    "@strapi/blocks-react-renderer": "^1.0.1",
     "@tinymce/tinymce-react": "^5.1.1",
     "@types/dropzone": "^5.7.8",
     "class-variance-authority": "^0.7.0",

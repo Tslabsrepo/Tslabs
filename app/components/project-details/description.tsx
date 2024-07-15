@@ -3,6 +3,7 @@ import Image from 'next/image';
 import DetailStyle from './details.module.css'
 import { useState } from 'react';
 import { getUploadImage } from '@/lib/helpers';
+import BlockRendererClient from './block-renderer';
 
 export default function Description({ project }) {
 
@@ -59,7 +60,8 @@ export default function Description({ project }) {
                     <div>
                         <div className={DetailStyle.descriptionTextHeader} >Overview</div>
                         <div className={DetailStyle.descriptionProjectDetails} >
-                            <div dangerouslySetInnerHTML={{ __html: projectDescription }} />
+                            <BlockRendererClient content={projectDescription} />
+                            {/* <div dangerouslySetInnerHTML={{ __html: projectDescription }} /> */}
                         </div>
                         {/* 
                         <div className={DetailStyle.descriptionProjectDetails} >
