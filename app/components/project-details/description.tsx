@@ -8,6 +8,8 @@ export default function Description({ project }) {
 
     const { projectDescription, projectImages } = project
 
+
+    console.log({ projectImages });
     return (
         <div className={`bg-white ${DetailStyle.descriptionContainer}`}>
             <h2>project description </h2>
