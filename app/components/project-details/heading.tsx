@@ -10,6 +10,7 @@ export default function Hero({ project }) {
     // console.log(project.attributes.projectRepo)
 
     project = project?.attributes;
+    console.log({ project })
 
     return (
         <div className="bg-white" >
