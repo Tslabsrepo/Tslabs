@@ -28,7 +28,7 @@ class ProjectService {
 
     getById = async (id: number) => {
 
-        return await fetch(baseUrl + 'projects/' + id, {
+        return await fetch(baseUrl + 'projects/' + id + '?populate=*', {
             method: 'GET',
             headers: this.headers,
 

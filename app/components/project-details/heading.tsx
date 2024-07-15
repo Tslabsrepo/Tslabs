@@ -10,7 +10,7 @@ export default function Hero({ project }) {
     // console.log(project.attributes.projectRepo)
 
     project = project?.attributes;
-    console.log({ project })
+    // console.log({ project })
 
     return (
         <div className="bg-white" >
@@ -33,7 +33,7 @@ export default function Hero({ project }) {
                     <div className={DetailStyles.projectCategoriesBtn} >
                         <div className={DetailStyles.projectCategories}>
                             {project.project_categories?.map((item: any, index: number) => (
-                                <div className='bg-[#FEF3C7]' key={index}>{item}</div>
+                                <div className='bg-[#FEF3C7]' key={index}>{item?.data[0]?.attributes?.categoryName}</div>
                             ))}
                             {/* <div className='bg-[#CFFAFE]'>Media</div>
                             <div className='bg-[#FCE7F3]' >Mobile App</div>
