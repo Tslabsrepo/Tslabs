@@ -60,7 +60,7 @@ export default function Description({ project }) {
                     <div>
                         <div className={DetailStyle.descriptionTextHeader} >Overview</div>
                         <div className={DetailStyle.descriptionProjectDetails} >
-                            <BlockRendererClient content={projectDescription} />
+                            {/* <BlockRendererClient content={projectDescription} /> */}
                             {/* <div dangerouslySetInnerHTML={{ __html: projectDescription }} /> */}
                         </div>
                         {/* 
