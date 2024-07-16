@@ -336,7 +336,8 @@ const AllFormFields = () => {
                 project_categories: values.project_categories,
                 developersInfo: values.developersInfo,
                 fileSize: values.fileSize,
-                projectVersion: values.projectVersion
+                projectVersion: values.projectVersion,
+                published_at: null,
             }
 
             console.log(data);
