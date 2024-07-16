@@ -22,7 +22,7 @@ export default function NavigationMenu() {
             <nav className="flex items-center justify-between p-6 lg:px-8" aria-label="Global" style={{ alignItems: 'center' }}>
                 <div className="flex lg:flex-1">
                     <Link href={'/'} >
-                        <div className='-m-1.5 p-1.5' style={{ width: '130px' }}><Image src={'/logo.png'} width={'130'} height={'30'} alt={'logo'} /></div>
+                        <div className='-m-1.5 p-1.5' style={{ width: '130px' }}><Image src={'/logo.png'} width={'130'} height={'30'} alt={'logo'} priority={true} /></div>
                     </Link>
 
                 </div>

@@ -25,7 +25,7 @@ export default function Hero() {
                     // className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
                     aria-hidden="true"
                 >
-                    <Image src={'/grid.svg'} width={100} height={100} alt='background' className='min-w-full object-cover min-h-full' />
+                    <Image src={'/grid.svg'} width={100} height={100} alt='background' className='min-w-full object-cover min-h-full' priority={true} />
                 </div>
                 <div className="mx-auto max-w-6xl py-32 sm:py-48 lg:py-56">
 
@@ -42,16 +42,16 @@ export default function Hero() {
                             Explore a showcase of pioneering projects by TS Labs students, or contribute your own creation to our vibrant showcase of tech breakthroughs and collaborative innovation
                         </p>
                         <div className={`${heroStyles.heroBtnContainer} mt-10 `} >
-                            <Link href={'/projects'}  className={heroStyles.linkComponent}>
+                            <Link href={'/projects'} className={heroStyles.linkComponent}>
                                 <Button className={heroStyles.exploreBtn}>
                                     Explore Projects
 
-                                
+
                                 </Button>
                             </Link>
-                            <Link href={'/contribute'}  className={heroStyles.linkComponent}>
+                            <Link href={'/contribute'} className={heroStyles.linkComponent}>
                                 <Button className={`${heroStyles.contribBtn} hover:text-white `}>
-                                    
+
                                     Contribute your projects
                                 </Button>
                             </Link>
