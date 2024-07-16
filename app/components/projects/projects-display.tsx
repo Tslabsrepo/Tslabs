@@ -96,7 +96,7 @@ export default function ProjectDisplay() {
         if (selectedCategories.length > 0 && !selectedCategories.includes(project.category)) {
             return false;
         }
-        if (searchTerm && !(project.attributes.projectTitle.toLowerCase().includes(searchTerm.toLowerCase()) || project.category.toLowerCase().includes(searchTerm.toLowerCase()))) {
+        if (searchTerm && !(project?.attributes?.projectTitle?.toLowerCase().includes(searchTerm.toLowerCase()) || project?.category?.toLowerCase()?.includes(searchTerm.toLowerCase()))) {
             return false;
         }
         return true;
@@ -105,7 +105,7 @@ export default function ProjectDisplay() {
     const filteredProjects = projects.filter(filterProjects);
 
     // Sort the filtered projects by creation date in descending order
-    const sortedFilteredProjects = filteredProjects.sort((a: iProject, b: iProject) => new Date(b.attributes.createdAt).getTime() - new Date(a.attributes.createdAt).getTime());
+    const sortedFilteredProjects = filteredProjects.sort((a: iProject, b: iProject) => new Date(b?.attributes?.createdAt).getTime() - new Date(a?.attributes?.createdAt).getTime());
 
     const totalPages = Math.ceil(sortedFilteredProjects.length / itemsPerPage);
 
