@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-        domains: ["ts-labs-admin-0ff0c6162225.herokuapp.com"],
+        domains: ["*"],
     },
     typescript: {
         // !! WARN !!
