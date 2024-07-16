@@ -31,7 +31,7 @@ export default function Description({ project }) {
 
                         <div className={DetailStyle.projectImageList}>
                             {projectImages.slice(1).map((image: string, index: number) => {
-                                console.log({ image: getUploadImage(image) })
+                                // console.log({ image: getUploadImage(image) })
                                 return (
                                     <div key={index} style={{ height: '95px', width: '22%' }}>
                                         <Image src={getUploadImage(image)} width={100} height={100} style={{ width: '100%', height: '100%', borderRadius: '12px', objectFit: 'cover' }} alt={'selected Image'} />
@@ -60,7 +60,7 @@ export default function Description({ project }) {
                     <div>
                         <div className={DetailStyle.descriptionTextHeader} >Overview</div>
                         <div className={DetailStyle.descriptionProjectDetails} >
-                            {/* <BlockRendererClient content={projectDescription} /> */}
+                            <BlockRendererClient content={projectDescription} />
                             {/* <div dangerouslySetInnerHTML={{ __html: projectDescription }} /> */}
                         </div>
                         {/* 

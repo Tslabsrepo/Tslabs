@@ -25,16 +25,20 @@ export default function Hero({ project }) {
 
                         <div className={DetailStyles.headingMainText}>
                             <div className={DetailStyles.headingTitle}>{project.projectTitle} </div>
-                            <p className={DetailStyles.headingProjectDescrptn}>{project.projectDescription}</p>
+                            {/* <p className={DetailStyles.headingProjectDescrptn}>{project.projectDescription}</p> */}
                             <div className={DetailStyles.headingProjectDevs}> By: TS Labs</div>
                         </div>
                     </div>
 
                     <div className={DetailStyles.projectCategoriesBtn} >
                         <div className={DetailStyles.projectCategories}>
-                            {project.project_categories?.map((item: any, index: number) => (
-                                <div className='bg-[#FEF3C7]' key={index}>{item?.data[0]?.attributes?.categoryName}</div>
-                            ))}
+                            {project?.project_categories?.data?.map((item: any, index: number) => {
+                                // console.log({ item })
+                                return (
+                                    // <></>
+                                    <div className='bg-[#FEF3C7]' key={index}>{item?.attributes?.categoryName}</div>
+                                )
+                            })}
                             {/* <div className='bg-[#CFFAFE]'>Media</div>
                             <div className='bg-[#FCE7F3]' >Mobile App</div>
                             <div className='bg-[#ECFCCB]' >Artificial Intelligence</div>
