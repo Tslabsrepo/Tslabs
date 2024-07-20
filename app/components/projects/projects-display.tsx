@@ -20,13 +20,15 @@ import projectService from '@/lib/services/projects';
 import categoriesService from '@/lib/services/categories';
 
 export default function ProjectDisplay() {
+
     const itemsPerPage = 6;
     const [currentPage, setCurrentPage] = useState(1);
-    const [searchTerm, setSearchTerm] = useState('');
+    const [searchTerm, setSearchTerm] = useState<string | null>('');
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
     const [toggleCategories, setToggleCategories] = useState(true);
     const [projects, setProjects] = useState<iProject[]>([]);
     const [categories, setCategories] = useState([]);
+
 
     useEffect(() => {
         getProjects();
@@ -35,6 +37,21 @@ export default function ProjectDisplay() {
 
     useEffect(() => {
         getCategories();
+    }, [])
+
+    useEffect(() => {
+
+        const urlParams = new URLSearchParams(window.location.search);
+        let searchCategory: string | null = urlParams.get('category');
+
+        let searchQuery: string | null = urlParams.get('q');
+
+        if (searchCategory == 'All') {
+            searchCategory = null;
+        }
+
+        setSelectedCategories(searchCategory ? [searchCategory] : []);
+        setSearchTerm(searchQuery);
     }, [])
 
     const getCategories = async () => {
@@ -93,13 +110,31 @@ export default function ProjectDisplay() {
     };
 
     const filterProjects = (project: iProject) => {
-        if (selectedCategories.length > 0 && !selectedCategories.includes(project.category)) {
-            return false;
-        }
-        if (searchTerm && !(project?.attributes?.projectTitle?.toLowerCase().includes(searchTerm.toLowerCase()) || project?.category?.toLowerCase()?.includes(searchTerm.toLowerCase()))) {
-            return false;
-        }
-        return true;
+
+        return projectService.filter(selectedCategories, searchTerm, project);
+
+        // var record_exists = true;
+
+        // if (selectedCategories.length > 0) {
+
+        //     selectedCategories.forEach(category => {
+        //         let project_categories = project?.attributes?.project_categories.data;
+
+        //         let values = project_categories?.filter((project_category) => project_category?.attributes?.categoryName == category);
+
+        //         console.log({ values })
+        //         if (values.length <= 0) {
+        //             record_exists = false;
+        //         }
+        //     });
+        // }
+
+
+        // if (searchTerm && !(project?.attributes?.projectTitle?.toLowerCase().includes(searchTerm.toLowerCase()) || project?.category?.toLowerCase()?.includes(searchTerm.toLowerCase()))) {
+        //     record_exists = false;
+        // }
+
+        // return record_exists;
     };
 
     const filteredProjects = projects.filter(filterProjects);
@@ -123,7 +158,7 @@ export default function ProjectDisplay() {
                         <div>
                             <div className={heroStyles.filterAccordionmd}>
                                 <div className="h-10" style={{ display: 'flex', justifyContent: 'start', alignItems: 'center' }}>Filter Templates</div>
-                                <Accordion type="single" collapsible className='mt-3'>
+                                <Accordion type="single" defaultValue="item-1" collapsible open className='mt-3'>
                                     <AccordionItem value="item-1">
                                         <AccordionTrigger>Categories</AccordionTrigger>
                                         <AccordionContent>
@@ -192,11 +227,11 @@ export default function ProjectDisplay() {
                     </div>
                     <div className={` ${heroStyles.projectSection} `}>
                         <div style={{ display: 'flex' }}>
-                            <div className={`${heroStyles.searchTab} mr-10`}>
+                            <div className={`${heroStyles.searchTab} `}>
                                 <div style={{ width: '20px' }}>
                                     <Image src={'/searchIcon.svg'} width={20} height={100} alt={'search'} style={{ width: '100%' }} />
                                 </div>
-                                <div className={`ml-2 text-[#334155] ${heroStyles.formContainer}`}>
+                                <div className={`ml-2 p-3 text-[#334155] ${heroStyles.formContainer}`}>
                                     <form>
                                         <input
                                             type='text'
@@ -211,9 +246,9 @@ export default function ProjectDisplay() {
                             </div>
 
                             {/* Select component */}
-                            <div className={heroStyles.sortprojectmd}>
+                            {/* <div className={heroStyles.sortprojectmd}>
                                 <SortProjects />
-                            </div>
+                            </div> */}
                         </div>
                         {sortedFilteredProjects.length === 0 ? (
                             <div className='mt-4 text-center text-gray-600'> No result Found for <strong>{searchTerm}</strong>.<br /> Please, try another value</div>

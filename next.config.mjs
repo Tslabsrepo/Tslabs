@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-        domains: ["*"],
+        domains: ["tslabs.s3.eu-west-2.amazonaws.com"],
     },
     typescript: {
         // !! WARN !!

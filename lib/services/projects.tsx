@@ -20,7 +20,7 @@ class ProjectService {
 
     getAll = async () => {
 
-        return await fetch(baseUrl + 'projects', {
+        return await fetch(baseUrl + 'projects?populate=*', {
             method: 'GET',
             headers: this.headers,
         })
@@ -34,6 +34,32 @@ class ProjectService {
 
         })
     }
+
+
+    filter = (selectedCategories: any, searchTerm: string | null, project: iProject) => {
+
+        var record_exists = true;
+
+        if (selectedCategories.length > 0) {
+
+            selectedCategories.forEach(category => {
+                let project_categories = project?.attributes?.project_categories.data;
+
+                let values = project_categories?.filter((project_category) => project_category?.attributes?.categoryName == category);
+
+                if (values.length <= 0) {
+                    record_exists = false;
+                }
+            });
+        }
+
+
+        if (searchTerm && !(project?.attributes?.projectTitle?.toLowerCase().includes(searchTerm.toLowerCase()) || project?.category?.toLowerCase()?.includes(searchTerm.toLowerCase()))) {
+            record_exists = false;
+        }
+
+        return record_exists;
+    };
 }
 
 const projectService = new ProjectService;

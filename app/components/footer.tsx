@@ -14,31 +14,29 @@ export default function Footer() {
                     <div className={heroStyles.footerImgContainer}>
                         <Image src={'/logo.png'} width={100} height={30} alt={'logo'} />
                     </div>
-                    <div className={heroStyles.footerlinks} style={{}}>
+                    {/* <div className={heroStyles.footerlinks} style={{}}>
                         <div>Term of privacy</div>
                         <div>Privacy policy</div>
                         <div>Contact us</div>
-                    </div>
+                    </div> */}
                     <div className={`${heroStyles.footerSocialLinks} flex items-center justify-between`} >
-                        <div>
+                        <a href="https://facebook.com/transitionschl">
                             <Image src={'/facebook.png'} width={20} height={20} alt={'logo'} />
-                        </div>
-                        <div>
+                        </a>
+                        <a href="https://instagram.com/transitionschool">
                             <Image src={'/instagram.png'} width={'20'} height={'20'} alt={'logo'} />
-                        </div>
-
-                        <div>
+                        </a>
+                        <a href="https://twitter.com/transitionschl">
                             <Image src={'/twitter.png'} width={'20'} height={'20'} alt={'logo'} />
-                        </div>
-
-                        <div>
+                        </a>
+                        <a href="https://linkedin.com/companytransitionschool">
                             <Image src={'/linkedin.png'} width={'20'} height={'20'} alt={'logo'} />
-                        </div>
-                        
+                        </a>
+
                     </div>
                 </div>
-                
-                <div className="text-center py-3">© 2024 Transition School, Inc. All rights reserved.</div>
+
+                <div className="text-center py-3 mt-10 text-sm">© 2024 Transition School, Inc. All rights reserved.</div>
 
             </div>
         </div>

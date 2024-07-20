@@ -16,11 +16,11 @@ export default function ProjectCard({ project }: { project: iProject }) {
 
     return (
         <Link href={'/projects/' + project.id}>
-            <Card className="p-4 pb-8" >
+            <Card className="p-4 pb-8 h-[350px] flex flex-col justify-between" >
                 <CardHeader style={{ padding: '0' }}>
                     <div style={{ marginBottom: '10px', width: '100%' }}>
                         {project?.attributes?.projectLogo ?
-                            <Image src={getUploadImage(project?.attributes?.projectLogo)} width={100} height={100} alt={'project view'} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '4px 4px 0 0' }} />
+                            <Image src={getUploadImage(project?.attributes?.projectLogo)} width={100} height={100} alt={'project view'} style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '4px 4px 0 0' }} />
                             :
                             null
                         }

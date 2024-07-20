@@ -16,6 +16,7 @@ import projectService from '@/lib/services/projects';
 import { useRouter } from 'next/navigation'
 import categoriesService from '@/lib/services/categories';
 import Editor from '@/app/contribute/partials/Editor';
+import { parseHTMLToBlocks } from '@/lib/helpers';
 
 
 
@@ -328,7 +329,7 @@ const AllFormFields = () => {
         try {
             const data = {
                 projectTitle: values.projectTitle,
-                projectDescription: values.projectDescription,
+                projectDescription: parseHTMLToBlocks(values.projectDescription),
                 projectUrl: values.projectWebsite,
                 projectRepo: values.projectRepo,
                 projectImages: values.projectScreenshots,
@@ -342,13 +343,18 @@ const AllFormFields = () => {
 
             console.log(data);
 
+            // return;
+
             const response = await projectService.store(data);
 
+
+            console.log({ response })
             if (!response.ok) {
 
                 alert('Form data not submitted');
 
 
+                return;
                 // console.log('Form data submitted successfully');
             }
 
@@ -402,11 +408,14 @@ const AllFormFields = () => {
                             <FormControl>
                                 <div {...getLogoRootProps({
                                     className: formStyles.appImageContainers
-                                })} >
+                                })}
+                                    onClick={openLogo}
+                                    style={{ cursor: 'pointer' }}
+                                >
                                     <input {...getLogoInputProps()} />
                                     <Image src={'/cloudy.png'} alt={'cloud Image'} width={40} height={40} className='pb-2' />
                                     <div className={formStyles.appDragnDrop}><b>
-                                        {fileSelected ? "Drag and Drop to Change Document" : "Drag and Drop"} or <span className='text-[#1D4ED8]' style={{ cursor: 'pointer' }} onClick={openLogo}>Choose files</span> to upload</b>
+                                        {fileSelected ? "Drag and Drop to Change Document" : "Drag and Drop"} or <span className='text-[#1D4ED8]' >Choose files</span> to upload</b>
                                     </div>
                                     <div className={formStyles.appSupportedFiles}>
                                         Supported formats: JPG, PNG, MP4, SVG
@@ -460,11 +469,17 @@ const AllFormFields = () => {
                             <FormLabel className={formStyles.appHeader}>Applications Screenshots</FormLabel>
                             <FormControl>
                                 <FormControl>
-                                    <div {...getScreenshotRootProps()} className={formStyles.appImageContainers}>
+                                    <div
+
+                                        {...getScreenshotRootProps()} className={formStyles.appImageContainers}
+                                        onClick={openScreenshots}
+                                        style={{ cursor: 'pointer' }}
+
+                                    >
                                         <input {...getScreenshotInputProps()} />
                                         <Image src={'/cloudy.png'} alt={'cloud Image'} width={40} height={40} className='pb-2' />
                                         <div className={formStyles.appDragnDrop}><b>
-                                            {fileSelected ? "Drag and Drop to Change Document" : "Drag and Drop"} or <span className='text-[#1D4ED8]' style={{ cursor: 'pointer' }} onClick={openScreenshots}>Choose files</span> to upload</b>
+                                            {fileSelected ? "Drag and Drop to Change Document" : "Drag and Drop"} or <span className='text-[#1D4ED8]' style={{ cursor: 'pointer' }}>Choose files</span> to upload</b>
                                         </div>
                                         <div className={formStyles.appSupportedFiles}>
                                             Supported formats: JPG, PNG, MP4, SVG
@@ -559,7 +574,7 @@ const AllFormFields = () => {
                                     <div className={formStyles.categoryHeader}> Project Category</div>
                                     <div className={formStyles.categorysubHeader}>Select all that apply. Do not select more than 5.</div>
 
-                                    <div className={`${formStyles.eachCategoryContainer} flex flex-wrap justify-between`}>
+                                    <div className={`${formStyles.eachCategoryContainer} flex flex-wrap `}>
                                         {
                                             categoryData.map((category) => {
                                                 // const maxSelected = ;

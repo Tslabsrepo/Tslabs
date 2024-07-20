@@ -25,7 +25,7 @@ export default function Hero() {
                     // className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
                     aria-hidden="true"
                 >
-                    <Image src={'/grid.svg'} width={100} height={100} alt='background' className='min-w-full object-cover min-h-full' priority={true} />
+                    <Image src={'/grid.svg'} width={100} height={100} alt='background' className='hidden lg:flex min-w-full object-cover min-h-full opacity-30 ' priority={true} />
                 </div>
                 <div className="mx-auto max-w-6xl py-32 sm:py-48 lg:py-56">
 
@@ -38,7 +38,7 @@ export default function Hero() {
                             Today!
                         </h1>
                         {/* <p className="mt-6 text-lg md:max-w-4xl mx-auto leading-8 text-gray-600" style={{padding: '0 5%', border: '1px solid red'}}> */}
-                        <p className="mt-6 md:max-w-4xl mx-auto leading-8 text-[#0F172A]" style={{ padding: '0 5%', fontSize: '20px', lineHeight: '32px', textAlign: 'center' }}>
+                        <p className="mt-6 md:max-w-4xl mx-auto text-md md:text-lg leading-6 md:leading-8 text-[#0F172A]" style={{ padding: '0 5%', textAlign: 'center' }}>
                             Explore a showcase of pioneering projects by TS Labs students, or contribute your own creation to our vibrant showcase of tech breakthroughs and collaborative innovation
                         </p>
                         <div className={`${heroStyles.heroBtnContainer} mt-10 `} >

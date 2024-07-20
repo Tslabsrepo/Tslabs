@@ -4,14 +4,23 @@ import DetailStyle from './details.module.css'
 import { useState } from 'react';
 import { getUploadImage } from '@/lib/helpers';
 import BlockRendererClient from './block-renderer';
+import LightBox from '../Lightbox';
 
 export default function Description({ project }) {
+
+    const [showLightBox, setShowLightBox] = useState<bool>(false);
+    const [defaultLightBoxImage, setDefaultLightBoxImage] = useState<string | null>(null);
 
     const { projectDescription, projectImages } = project
 
     const featured_image = getUploadImage(projectImages[0]);
 
-    console.log({ featured_image })
+    const handleShowLightBox = (image: string) => {
+
+        setShowLightBox(true);
+        setDefaultLightBoxImage(image);
+
+    }
 
     return (
         <div className={`bg-white ${DetailStyle.descriptionContainer}`}>
@@ -24,17 +33,19 @@ export default function Description({ project }) {
                 {projectImages?.length > 0 && (
                     <div className={DetailStyle.imageContainer}>
                         <div style={{ height: '540px' }}>
-                            <Image src={getUploadImage(featured_image)} height={100} width={100} alt={''} style={{ width: '100%', height: '100%', borderRadius: '12px', objectFit: 'cover' }} unoptimized />
+                            <Image onClick={() => handleShowLightBox(featured_image)} src={getUploadImage(featured_image)} height={100} width={100} alt={''} className='cursor-pointer' style={{ width: '100%', height: '100%', borderRadius: '12px', objectFit: 'cover' }} unoptimized />
 
                             {/* <Image src={featured_image} width={100} height={100} style={{ width: '100%', height: '100%', borderRadius: '12px', objectFit: 'cover' }} alt={'selected Image'} /> */}
                         </div>
 
                         <div className={DetailStyle.projectImageList}>
                             {projectImages.slice(1).map((image: string, index: number) => {
-                                console.log({ image: getUploadImage(image) })
+                                // console.log({ image: getUploadImage(image) })
                                 return (
                                     <div key={index} style={{ height: '95px', width: '22%' }}>
-                                        <Image src={getUploadImage(image)} width={100} height={100} style={{ width: '100%', height: '100%', borderRadius: '12px', objectFit: 'cover' }} alt={'selected Image'} unoptimized />
+                                        <Image
+                                            onClick={() => handleShowLightBox(image)}
+                                            src={getUploadImage(image)} width={100} height={100} className='cursor-pointer' style={{ width: '100%', height: '100%', borderRadius: '12px', objectFit: 'cover' }} alt={'selected Image'} unoptimized />
                                     </div>
                                 )
                             })}
@@ -98,6 +109,12 @@ export default function Description({ project }) {
                 </div>
             </div>
 
+            <LightBox
+                isClosed={() => setShowLightBox(false)}
+                isOpen={showLightBox}
+                images={projectImages}
+                defaultImage={defaultLightBoxImage}
+            />
         </div>
     )
 }

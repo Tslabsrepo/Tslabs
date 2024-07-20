@@ -22,12 +22,12 @@ export default function Explore() {
         const getProjectData = async () => {
             try {
                 const response = await projectService.getAll();
-               
+
                 if (!response.ok) {
                     console.log("Error occurred");
                 }
                 const data = await response.json();
-                console.log("preoject",data);
+                console.log("preoject", data);
                 if (data.data) {
                     setProjects(data.data);
                 }
@@ -48,7 +48,7 @@ export default function Explore() {
         try {
             const _categories: any = await categoriesService.getAll();
 
-            console.log({ _categories })
+            // console.log({ _categories })
             if (_categories) {
                 const categoryNames = _categories.map((item: any) => item.attributes.categoryName);
                 setCategories(["All", ...categoryNames]);
@@ -58,7 +58,16 @@ export default function Explore() {
         }
     }
 
+    // const filterProjects = (project: iProject) => {
+
+    //     return projectService.filter([categoryData], null, project);
+
+    // }
+
     const limitedProjects: Array<iProject> = projects.slice(0, 8);
+
+    // const filteredProjects = projects.filter(filterProjects);
+
 
     return (
         <div className="container mx-auto">
@@ -74,16 +83,16 @@ export default function Explore() {
 
                 <div className={`${heroStyles.categorySelect} ${heroStyles.bigScreen}`}>
                     {categories.map((category, index) => (
-                        <div key={index} onClick={() => handlecategoryData(category)} style={{ border: categoryData === category ? '1px solid #0F172A' : 'none' }}>
+                        <Link key={index} href={"projects?category=" + category} style={{ border: categoryData === category ? '1px solid #0F172A' : 'none' }}>
                             {category}
-                        </div>
+                        </Link>
                     ))}
                 </div>
-                
+
                 <ScrollArea className={`${heroStyles.smallScreens} h-[100%] w-[100%] py-4`}>
                     <div className={heroStyles.categorySelect}>
                         {categories.map((category, index) => (
-                            <div key={index} onClick={() => handlecategoryData(category)} style={{ border: categoryData === category ? '1px solid #0F172A' : 'none' }}>
+                            <div key={index} href={"projects?category=" + category} style={{ border: categoryData === category ? '1px solid #0F172A' : 'none' }}>
                                 {category}
                             </div>
                         ))}
