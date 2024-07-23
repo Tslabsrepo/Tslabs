@@ -15,8 +15,13 @@ export const parseHTMLToBlocks = (htmlContent: any) => {
         console.log({ node })
         if (node.nodeName === 'P') {
             blocks.push({
-                __component: 'text-block',
-                content: node.textContent
+                "type": "paragraph",
+                "children": [
+                    {
+                        "text": node.textContent,
+                        "type": "text"
+                    }
+                ]
             });
         } else if (node.nodeName === 'IMG') {
             blocks.push({
