@@ -15,7 +15,7 @@ export default function Hero({ project }) {
     return (
         <div className="bg-white" >
             {/* Navigation Menu */}
-            <div className="relative isolate px-6 lg:px-8">
+            <div className="relative isolate md:px-6 lg:px-8">
 
                 <div className={`${DetailStyles.headingContainer} mx-auto max-w-7xl mx-7 sm:py-48 lg:pt-20 lg:pb-10`} >
                     <div className={DetailStyles.headingImgDescrptn}>
@@ -31,14 +31,18 @@ export default function Hero({ project }) {
                     </div>
 
                     <div className={DetailStyles.projectCategoriesBtn} >
-                        <div className={DetailStyles.projectCategories}>
-                            {project?.project_categories?.data?.map((item: any, index: number) => {
-                                // console.log({ item })
-                                return (
-                                    // <></>
-                                    <div className='bg-[#FEF3C7]' key={index}>{item?.attributes?.categoryName}</div>
-                                )
-                            })}
+                        <div className=' flex justify-center'>
+
+                            <div className={DetailStyles.projectCategories}>
+                                {project?.project_categories?.data?.map((item: any, index: number) => {
+                                    // console.log({ item })
+                                    return (
+                                        // <></>
+                                        <div className='bg-[#FEF3C7]' key={index}>{item?.attributes?.categoryName}</div>
+                                    )
+                                })}
+                            </div>
+
                             {/* <div className='bg-[#CFFAFE]'>Media</div>
                             <div className='bg-[#FCE7F3]' >Mobile App</div>
                             <div className='bg-[#ECFCCB]' >Artificial Intelligence</div>

@@ -86,6 +86,7 @@ const AllFormFields = () => {
     const [screenshotFile, setScreenshotFile] = useState([]);
 
     const [categoryData, setCategoryData] = useState([]);
+    const [errors, setErrors] = useState([]);
 
     // const categoryData = [
     //     "Artificial Intelligence",
@@ -326,6 +327,8 @@ const AllFormFields = () => {
 
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
+        setErrors([]);
+
         try {
             const data = {
                 projectTitle: values.projectTitle,
@@ -338,22 +341,29 @@ const AllFormFields = () => {
                 developersInfo: values.developersInfo,
                 fileSize: values.fileSize,
                 projectVersion: values.projectVersion,
-                published_at: null,
+                publishedAt: null,
             }
 
-            console.log(data);
+            // console.log(data);
 
             // return;
 
             const response = await projectService.store(data);
 
-
-            console.log({ response })
-            if (!response.ok) {
+            // console.log({ response })
+            if (!response.data) {
 
                 alert('Form data not submitted');
 
+                if (response?.error?.details) {
+                    const _errors = [];
 
+                    response?.error?.details?.errors.forEach((error: any) => {
+                        _errors.push({ field: error.path[0], message: error.message });
+                    });
+
+                    setErrors(_errors);
+                }
                 return;
                 // console.log('Form data submitted successfully');
             }
@@ -368,6 +378,7 @@ const AllFormFields = () => {
     }
     return (
         <Form {...form}>
+            <RenderErrors errors={errors} />
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
 
                 <FormField
@@ -661,6 +672,29 @@ const AllFormFields = () => {
                 </div>
             </form>
         </Form>
+    )
+}
+
+
+const RenderErrors = ({ errors }) => {
+
+
+    return (
+        <div>
+            {errors.length ? (
+                <div className="bg-red-50 border-red-200 p-5 mb-5">
+                    <h3 className='font-bold'>An error occured with your submission</h3>
+
+                    <ul>
+                        {errors.map((error, index) => (
+                            <li key={index}>{error.message} on {error.field}</li>
+                        ))}
+                    </ul>
+                </div>
+            ) :
+
+                <></>}
+        </div>
     )
 }
 

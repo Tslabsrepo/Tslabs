@@ -20,7 +20,7 @@ export default function ProjectCard({ project }: { project: iProject }) {
                 <CardHeader style={{ padding: '0' }}>
                     <div style={{ marginBottom: '10px', width: '100%' }}>
                         {project?.attributes?.projectLogo ?
-                            <Image src={getUploadImage(project?.attributes?.projectLogo)} width={100} height={100} alt={''} className="bg-gray-100" style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '4px 4px 0 0' }} />
+                            <Image src={getUploadImage(project?.attributes?.projectLogo)} width={100} height={100} alt={''} className="bg-gray-100 contain" style={{ width: '100%', height: '200px', borderRadius: '4px 4px 0 0' }} />
                             :
                             <div style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '4px 4px 0 0' }} className="bg-gray-100"></div>
                         }

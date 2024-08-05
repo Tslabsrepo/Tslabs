@@ -29,7 +29,7 @@ export default function Footer() {
                         <a href="https://twitter.com/transitionschl">
                             <Image src={'/twitter.png'} width={'20'} height={'20'} alt={'logo'} />
                         </a>
-                        <a href="https://linkedin.com/companytransitionschool">
+                        <a href="https://linkedin.com/company/transitionschool">
                             <Image src={'/linkedin.png'} width={'20'} height={'20'} alt={'logo'} />
                         </a>
 

@@ -31,18 +31,18 @@ const UsersPage = () => {
                         <AllFormFields />
                         <div className={formStyles.socialFooter}>
                             <div className={formStyles.socialicons}>
-                                <Link href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
-                                    <Image src="/facebook.png" width="30" height="30" alt="Facebook icon" />
-                                </Link>
-                                <Link href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
-                                    <Image src="/instagram.png" width="30" height="30" alt="Instagram icon" />
-                                </Link>
-                                <Link href="https://www.twitter.com" target="_blank" rel="noopener noreferrer">
-                                    <Image src="/twitter.png" width="30" height="30" alt="Twitter icon" />
-                                </Link>
-                                <Link href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">
-                                    <Image src="/linkedin.png" width="30" height="30" alt="LinkedIn icon" />
-                                </Link>
+                                <a href="https://facebook.com/transitionschl">
+                                    <Image src={'/facebook.png'} width={20} height={20} alt={'logo'} />
+                                </a>
+                                <a href="https://instagram.com/transitionschool">
+                                    <Image src={'/instagram.png'} width={'20'} height={'20'} alt={'logo'} />
+                                </a>
+                                <a href="https://twitter.com/transitionschl">
+                                    <Image src={'/twitter.png'} width={'20'} height={'20'} alt={'logo'} />
+                                </a>
+                                <a href="https://linkedin.com/company/transitionschool">
+                                    <Image src={'/linkedin.png'} width={'20'} height={'20'} alt={'logo'} />
+                                </a>
                             </div>
 
                             <div className={formStyles.socialLinks}>

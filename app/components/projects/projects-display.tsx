@@ -29,6 +29,11 @@ export default function ProjectDisplay() {
     const [projects, setProjects] = useState<iProject[]>([]);
     const [categories, setCategories] = useState([]);
 
+    const [sortedFilteredProjects, setSortedFilteredProjects] = useState<iProject[]>([]);
+
+    const [sortValue, setSortValue] = useState('');
+
+
 
     useEffect(() => {
         getProjects();
@@ -38,6 +43,49 @@ export default function ProjectDisplay() {
     useEffect(() => {
         getCategories();
     }, [])
+
+    useEffect(() => {
+        // console.log({ sortValue, projects });
+        let filteredProjects = projects.filter(filterProjects);
+
+
+
+        // let _sortedFilteredProjects = projects.sort(sortProjects);
+        setSortedFilteredProjects(filteredProjects.sort(sortProjects));
+    }, [sortValue])
+
+
+    const sortProjects = (a, b) => {
+        let valA = a?.attributes?.projectTitle;
+        let valB = b?.attributes?.projectTitle;
+
+        let valC = new Date(a?.attributes?.createdAt).getTime();
+        let valD = new Date(b?.attributes?.createdAt).getTime();
+
+
+        let _projects;
+
+
+        switch (sortValue) {
+            case 'desc':
+                _projects = valB.localeCompare(valA);
+                break;
+            case 'asc':
+                _projects = valA.localeCompare(valB);
+                break;
+
+            case 'oldest':
+                _projects = valC - valD;
+
+            case 'newest':
+                _projects = valD - valC;
+
+        }
+
+        console.log({ _projects, sortValue });
+
+        return _projects;
+    }
 
     useEffect(() => {
 
@@ -53,6 +101,11 @@ export default function ProjectDisplay() {
         setSelectedCategories(searchCategory ? [searchCategory] : []);
         setSearchTerm(searchQuery);
     }, [])
+
+
+    const handleSort = (value: any) => {
+        setSortValue(value);
+    }
 
     const getCategories = async () => {
         let _categories: any = await categoriesService.getAll();
@@ -137,10 +190,12 @@ export default function ProjectDisplay() {
         // return record_exists;
     };
 
-    const filteredProjects = projects.filter(filterProjects);
+    useEffect(() => {
 
-    // Sort the filtered projects by creation date in descending order
-    const sortedFilteredProjects = filteredProjects.sort((a: iProject, b: iProject) => new Date(b?.attributes?.createdAt).getTime() - new Date(a?.attributes?.createdAt).getTime());
+        setSortedFilteredProjects(projects);
+    }, [projects]);
+
+
 
     const totalPages = Math.ceil(sortedFilteredProjects.length / itemsPerPage);
 
@@ -222,7 +277,7 @@ export default function ProjectDisplay() {
                             </div>
                         </div>
                         <div className={heroStyles.sortprojectsm}>
-                            <SortProjects />
+                            <SortProjects onSort={handleSort} sortValue={sortValue} />
                         </div>
                     </div>
                     <div className={` ${heroStyles.projectSection} `}>
@@ -246,9 +301,9 @@ export default function ProjectDisplay() {
                             </div>
 
                             {/* Select component */}
-                            {/* <div className={heroStyles.sortprojectmd}>
-                                <SortProjects />
-                            </div> */}
+                            <div className={heroStyles.sortprojectmd}>
+                                <SortProjects onSort={handleSort} sortValue={sortValue} />
+                            </div>
                         </div>
                         {sortedFilteredProjects.length === 0 ? (
                             <div className='mt-4 text-center text-gray-600'> No result Found for <strong>{searchTerm}</strong>.<br /> Please, try another value</div>

@@ -71,7 +71,7 @@ export default function Explore() {
 
     return (
         <div className="container mx-auto">
-            <div className="relative isolate px-6 py-20 lg:px-8">
+            <div className="relative isolate mx:px-6 py-20 lg:px-8">
                 <div className="mx-auto max-w-6xl">
                     <TitleBadge text="Explore Projects" />
                     <div className="text-center">

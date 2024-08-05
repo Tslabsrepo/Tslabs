@@ -9,13 +9,15 @@ class ProjectService {
 
     store = async (data: any) => {
 
-        return await fetch(baseUrl + 'projects', {
+        const response = await fetch(baseUrl + 'projects', {
             method: 'POST',
             headers: this.headers,
             body: JSON.stringify({
                 data,
             }),
         })
+
+        return response.json();
     }
 
     getAll = async () => {

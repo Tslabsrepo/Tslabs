@@ -38,11 +38,11 @@ export default function Description({ project }) {
                             {/* <Image src={featured_image} width={100} height={100} style={{ width: '100%', height: '100%', borderRadius: '12px', objectFit: 'cover' }} alt={'selected Image'} /> */}
                         </div>
 
-                        <div className={DetailStyle.projectImageList}>
+                        <div className={DetailStyle.projectImageList + " gap-3"}>
                             {projectImages.slice(1).map((image: string, index: number) => {
                                 // console.log({ image: getUploadImage(image) })
                                 return (
-                                    <div key={index} style={{ height: '95px', width: '22%' }}>
+                                    <div key={index} className='w-1/3 md:w[22%] md:h-[95px]' >
                                         <Image
                                             onClick={() => handleShowLightBox(image)}
                                             src={getUploadImage(image)} width={100} height={100} className='cursor-pointer' style={{ width: '100%', height: '100%', borderRadius: '12px', objectFit: 'cover' }} alt={'selected Image'} unoptimized />

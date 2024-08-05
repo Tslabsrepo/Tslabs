@@ -19,7 +19,7 @@ export default function Hero() {
             {/* Navigation Menu */}
             <NavigationMenu />
 
-            <div className="relative isolate px-6 lg:px-8">
+            <div className="relative isolate md:px-6 lg:px-8">
                 <div
                     className="absolute inset-x-0 -z-10 transform-gpu overflow-hidden "
                     // className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
