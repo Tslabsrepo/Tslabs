@@ -13,6 +13,10 @@ import Link from 'next/link';
 import { useDropzone } from 'react-dropzone';
 import uploadService from '@/lib/services/uploads';
 import projectService from '@/lib/services/projects';
+import { useRouter } from 'next/navigation'
+import categoriesService from '@/lib/services/categories';
+import Editor from '@/app/contribute/partials/Editor';
+import { parseHTMLToBlocks } from '@/lib/helpers';
 
 
 
@@ -26,7 +30,7 @@ const formSchema = z.object({
         message: "Project Description must be atleast 10 characters",
     }),
 
-    projectScreenshots: z.string(),
+    projectScreenshots: z.array(z.string()),
     projectLogo: z.string(),
 
     projectWebsite: z.string().url({
@@ -40,7 +44,7 @@ const formSchema = z.object({
             message: "Project Repo must be a GitHub URL",
         }),
 
-    projectCategory: z.array(z.string()).nonempty({
+    project_categories: z.array(z.number()).nonempty({
         message: "At least one category must be selected"
     }),
 
@@ -76,24 +80,52 @@ const formSchema = z.object({
 
 
 const AllFormFields = () => {
+    const router = useRouter();
     const [imageSrc, setImageSource] = useState('/check.png');
     const [fileSelected, setFileSelected] = useState<File[]>([]);
     const [screenshotFile, setScreenshotFile] = useState([]);
 
-    const categoryData = [
-        "Artificial Intelligence",
-        "FinTech",
-        "Mobile app",
-        "Web app",
-        "E-commerce",
-        "Blockchain",
-        "AR/VR",
-        "IoT",
-        "UI/UX",
-        "Health Technology",
-        "Media",
-        "Cloud Computing",
-    ];
+    const [categoryData, setCategoryData] = useState([]);
+    const [errors, setErrors] = useState([]);
+
+    // const categoryData = [
+    //     "Artificial Intelligence",
+    //     "FinTech",
+    //     "Mobile app",
+    //     "Web app",
+    //     "E-commerce",
+    //     "Blockchain",
+    //     "AR/VR",
+    //     "IoT",
+    //     "UI/UX",
+    //     "Health Technology",
+    //     "Media",
+    //     "Cloud Computing",
+    // ];
+
+
+
+    useEffect(() => {
+        getCategories();
+    }, [])
+
+    const getCategories = async () => {
+        let _categories: any = await categoriesService.getAll();
+
+        if (_categories) {
+            let __cat: any = [];
+
+            _categories.map((item: any) => {
+                const { categoryName } = item.attributes
+                __cat.push({ id: item.id, categoryName });
+            })
+
+            setCategoryData(__cat);
+
+            // _categories = _categories.
+        }
+    }
+
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -101,8 +133,8 @@ const AllFormFields = () => {
             projectTitle: "",
             projectDescription: "",
             projectLogo: "",
-            projectScreenshots: "",
-            projectCategory: [],
+            projectScreenshots: [],
+            project_categories: [],
             projectWebsite: "",
             projectRepo: "",
             projectVersion: "",
@@ -112,27 +144,28 @@ const AllFormFields = () => {
     });
 
     const handleCategory = (category: string) => {
+        // console.log({ category, d: form.getValues("project_categories") })
 
-        if (!form.getValues("projectCategory").includes(category)) {
-            if (form.getValues("projectCategory").length >= 5) {
+        if (!form.getValues("project_categories").includes(category)) {
+
+            if (form.getValues("project_categories").length >= 5) {
                 console.log("Max is 5. You cannot add anymore")
             } else {
-                form.setValue("projectCategory", [...form.getValues("projectCategory"), category]);
-                // console.log(form.getValues("projectCategory"));
-                return form.getValues("projectCategory");
+                form.setValue("project_categories", [...form.getValues("project_categories"), category]);
+                // console.log(form.getValues("project_categories"));
+                return form.getValues("project_categories");
             }
 
         } else {
-            const categoryIndex = form.getValues("projectCategory").indexOf(category);
-            const currentCategory = [...form.getValues("projectCategory")];
+            const categoryIndex = form.getValues("project_categories").indexOf(category);
+            const currentCategory = [...form.getValues("project_categories")];
 
             currentCategory.splice(categoryIndex, 1);
 
-            form.setValue("projectCategory", currentCategory as any);
+            form.setValue("project_categories", currentCategory as any);
 
 
         }
-
 
     };
 
@@ -142,15 +175,46 @@ const AllFormFields = () => {
 
     }
 
+    const handleLogoDrop = (acceptedFiles: any) => {
+        // console.log(acceptedFiles);
+        const file = acceptedFiles[0];
+        console.log(acceptedFiles)
+
+        handleUpload(acceptedFiles).then((response: any) => {
+
+            console.log({ response });
+            if (response) {
+                form.setValue("projectLogo", response[0]?.url);
+            }
+        }).catch((e) => {
+            console.log('an error occured with upload', { e })
+        });
+
+
+        if (file) {
+            // form.setValue("projectScreenshots", file.name);
+            // setFileSelected(true);
+            // Handle file upload logic here, e.g., save the file or preview it
+            // console.log("File selected:", file);
+
+
+            return file;
+        }
+    }
+
+
     const handleScreenshotDrop = (acceptedFiles: any) => {
         // console.log(acceptedFiles);
         const file = acceptedFiles[0];
-
+        // console.log(acceptedFiles)
 
         handleUpload(acceptedFiles).then((response: any) => {
-            console.log({ response })
+
             if (response) {
-                form.setValue("projectScreenshots", response[0].url);
+                let projectScreenshots = form.getValues("projectScreenshots");
+
+
+                form.setValue("projectScreenshots", [response[0]?.url, ...projectScreenshots]);
             }
         }).catch((e) => {
             console.log('an error occured with upload', { e })
@@ -175,7 +239,8 @@ const AllFormFields = () => {
         if (!response) {
             return false;
         }
-        return response[0];
+
+        return response;
 
     }
 
@@ -199,22 +264,43 @@ const AllFormFields = () => {
     }, [])
 
     const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps, open: openLogo, acceptedFiles: acceptedLogoFile } = useDropzone({
-        // validator<any>: handleDrop,
         accept: {
             'image/jpeg': ['.jpeg', '.jpg'],
             'image/png': ['.png'],
             'image/svg+xml': ['.svg'],
-            // 'video/mp4': ['.mp4']
         },
-        onDrop: acceptedLogoFile => {
-            setFileSelected(acceptedLogoFile.map(file => Object.assign(file, {
-                preview: URL.createObjectURL(file)
-            })))
+        onDrop: acceptedFiles => {
+            if (acceptedFiles.length) {
+                const file = acceptedFiles[0];
+                const fileWithPreview = Object.assign(file, {
+                    preview: URL.createObjectURL(file)
+                });
+                setFileSelected([fileWithPreview]);
+            }
         },
+        validator: handleLogoDrop,
         noClick: true,
         noKeyboard: true,
-
     });
+    // const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps, open: openLogo, acceptedFiles: acceptedLogoFile } = useDropzone({
+    //     // validator<any>: handleDrop,
+    //     accept: {
+    //         'image/jpeg': ['.jpeg', '.jpg'],
+    //         'image/png': ['.png'],
+    //         'image/svg+xml': ['.svg'],
+    //         // 'video/mp4': ['.mp4']
+    //     },
+    //     onDrop: acceptedLogoFile => {
+    //         setFileSelected(acceptedLogoFile.map(file => Object.assign(file, {
+    //             preview: URL.createObjectURL(file)
+    //         })))
+    //         console.log(acceptedLogoFile[0])
+    //     },
+
+    //     noClick: true,
+    //     noKeyboard: true,
+
+    // });
 
     const { getRootProps: getScreenshotRootProps, getInputProps: getScreenshotInputProps, open: openScreenshots, acceptedFiles } = useDropzone({
         onDrop,
@@ -233,7 +319,7 @@ const AllFormFields = () => {
 
 
     const deleteFile = (name: any) => {
-        console.log(name);
+        // console.log(name);
         setScreenshotFile(screenshotFile => screenshotFile.filter((file: any) => file.name != name));
     }
 
@@ -241,31 +327,49 @@ const AllFormFields = () => {
 
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
+        setErrors([]);
+
         try {
             const data = {
                 projectTitle: values.projectTitle,
-                projectDescription: values.projectDescription,
-                projectURL: values.projectWebsite,
+                projectDescription: parseHTMLToBlocks(values.projectDescription),
+                projectUrl: values.projectWebsite,
                 projectRepo: values.projectRepo,
-                // projectScreenshots: values.projectScreenshots,
-                // projectLogo: values.projectLogo,
-                // projectCategory: values.projectCategory,
-                // developersInfo: values.developersInfo,
-                // fileSize: values.fileSize,
+                projectImages: values.projectScreenshots,
+                projectLogo: values.projectLogo,
+                project_categories: values.project_categories,
+                developersInfo: values.developersInfo,
+                fileSize: values.fileSize,
+                projectVersion: values.projectVersion,
+                publishedAt: null,
             }
+
+            // console.log(data);
+
+            // return;
 
             const response = await projectService.store(data);
 
-            if (response.ok) {
-                alert('Form data submitted successfully');
+            // console.log({ response })
+            if (!response.data) {
 
-                console.log('Form data submitted successfully');
-            } else {
+                alert('Form data not submitted');
 
-                alert('Failed to submit form data');
+                if (response?.error?.details) {
+                    const _errors = [];
 
-                console.error('Failed to submit form data');
+                    response?.error?.details?.errors.forEach((error: any) => {
+                        _errors.push({ field: error.path[0], message: error.message });
+                    });
+
+                    setErrors(_errors);
+                }
+                return;
+                // console.log('Form data submitted successfully');
             }
+
+            router.replace('/');
+            alert('Form data submitted successfully')
         } catch (error) {
             alert('Error submitting form data. Please check console');
 
@@ -274,6 +378,7 @@ const AllFormFields = () => {
     }
     return (
         <Form {...form}>
+            <RenderErrors errors={errors} />
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
 
                 <FormField
@@ -297,7 +402,8 @@ const AllFormFields = () => {
                         <FormItem>
 
                             <FormControl>
-                                <Textarea placeholder="Project Overview/Description:" {...field} className={formStyles.FormField} />
+                                <Editor placeholder="Project Overview/Description:" {...field} />
+                                {/* <Textarea/  placeholder="Project Overview/Description:" {...field} className={formStyles.FormField} > */}
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -313,11 +419,14 @@ const AllFormFields = () => {
                             <FormControl>
                                 <div {...getLogoRootProps({
                                     className: formStyles.appImageContainers
-                                })} >
+                                })}
+                                    onClick={openLogo}
+                                    style={{ cursor: 'pointer' }}
+                                >
                                     <input {...getLogoInputProps()} />
                                     <Image src={'/cloudy.png'} alt={'cloud Image'} width={40} height={40} className='pb-2' />
                                     <div className={formStyles.appDragnDrop}><b>
-                                        {fileSelected ? "Drag and Drop to Change Document" : "Drag and Drop"} or <span className='text-[#1D4ED8]' style={{ cursor: 'pointer' }} onClick={openLogo}>Choose files</span> to upload</b>
+                                        {fileSelected ? "Drag and Drop to Change Document" : "Drag and Drop"} or <span className='text-[#1D4ED8]' >Choose files</span> to upload</b>
                                     </div>
                                     <div className={formStyles.appSupportedFiles}>
                                         Supported formats: JPG, PNG, MP4, SVG
@@ -332,37 +441,35 @@ const AllFormFields = () => {
                 />
                 {/* LOGO IMAGE PREVIEW */}
                 <div >
-                    {
-                        fileSelected.map((file: any, index) => (
-                            <div key={index} style={{ border: '1px solid #CBD5E1', borderRadius: '6px', padding: '10px 15px', display: 'flex', justifyContent: 'space-between', marginTop: '5px', transition: '.5s ease' }}>
-                                {/* <Image src={'/'} /> */}
-                                <div style={{ display: 'flex', width: '100%' }}>
-                                    <div style={{ display: 'flex', marginRight: '20px', width: 'auto' }}>
-                                        <div style={{ width: '50px', height: '50px', border: '1px solid black', borderRadius: '6px' }}>
-                                            <Image src={file?.preview} width={100} height={100} alt={'image'}
-                                                onLoad={() => (URL.revokeObjectURL(file?.preview))}
+                    {fileSelected.map((file: any, index) => (
+                        <div key={index} style={{ border: '1px solid #CBD5E1', borderRadius: '6px', padding: '10px 15px', display: 'flex', justifyContent: 'space-between', marginTop: '5px', transition: '.5s ease' }}>
+                            {/* <Image src={'/'} /> */}
+                            <div style={{ display: 'flex', width: '100%' }}>
+                                <div style={{ display: 'flex', marginRight: '20px', width: 'auto' }}>
+                                    <div style={{ width: '50px', height: '50px', border: '1px solid black', borderRadius: '6px' }}>
+                                        <Image src={file?.preview} width={100} height={100} alt={'image'}
+                                            onLoad={() => (URL.revokeObjectURL(file?.preview))}
 
-                                                style={{ border: '1px solid black', padding: '0' }} />
-                                        </div>
-                                        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', marginLeft: '5px' }}>
-                                            <div style={{ fontSize: '16px', fontWeight: '500', lineHeight: '24px' }}> {file.name}</div>
-                                            <div style={{ fontSize: '14px' }}> 5 MB</div>
-                                        </div>
+                                            style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '6px' }} />
+                                    </div>
+                                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', marginLeft: '5px' }}>
+                                        <div style={{ fontSize: '16px', fontWeight: '500', lineHeight: '24px' }}> {file.name}</div>
+                                        <div style={{ fontSize: '14px' }}> 5 MB</div>
+                                    </div>
 
-                                    </div>
-                                    <div style={{ width: '100%', position: 'relative' }}>
-                                        <div style={{ backgroundColor: '#1E3A8A', height: '8px', borderRadius: '5px', position: 'absolute', bottom: '5px', width: '70%' }}></div>
-                                    </div>
                                 </div>
-
-                                <div style={{ width: 'auto', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'end', paddingTop: '3px' }}>
-                                    {/* <div style={{fontSize:'14px', fontWeight:'500', lineHeight:'24px'}}> logo.png</div> */}
-                                    <Image src={'/check.png'} height={'20'} width={'20'} alt={'check img'} />
-                                    <div style={{ fontSize: '14px' }}> 100%</div>
+                                <div style={{ width: '100%', position: 'relative' }}>
+                                    <div style={{ backgroundColor: '#1E3A8A', height: '8px', borderRadius: '5px', position: 'absolute', bottom: '5px', width: '70%' }}></div>
                                 </div>
                             </div>
-                        ))
-                    }
+
+                            <div style={{ width: 'auto', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'end', paddingTop: '3px' }}>
+                                {/* <div style={{fontSize:'14px', fontWeight:'500', lineHeight:'24px'}}> logo.png</div> */}
+                                <Image src={'/check.png'} height={'20'} width={'20'} alt={'check img'} />
+                                <div style={{ fontSize: '14px' }}> 100%</div>
+                            </div>
+                        </div>
+                    ))}
                 </div>
 
                 <FormField
@@ -373,11 +480,17 @@ const AllFormFields = () => {
                             <FormLabel className={formStyles.appHeader}>Applications Screenshots</FormLabel>
                             <FormControl>
                                 <FormControl>
-                                    <div {...getScreenshotRootProps()} className={formStyles.appImageContainers}>
+                                    <div
+
+                                        {...getScreenshotRootProps()} className={formStyles.appImageContainers}
+                                        onClick={openScreenshots}
+                                        style={{ cursor: 'pointer' }}
+
+                                    >
                                         <input {...getScreenshotInputProps()} />
                                         <Image src={'/cloudy.png'} alt={'cloud Image'} width={40} height={40} className='pb-2' />
                                         <div className={formStyles.appDragnDrop}><b>
-                                            {fileSelected ? "Drag and Drop to Change Document" : "Drag and Drop"} or <span className='text-[#1D4ED8]' style={{ cursor: 'pointer' }} onClick={openScreenshots}>Choose files</span> to upload</b>
+                                            {fileSelected ? "Drag and Drop to Change Document" : "Drag and Drop"} or <span className='text-[#1D4ED8]' style={{ cursor: 'pointer' }}>Choose files</span> to upload</b>
                                         </div>
                                         <div className={formStyles.appSupportedFiles}>
                                             Supported formats: JPG, PNG, MP4, SVG
@@ -424,7 +537,7 @@ const AllFormFields = () => {
 
                                 <div style={{ width: 'auto', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'end', paddingTop: '3px' }}>
                                     {/* <div style={{fontSize:'14px', fontWeight:'500', lineHeight:'24px'}}> logo.png</div> */}
-                                    <Image src={imageSrc} height={'20'} width={'20'} alt={'check img'} onClick={() => deleteFile(file.name)} onLoad={() => { setTimeout(() => { setImageSource('/cloudy.png') }, 3000) }} />
+                                    <Image src={'/check.png'} height={'20'} width={'20'} alt={'check img'} onClick={() => deleteFile(file.name)} onLoad={(event) => { console.log(event.target) }} />
                                     <div style={{ fontSize: '14px' }}> 100%</div>
                                 </div>
                             </div>
@@ -439,7 +552,7 @@ const AllFormFields = () => {
                         <FormItem>
 
                             <FormControl>
-                                <Input placeholder="Link to Project Website:" {...field} className={formStyles.FormField} />
+                                <Input placeholder="Link to Project Website: https://google.com " {...field} className={formStyles.FormField} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -453,7 +566,7 @@ const AllFormFields = () => {
                         <FormItem>
 
                             <FormControl>
-                                <Input placeholder="Link to Project Repo:" {...field} className={formStyles.FormField} />
+                                <Input placeholder="Link to Project Repo: https://github.com/tslabs " {...field} className={formStyles.FormField} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -463,7 +576,7 @@ const AllFormFields = () => {
 
                 <FormField
                     control={form.control}
-                    name="projectCategory"
+                    name="project_categories"
                     render={() => (
                         <FormItem>
 
@@ -472,17 +585,17 @@ const AllFormFields = () => {
                                     <div className={formStyles.categoryHeader}> Project Category</div>
                                     <div className={formStyles.categorysubHeader}>Select all that apply. Do not select more than 5.</div>
 
-                                    <div className={`${formStyles.eachCategoryContainer} flex flex-wrap justify-between`}>
+                                    <div className={`${formStyles.eachCategoryContainer} flex flex-wrap `}>
                                         {
-
                                             categoryData.map((category) => {
                                                 // const maxSelected = ;
-                                                const isSelected = form.getValues("projectCategory").includes(category);
-                                                const maxSelected = form.getValues("projectCategory").length >= 5;
+                                                const isSelected = form.getValues("project_categories").includes(category.id);
+                                                const maxSelected = form.getValues("project_categories").length >= 5;
+                                                // console.log({ isSelected, maxSelected });
                                                 return (
-                                                    <div key={category} className={`${formStyles.eachCategory} ${isSelected ? formStyles.selectedCategory : formStyles.unselectedCategory} ${maxSelected && !isSelected ? formStyles.notselectedCategory : ''}`}
-                                                        onClick={() => handleCategory(category)}>
-                                                        {category}
+                                                    <div key={category.id} className={`${formStyles.eachCategory} ${isSelected ? formStyles.selectedCategory : formStyles.unselectedCategory} ${maxSelected && !isSelected ? formStyles.notselectedCategory : ''}`}
+                                                        onClick={() => handleCategory(category.id)}>
+                                                        {category?.categoryName}
                                                     </div>
                                                 )
                                             })
@@ -559,6 +672,29 @@ const AllFormFields = () => {
                 </div>
             </form>
         </Form>
+    )
+}
+
+
+const RenderErrors = ({ errors }) => {
+
+
+    return (
+        <div>
+            {errors.length ? (
+                <div className="bg-red-50 border-red-200 p-5 mb-5">
+                    <h3 className='font-bold'>An error occured with your submission</h3>
+
+                    <ul>
+                        {errors.map((error, index) => (
+                            <li key={index}>{error.message} on {error.field}</li>
+                        ))}
+                    </ul>
+                </div>
+            ) :
+
+                <></>}
+        </div>
     )
 }
 

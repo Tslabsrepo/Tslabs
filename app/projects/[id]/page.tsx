@@ -27,11 +27,12 @@ export default function Home({
 
   const getProject = async () => {
     try {
-      const response = await projectService.getById(id);
+      const response = await projectService.getById<int>(id);
 
       if (!response.ok) {
         console.log("Error occured");
       }
+
       const data = await response.json();
 
       if (data.data) {
@@ -39,9 +40,14 @@ export default function Home({
       }
 
     } catch (error: any) {
+      window.location.href = '/not-found';
+
       console.log(error.message);
     }
   };
+
+
+  if (!project) return;
 
   return (
     <main>

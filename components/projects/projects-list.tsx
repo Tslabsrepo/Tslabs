@@ -7,7 +7,7 @@ export default function ProjectsList({ projects, columns, gap = 4 }: { projects:
     const gridPaddingClass = columns === 4 ? "px-0 md:px-9" : "";
     const gapClass = columns === 4 && gap === 8 ? "gap-4 lg:gap-8" : "";
     return (
-        <div className={`grid  ${gridColumnsClass} py-5 ${gridPaddingClass} ${heroStyles.projectsdisplay} ${gapClass}`} >
+        <div className={`grid  md:${gridColumnsClass} py-5 ${gridPaddingClass} ${heroStyles.projectsdisplay} ${gapClass}`} >
             {projects.map((project, index: number) => (
                 <ProjectCard project={project} key={index} />
             ))}

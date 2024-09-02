@@ -18,11 +18,11 @@ export default function NavigationMenu() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
     return (
-        <header className="absolute inset-x-0 top-0 z-50 mx-9">
+        <header className="absolute inset-x-0 top-0 z-50 md:mx-9">
             <nav className="flex items-center justify-between p-6 lg:px-8" aria-label="Global" style={{ alignItems: 'center' }}>
                 <div className="flex lg:flex-1">
                     <Link href={'/'} >
-                        <div className='-m-1.5 p-1.5' style={{ width: '130px' }}><Image src={'/logo.png'} width={'130'} height={'30'} alt={'logo'} /></div>
+                        <div className='-m-1.5 p-1.5' style={{ width: '130px' }}><Image src={'/logo.png'} width={'130'} height={'30'} alt={'logo'} priority={true} /></div>
                     </Link>
 
                 </div>
@@ -51,19 +51,19 @@ export default function NavigationMenu() {
                                     <Image src={'/searchIcon.svg'} width={20} height={100} alt={'search'} style={{ width: '100%' }} />
                                 </div>
                                 <div>
-                                    <form className='ml-2 text-[#334155]' style={{ width: '95%' }}>
-                                        <input type='text' placeholder='Search Projects...' className='bg-inherit focus:outline-none placeholder:text-[#334155]' style={{ width: '100%' }} />
+                                    <form action={"/projects"} className='ml-2 text-[#334155]' style={{ width: '95%' }}>
+                                        <input type='text' name="q" placeholder='Search Projects...' className='p-3 bg-inherit focus:outline-none placeholder:text-[#334155]' style={{ width: '100%' }} />
                                     </form>
                                 </div>
                                 {/* <div className='ml-3 text-[#334155]'> Search Projects...</div> */}
                             </div>
 
-                            <div className='mr-2 font-normal hover:cursor-pointer' style={{ color: '#0F172A', padding: '7px 16px', borderRadius: '6px' }}>
+                            {/* <div className='mr-2 font-normal hover:cursor-pointer' style={{ color: '#0F172A', padding: '7px 16px', borderRadius: '6px' }}>
                                 Sign in
                             </div>
                             <div className='hover:cursor-pointer' style={{ background: '#0F172A', color: 'white', padding: '7px 16px', borderRadius: '6px' }}>
                                 Sign up
-                            </div>
+                            </div> */}
 
                         </div>
                     </div>
@@ -71,16 +71,20 @@ export default function NavigationMenu() {
             </nav>
             <Dialog className="lg:hidden" open={mobileMenuOpen} onClose={setMobileMenuOpen}>
                 <div className="fixed inset-0 z-50" />
-                <DialogPanel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
-                    <div className="flex items-center justify-between">
-                        <a href="#" className="-m-1.5 p-1.5">
+                <DialogPanel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10 ">
+                    <div className="flex items-center justify-between ">
+                        {/* <a href="#" className="-m-1.5 p-1.5">
                             <span className="sr-only">Your Company</span>
                             <Image
                                 className="h-8 w-auto"
                                 src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
                                 alt=""
+                                width={20} height={20}
                             />
-                        </a>
+                        </a> */}
+                        <Link href={'/'} >
+                            <div className='-m-1.5 p-1.5' style={{ width: '100px' }}><Image src={'/logo.png'} width={'130'} height={'30'} alt={'logo'} priority={true} /></div>
+                        </Link>
                         <button
                             type="button"
                             className="-m-2.5 rounded-md p-2.5 text-gray-700"
@@ -104,12 +108,23 @@ export default function NavigationMenu() {
                                 ))}
                             </div>
                             <div className="py-6">
-                                <a
+                                <div className='w-full' style={{ display: 'flex', alignItems: 'center', border: '1px solid #E2E8F0', borderRadius: '6px', fontSize: '15px', padding: '0 12px', }}>
+                                    <div style={{ width: '20px' }}>
+                                        <Image src={'/searchIcon.svg'} width={20} height={100} alt={'search'} style={{ width: '100%' }} />
+                                    </div>
+                                    <div>
+                                        <form action={"/projects"} className='ml-2 text-[#334155]' style={{ width: '95%' }}>
+                                            <input type='text' name="q" placeholder='Search Projects...' className='p-3 bg-inherit focus:outline-none placeholder:text-[#334155]' style={{ width: '100%' }} />
+                                        </form>
+                                    </div>
+                                    {/* <div className='ml-3 text-[#334155]'> Search Projects...</div> */}
+                                </div>
+                                {/* <a
                                     href="#"
                                     className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                                 >
                                     Log in
-                                </a>
+                                </a> */}
                             </div>
                         </div>
                     </div>
